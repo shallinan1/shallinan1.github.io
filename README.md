@@ -1,2 +1,2 @@
 # shallinan1.github.io
-My name Skyler
+My name is Skyler
