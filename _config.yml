@@ -1,2 +1,3 @@
 name: Skyler Hallinan
 markdown: kramdown
+permalink: /blog/:year/:month/:day/:title
