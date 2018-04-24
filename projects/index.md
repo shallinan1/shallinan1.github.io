@@ -14,5 +14,5 @@ how a fixed amount of force would affect the time it took the building to fall d
 examines the data that I collected, and utilizes methods such as ANOVA and two sample t-tests.
 All data analysis was done in RStudio.
 
-<embed src="/assets/projects/earthquaketests.pdf" width="800px" height="2100px" />
+<embed src="/assets/projects/earthquaketests.pdf" width="1000px" height="1500x" />
 
