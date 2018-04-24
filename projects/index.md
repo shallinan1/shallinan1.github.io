@@ -3,6 +3,7 @@ layout: default
 title: Projects
 ---
 
+# Projects
 
 **Earthquake Tests**
 
