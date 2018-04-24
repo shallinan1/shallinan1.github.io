@@ -1,6 +1,7 @@
+---
 layout: default
 title: Projects
-
+---
 
 # Earthquake Tests
   This is a paper written about an experiment I conducted in high school.
