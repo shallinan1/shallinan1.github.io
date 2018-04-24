@@ -4,6 +4,8 @@ title: Projects
 ---
 
 
+**Earthquake Tests**
+
   This is a paper written about an experiment I conducted in high school.
 Using Jenga blocks as a model, I varied the amount of floors or stories to see
 how a fixed amount of force would affect the time it took the building to fall down.
