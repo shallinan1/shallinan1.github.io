@@ -17,5 +17,3 @@ All data analysis was done in RStudio.
 [Earthquake Tests (.pdf)]("/assets/projects/earthquaketests.pdf")
 
 
-<> (<embed src="/assets/projects/earthquaketests.pdf" width="1000px" height="1500x" />)
-
