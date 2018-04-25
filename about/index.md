@@ -5,7 +5,7 @@ title: About Me
 
 <img src="/assets/pictures/jump.JPG" style="width:250px;height:125px;" title="photo by Somil B." class="rotate270">
 
-My hobbies include running, playing/watching basketball, drinking tea, and learning cool new information.
+<p> <br> My hobbies include running, playing/watching basketball, drinking tea, and learning cool new information. </p>
 
 
 
