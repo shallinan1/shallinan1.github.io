@@ -6,14 +6,15 @@ title: Skyler Hallinan's Blog
 	
 		<h2> Upcoming Blog Posts/Future Ideas </h2>
 		<ul style="list-style-type:disc">
-		<font size = 6> 
+		<font size = 3> 
 		  <li>My leg injury, and why self reported symptoms can be dangerous</li>
 		  <li>I enjoy sunny weather: Biomechanisms behind humans' universal love for the sun</li>
 		<font>
 		</ul>
 	<ul class="posts">
-	
+	<font size = 4> 
 	  {% for post in site.posts %}
 	    <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
 	  {% endfor %}
+	  <font> 
 	</ul>
