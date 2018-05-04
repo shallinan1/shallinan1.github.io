@@ -4,7 +4,7 @@ body {
     width: 70%;
 }
 nav ul, footer ul {
-    font-family:'Bookman', 'Georgia', 'Sans-Serif';
+    font-family:'Helvetica', 'Georgia', 'Sans-Serif';
     padding: 0px;
     list-style: none;
     font-weight: bold;
