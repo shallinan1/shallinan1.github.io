@@ -4,6 +4,9 @@ Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student a
 
 # News
 
-I will be taking classes during the summmer quarter. My schedule will consist of CSE 143, CHEM 237, MATH 300, and MATH 307
-In addition, I am currently applying for labs and am hoping to participate in biomedical research during the summer.	
+I am happy to anounce that I will be working on volunteer undergraduate research at the Dey Lab in Fred Hutch Cancer Research Center this quarter, with an emphasis on the gut microbiome, and computational modeling.
+In addition, I will be working at the Yager Lab at the University of Washington this summer, with a focus on the design and clinical testing of microfluidic devices. 
+
+In addition to this research, I will be taking CSE 143, CHEM 237, MATH 300 this summer.
+In the fall, I will be taking CHEM 238, CHEM 241, AMATH 352, and PHYS 122
 
