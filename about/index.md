@@ -2,6 +2,12 @@
 layout: default
 title: About Me
 ---
+<style>
+body {
+background-color: Lavendar Blush
+}
+</style>
+
 # About
 
 <img src="/assets/pictures/hsgraduation1.png" style="width:160px;height:300px;" title="Bainbridge High School Graduation">

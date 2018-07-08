@@ -2,6 +2,11 @@
 layout: default
 title: Projects
 ---
+<style>
+body {
+background-color: Azure
+}
+</style>
 
 # Projects
 
