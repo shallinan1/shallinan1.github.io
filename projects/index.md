@@ -4,7 +4,7 @@ title: Projects
 ---
 <style>
 body {
-background-color: Azure
+background-color: #f0f8ff
 }
 </style>
 

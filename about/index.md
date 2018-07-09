@@ -4,7 +4,7 @@ title: About Me
 ---
 <style>
 body {
-background-color: Lavender
+background-color: #f0ffff
 }
 </style>
 

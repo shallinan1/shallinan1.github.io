@@ -1,4 +1,10 @@
 # Activity Log
+<style>
+body {
+background-color: #fff0f5
+}
+</style>
+
 
 Here's a list of events I've been going to, things I've been planning, and what I've been doing in general
 
