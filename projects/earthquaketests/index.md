@@ -21,5 +21,4 @@ All data analysis was done in RStudio.
 
 
 <a href="/assets/projects/earthquaketests.pdf" target="_blank">Earthquake Tests (.pdf)</a>
-<a href="/projects/earthquaketests" target="_blank">clik</a>
 	
