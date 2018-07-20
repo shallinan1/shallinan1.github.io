@@ -8,9 +8,7 @@ background-color: #f0f8ff
 }
 </style>
 
-# Projects
-
-**Earthquake Tests**
+# Earthquake Tests
 
   This is a paper on an experiment conducted in high school.
 Using Jenga blocks as a model, I varied the amount of floors(stories) to see
