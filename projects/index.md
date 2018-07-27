@@ -13,4 +13,7 @@ background-color: #f0f8ff
 <a href="/projects/earthquaketests" target="_blank">Earthquake Tests</a>
 <a href="/projects/earthquaketests" target="_blank">UW Grade Analysis</a>
 <a href="/projects/earthquaketests" target="_blank">Activity and Sleep</a>
+
+## Papers
+<a href="/projects/gutmicrobiome" target="_blank">Gut Microbiome</a>
 	
