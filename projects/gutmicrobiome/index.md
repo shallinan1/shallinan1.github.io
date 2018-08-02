@@ -8,7 +8,7 @@ background-color: #f0f8ff
 }
 </style>
 
-# The Critical Importance of the Gut Micrbiome
+# The Critical Importance of the Gut Microbiome
 
   This is a paper I wrote for my Writing in the Natural Sciences course, freshman year.
 I researched the role of and the variable nature of the human gut microbiome. I also discussed
