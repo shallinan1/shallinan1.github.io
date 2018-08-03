@@ -17,7 +17,7 @@
 		position: relative;
 		-webkit-padding-start: 0;
 		   -moz-padding-start: 0;
-		text-align: center;
+		text-align: left;
 }
 	
 	#globalNav li {
@@ -59,7 +59,8 @@
 body {
     margin: 60px auto;
     background-color: ivory;
-    width: 70%;
+    width: 80%;
+	top:80;
 }
 nav ul, footer ul {
     font-family:'Helvetica', 'Georgia', 'Sans-Serif';
