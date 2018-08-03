@@ -72,6 +72,10 @@ ul.posts li {
     height: 80px;
     background: #add8e6;
     border-radius: 80px;
-	left: 0px;
-	top: 0px;
+}
+
+div.relative {
+	position: relative;
+	left: 20px;
+	top: 20px;
 }
