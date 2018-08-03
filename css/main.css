@@ -6,7 +6,7 @@
 	top: 0;
 	left: 0;
 	overflow: hidden;
-	background-color: #f20048;
+	background-color: #C0F7FE;
 	color: #2A363B;
 }
 
@@ -36,7 +36,7 @@
 		padding: 0 0.25em;
 		-moz-padding-start: 0;
 		font-size: 1em;
-		color: #FECEA8;
+		color: #444D56;
 	}
 	
 		#globalNav a:hover {
