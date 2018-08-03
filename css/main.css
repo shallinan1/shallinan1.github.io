@@ -21,6 +21,7 @@
 }
 	
 	#globalNav li {
+		color: #000000
 		padding: 0 3.5em;
 		display: inline-block;
 	}
