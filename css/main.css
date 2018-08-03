@@ -84,7 +84,7 @@ div.relative {
 	position: fixed;
 	z-index: 1;
 	width: 100%;
-	height: 100px;
+	height: 80px;
 	top: 0;
 	left: 0;
 	overflow: hidden;
@@ -118,8 +118,7 @@ div.relative {
 	padding: 0 0.25em;
 	-moz-padding-start: 0;
 	font-size: 1em;
-	text-transform: uppercase;
-	color: #FECEA8;
+	color: #baffc9;
 	}
 	
 	#globalNav a:hover {
@@ -129,7 +128,7 @@ div.relative {
 		-moz-padding-start: 0;
 		font-size: 1em;
 		text-transform: uppercase;
-		color: #ED6161;
+		color: #baffc9;
 	    -webkit-transition: .3s ease-in;
 	       -moz-transition: .3s ease-in;
 	        -ms-transition: .3s ease-in;
