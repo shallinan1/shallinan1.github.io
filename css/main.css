@@ -66,3 +66,10 @@ ul.posts li {
     -ms-transform: rotate(180deg);
     transform: rotate(180deg);
 }
+
+.oval {
+    width: 160px;
+    height: 80px;
+    background: #a84909;
+    border-radius: 40px;
+}
