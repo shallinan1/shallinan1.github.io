@@ -17,7 +17,8 @@
 		position: relative;
 		-webkit-padding-start: 0;
 		   -moz-padding-start: 0;
-		text-align: left;
+		text-align: center;
+		color: #000000
 }
 	
 	#globalNav li {
