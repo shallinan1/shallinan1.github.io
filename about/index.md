@@ -2,11 +2,6 @@
 layout: default
 title: About Me
 ---
-<style>
-body {
-background-color: #f0ffff
-}
-</style>
 
 # About
 

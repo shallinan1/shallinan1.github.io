@@ -1,12 +1,3 @@
-<style>
-body {
-background-color: #f5fffa
-}
-</style>
-
-
-
-
 <head>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
