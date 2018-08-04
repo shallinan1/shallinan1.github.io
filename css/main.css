@@ -32,7 +32,7 @@
 	
 	#globalNav a {
 		position: absolute;
-		top: 1.3em;
+		top: 0.3em;
 		padding: 0 0.25em;
 		-moz-padding-start: 0;
 		font-size: 1em;
@@ -55,7 +55,7 @@
 
 body {
     margin: 60px auto;
-    background-color: #8CEFFD;
+    background-color: #f0ffff;
     width: 80%;
 	top:80;
 }
