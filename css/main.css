@@ -31,7 +31,7 @@
 			}
 	
 	#globalNav a {
-		position: relative;
+		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
 		padding: 0 0.25em;
@@ -42,7 +42,8 @@
 	
 		#globalNav a:hover {
 			position: absolute;
-			bottom: 0.2em;
+		top: 50%;
+		transform: translateY(-50%);
 			padding: 0 0.25em;
 			-moz-padding-start: 0;
 			font-size: 1.5em;
