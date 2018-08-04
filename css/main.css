@@ -6,7 +6,7 @@
 	top: 0;
 	left: 0;
 	overflow: hidden;
-	background-color: #ecf0f1;
+	background-color:#dfc78e;
 	color: #2A363B;
 }
 
@@ -45,7 +45,7 @@
 			padding: 0 0.25em;
 			-moz-padding-start: 0;
 			font-size: 1em;
-			color: #ED6161;
+			color: #83b1bf;
 		    -webkit-transition: .3s ease-in;
 		       -moz-transition: .3s ease-in;
 		        -ms-transition: .3s ease-in;
@@ -55,7 +55,7 @@
 
 body {
     margin: 60px auto;
-    background-color: ivory;
+    background-color: #eae8c6;
     width: 80%;
 	top:80;
 }
