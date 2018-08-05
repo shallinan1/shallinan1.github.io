@@ -21,7 +21,6 @@
 	
 		#globalNav li {
 			padding: 0 2.5%;
-			display: inline-block;
 		}
 		
 			@media screen and (max-width: 528px) {
