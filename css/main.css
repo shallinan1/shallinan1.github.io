@@ -31,9 +31,10 @@
 			}
 	
 	#globalNav li a {
+		display: block;
 		position: relative;
 		bottom: 50%;
-		padding: 0 0.25em;
+		padding: 14px 16px;
 		-moz-padding-start: 0;
 		font-size: 1em;
 		color: #FFFFFF;
