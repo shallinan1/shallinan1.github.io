@@ -1,6 +1,6 @@
 #globalNav {
 	position: -webkit-sticky;
-	z-index: 1;
+	positon: sticky;
 	width: 100%;
 	height: 3.125em;
 	top: 0;
