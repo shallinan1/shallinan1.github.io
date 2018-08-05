@@ -42,7 +42,7 @@
 			background-color:#000000;
 		}
 		
-		#globalNav li a:active {
+		#globalNav .active {
 			background-color: #4CAF50;
 		}
 
