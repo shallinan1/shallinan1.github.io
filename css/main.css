@@ -25,16 +25,16 @@
 		
 			@media screen and (max-width: 528px) {
 				#globalNav li {
-					padding: 0 1em;
+					float:left;
 				}
 			}
 	
 	#globalNav li a {
 		display: block;
 		padding: 14px 16px;
-		-moz-padding-start: 0;
 		font-size: 1em;
 		color: #FFFFFF;
+		text-decoration: none;
 	}
 	
 		#globalNav li a:hover {
