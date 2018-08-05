@@ -17,6 +17,7 @@
 		#globalNav li {
 			float:left;
 			display:inline-block;
+			list-style: none;
 		}
 		
 			@media screen and (max-width: 528px) {
@@ -27,16 +28,13 @@
 			}
 	
 	#globalNav li a {
-		display: block;
 		padding: 14px 10px;
+		display: block;
 		font-size: 1em;
 		color: #FFFFFF;
 		text-decoration: none;
 	}
-	
-	#nav li:first-child a {
-		border-left: 1px solid #ccc; 
-	}
+
 	
 	#globalNav li a:hover {
 			color: #FFFFFF;
