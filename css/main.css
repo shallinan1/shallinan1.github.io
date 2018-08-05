@@ -12,6 +12,7 @@
 
 	#globalNav ul {
 		padding: 0;
+		margin: 1em auto;
 		position: relative;
 		-webkit-padding-start: 0;
 		   -moz-padding-start: 0;
@@ -20,13 +21,20 @@
 	
 		#globalNav li {
 			padding: 0 2.5%;
+			display: inline-block;
 		}
 		
+			@media screen and (max-width: 528px) {
+				#globalNav li {
+					padding: 0 1em;
+				}
+			}
 	
 	#globalNav li a {
 		display: block;
+		position: relative;
+		bottom: 50%;
 		padding: 14px 16px;
-		text-align: center;
 		-moz-padding-start: 0;
 		font-size: 1em;
 		color: #FFFFFF;
