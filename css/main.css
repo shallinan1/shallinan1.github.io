@@ -4,9 +4,9 @@
     padding: 0;
     overflow: hidden;
     background-color: #606060;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
+    position: fixed;
     top: 0;
+	width: 100%;
 }
 
 #globalNav li {
