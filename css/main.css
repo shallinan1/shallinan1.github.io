@@ -24,6 +24,12 @@
 			display: inline-block;
 		}
 		
+			@media screen and (max-width: 528px) {
+				#globalNav li {
+					padding: 0 1em;
+				}
+			}
+	
 	#globalNav li a {
 		display: block;
 		position: relative;
