@@ -32,7 +32,11 @@
 		text-decoration: none;
 	}
 	
-		#globalNav li a:hover {
+	#nav li:first-child a {
+		border-left: 1px solid #ccc; 
+	}
+	
+	#globalNav li a:hover {
 			color: #FFFFFF;
 			background-color:#000000;
 		}
