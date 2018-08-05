@@ -40,12 +40,8 @@
 		#globalNav li a:hover {
 			color: #FFFFFF;
 			background-color:#000000;
-		    -webkit-transition: .3s ease-in;
-		       -moz-transition: .3s ease-in;
-		        -ms-transition: .3s ease-in;
-		         -o-transition: .3s ease-in;
-		            transition: .3s ease-in;
 		}
+		
 		#globalNav li a:active {
 			background-color: #4CAF50;
 		}
