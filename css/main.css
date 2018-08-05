@@ -11,8 +11,9 @@
 }
 
 	#globalNav ul {
+		list-style-type: none;
 		padding: 0;
-		margin: 1em auto;	
+		margin: 0;	
 		position: -webkit-sticky;
 		position: sticky;
 		text-align: center;
