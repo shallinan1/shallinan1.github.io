@@ -7,13 +7,14 @@
 	left: 0;
 	overflow: hidden;
 	background-color:#606060;
-	color: #2A363B;
 }
 
 	#globalNav ul {
 		list-style-type: none;
 		padding: 0;
-		margin: 0;	
+		margin: 0;
+		top: 0;
+		overflow: hidden;
 		position: -webkit-sticky;
 		position: sticky;
 		text-align: center;
