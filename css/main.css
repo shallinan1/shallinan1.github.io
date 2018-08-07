@@ -116,15 +116,3 @@ ul.posts li {
     transform: rotate(180deg);
 }
 
-.oval {
-    width: 500px;
-    height: 80px;
-    background: #add8e6;
-    border-radius: 80px;
-}
-
-div.relative {
-	position: relative;
-	left: 20px;
-	top: 20px;
-}
