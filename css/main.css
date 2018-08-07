@@ -23,6 +23,7 @@
 
 #globalNav li a:hover {
     background-color:#000000;
+	color: #fffffff;
 }
 #globalNav li: hover a {
 	color = #ffffff;
