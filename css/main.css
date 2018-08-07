@@ -73,7 +73,7 @@ ul.posts li {
     list-style: none;
 }
 
-container {
+.container {
 	margin: 60px auto; 
 	width: 70%;
 }
