@@ -24,8 +24,8 @@
     background-color:#000000;
 	color: #fffffff !important;
 }
-#globalNav li: hover a {
-	color = #ffffff !important;
+#globalNav li:hover a {
+	color = #fffffff !important;
 }
 		
 	#globalNav .active {
