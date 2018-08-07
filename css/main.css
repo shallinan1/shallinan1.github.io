@@ -25,7 +25,7 @@
 	color: #fffffff !important;
 }
 #globalNav li: hover a {
-	color = #ffffff;
+	color = #ffffff !important;
 }
 		
 	#globalNav .active {
