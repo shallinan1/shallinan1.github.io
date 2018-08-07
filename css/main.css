@@ -53,7 +53,7 @@ nav u1, footer ul {
     list-style: none;
     font-weight: bold;
 }
-nav u1, footer ul li {
+nav u1 li, footer ul li {
     display: inline;
     margin-right: 20px;
 }
