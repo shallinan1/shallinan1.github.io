@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #606060;
+    background-color: #A9A9A9;
 }
 
 #globalNav li {
@@ -29,17 +29,8 @@
 }
 		
 	#globalNav .active {
-			background-color: #F3DC8A;
-			color: #000000;
+			background-color: #606060;
 		}
-		
-	#globalNav .active a: hover {
-		color = #ffffff;
-	}
-	
-		#globalNav .active: hover a{
-		color = #ffffff;
-	}
 		
 
 body {
