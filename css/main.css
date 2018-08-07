@@ -14,6 +14,7 @@
 }
 
 #globalNav li a {
+    display: block;
     color: #FFFFFF;
     text-align: center;
     padding: 14px 16px;
