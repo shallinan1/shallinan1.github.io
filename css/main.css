@@ -23,7 +23,7 @@
 
 #globalNav li a:hover {
     background-color:#000000;
-	font = #ffffff;
+	color = #ffffff;
 }
 		
 	#globalNav .active {
