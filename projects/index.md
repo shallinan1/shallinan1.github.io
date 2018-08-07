@@ -2,11 +2,6 @@
 layout: default
 title: Projects
 ---
-<style>
-body {
-background-color: #f0f8ff
-}
-</style>
 
 # Projects
 ## Statistics
