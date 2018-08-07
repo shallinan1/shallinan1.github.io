@@ -4,9 +4,6 @@
     padding: 0;
     overflow: hidden;
     background-color: #606060;
-    position: fixed;
-    top: 0;
-	width: 100%;
 }
 
 #globalNav li {
