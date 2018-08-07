@@ -16,7 +16,7 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-	font-family: "arial";
+	font-family: "helvetica";
 	font-weight: bold;
 }
 
@@ -53,7 +53,7 @@ nav u1, footer ul {
     list-style: none;
     font-weight: bold;
 }
-footer ul li {
+nav u1, footer ul li {
     display: inline;
     margin-right: 20px;
 }
