@@ -23,12 +23,10 @@
 
 #globalNav li a:hover {
     background-color:#000000;
-	color = #ffffff;
 }
 		
 	#globalNav .active {
 			background-color: #F3DC8A;
-			color: #000000;
 		}
 		
 
