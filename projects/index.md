@@ -6,8 +6,8 @@ title: Projects
 # Projects
 ## Statistics
 <a href="/projects/earthquaketests" target="_blank">Earthquake Tests</a>  
-<a href="/projects/earthquaketests" target="_blank">UW Grade Analysis</a>  
-<a href="/projects/earthquaketests" target="_blank">Activity and Sleep</a>
+UW Grade Analysis (in progress)
+Activity and Sleep (in progress)
 
 ## Papers
 <a href="/projects/gutmicrobiome" target="_blank">Gut Microbiome Significance</a>
