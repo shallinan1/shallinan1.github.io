@@ -7,16 +7,16 @@ title: Science and Spontaneity
 	
 		<h2 style = "font-family:helvetica"> Upcoming Blog Posts/Future Ideas </h2>
 		<ul style="list-style-type:disc; font-family:Georgia">
-		<font size = 5> 
+		<font size = 4> 
 		  <li>My leg injury, and why self reported symptoms can be dangerous</li>
 		  <li>I enjoy sunny weather: Biomechanisms behind humans' universal love for the sun</li>		  
 		  <li>I knew it! Hindsight and survivorship biases.</li>
-		<font>
+		</font>
 		</ul>
 	<ul class="posts">
-	<font size = 4> 
+	<font size = 3> 
 	  {% for post in site.posts %}
 	    <li><span>{{ post.date | date_to_string }}</span> : <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
 	  {% endfor %}
-	  <font> 
+	  </font> 
 	</ul>
