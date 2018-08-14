@@ -18,7 +18,7 @@
     text-decoration: none;
 	font-family: Helvetica;
 	font-weight: bold;
-	font-transform: uppercase;
+	text-transform: uppercase;
 }
 
 #globalNav li a:hover {
