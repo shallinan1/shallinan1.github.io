@@ -70,6 +70,13 @@ h1 {
 	font-weight: 700;
 	font-style: normal;
 }
+
+h2 { font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif; 
+	font-size: 2.0em; 
+	font-style: normal; 
+	font-variant: normal; 
+	font-weight: 700; 
+}
 p {
     font-size: 1.3em;
     line-height: 1.4em;

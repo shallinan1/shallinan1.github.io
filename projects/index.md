@@ -9,7 +9,7 @@ title: Projects
 UW Grade Analysis (in progress) <br>
 Activity and Sleep (in progress)
 
-## Papers
+## Essays
 <a href="/projects/gutmicrobiome" target="_blank">Gut Microbiome Significance</a>
 
 ## Posters/Presentations
