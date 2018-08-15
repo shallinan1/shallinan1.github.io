@@ -20,6 +20,10 @@
 	font-size: 1.2em;
 }
 
+#globalNav  li:hover {
+    background-color:#000000;
+	color: #fffffff!important;
+}
 #globalNav li a:hover {
     background-color:#000000;
 	color: #fffffff!important;
@@ -28,7 +32,7 @@
 	color = #fffffff!important;
 }
 		
-#globalNav .active {
+#globalNav .active a {
 			background-color: #F3DC8A;
 			color: #000000;
 		}
