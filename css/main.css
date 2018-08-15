@@ -32,7 +32,7 @@
 	color = #fffffff!important;
 }
 		
-#globalNav .active a {
+#globalNav li:active {
 			background-color: #F3DC8A;
 			color: #000000;
 		}
