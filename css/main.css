@@ -20,6 +20,11 @@
 	font-size: 1.2em;
 }
 
+#globalNav  .hover {
+    background-color:#000000;
+	color: #fffffff!important;
+}
+
 #globalNav  li:hover {
     background-color:#000000;
 	color: #fffffff!important;
