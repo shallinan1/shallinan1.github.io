@@ -16,9 +16,8 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-	font-family: Helvetica;
-	font-weight: bold;
-	text-transform: uppercase;
+    font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
+	font-size: 1.2em;
 }
 
 #globalNav li a:hover {
