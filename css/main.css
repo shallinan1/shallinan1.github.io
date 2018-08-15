@@ -8,16 +8,19 @@
 
 #globalNav li {
     float: left;
+	padding: 14px 16px;
+    text-decoration: none;
+	font-size: 1.2em;
+	font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
+	font-weight: default;
 }
 
 #globalNav li a {
     display: inline-block;
     color: #FFFFFF;
     text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
-	font-size: 1.2em;
+
+
 }
 
 #globalNav li a:hover {
@@ -79,7 +82,6 @@ h2 { font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Ge
 }
 p {
     font-size: 1.3em;
-    line-height: 1.4em;
     color: #000000;
 	font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif; 
 	font-style: normal; 
