@@ -37,12 +37,12 @@
 			color: #000000;
 		}
 		
-	#globalNav .active a: hover {
+	#globalNav .active a:hover {
 		color = #ffffff!important;
 	}
 	
-		#globalNav .active: hover a{
-		color = #ffffff;
+		#globalNav .active:hover a{
+		color = #ffffff;!important;
 	}
 		
 
