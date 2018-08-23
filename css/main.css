@@ -14,27 +14,27 @@
     display: inline-block;
     color: #FFFFFF;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px 16px;
     text-decoration: none;
     font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
-	font-size: 1.2em;
+	font-size: 1.3em;
 }
 
 #globalNav  .hover {
     background-color:#000000;
-	color: #fffffff!important;
+	color: white!important;
 }
 
 #globalNav  li:hover {
     background-color:#000000;
-	color: #fffffff!important;
+	color: white!important;
 }
 #globalNav li a:hover {
     background-color:#000000;
-	color: #fffffff!important;
+	color: white!important;
 }
 #globalNav li:hover a {
-	color = #fffffff!important;
+	color = white!important;
 }
 		
 #globalNav .active {
@@ -43,11 +43,11 @@
 		}
 		
 	#globalNav .active a:hover {
-		color = #ffffff!important;
+		color = white!important;
 	}
 	
 		#globalNav .active:hover a{
-		color = #ffffff;!important;
+		color = white!important;
 	}
 		
 
