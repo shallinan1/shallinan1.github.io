@@ -38,8 +38,9 @@
 }
 		
 #globalNav .active {
-			background-color: #fffacd;
 			color: #000000;
+			background-color: #6D9BF1;
+			color: white;
 		}
 		
 	#globalNav .active a:hover {
