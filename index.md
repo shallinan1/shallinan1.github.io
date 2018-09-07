@@ -10,5 +10,5 @@ Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student a
 Feel free to read my resume <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>here</b></a>
 # News
 
-I am happy to anounce that I will be working on volunteer undergraduate research at the Dey Lab in Fred Hutch Cancer Research Center this quarter, with an emphasis on the gut microbiome, and computational modeling. 
+I am happy to anounce that I will be working on undergraduate research in the Dey Lab at the Fred Hutch Cancer Research Center this quarter, with an emphasis on the gut microbiome, and computational biology. 
 
