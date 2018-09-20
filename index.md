@@ -3,12 +3,9 @@ layout: home
 title: Home
 ---
 
-# Skyler Hallinan
-
+# Welcome!
 Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student at the University of Washington intending to major in Bioengineering and Applied and Computational Math Sciences: Scientific Computing and Numerical Algorithms
 
-Feel free to read my resume <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>here</b></a>
-# News
-
-I am happy to anounce that I will be working on undergraduate research in the Dey Lab at the Fred Hutch Cancer Research Center this quarter, with an emphasis on the gut microbiome, and computational biology. 
-
+#Important Information
+My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a>
+My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a>
