@@ -19,7 +19,7 @@ My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>tr
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <img class="img-responsive" src="/assets/official/autumnschedule.png" alt="Autumn schedule" style="width:60%">
+    <img src="/assets/official/autumnschedule.png" alt="Autumn schedule" style="width:60%">
   </div>
 
 </div>
@@ -50,15 +50,6 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
-</script>
-<script>
-$('#modal').on('show', function () {
-       $(this).find('.modal-body').css({
-              width:'auto', //probably not needed
-              height:'auto', //probably not needed 
-              'max-height':'100%'
-       });
-});
 </script>
 
 
