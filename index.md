@@ -8,5 +8,5 @@ Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student a
 
 # Important Information
 My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a> <br>
-My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a>
-My schedule  <img src="/assets/official/schedule.png" alt="Autumn schedule"> 
+My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
+My schedule  <img src="/assets/official/autumnschedule.png" alt="Autumn schedule"> 
