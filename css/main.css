@@ -77,7 +77,7 @@
 
 	.modal-dialog {
     position: relative;
-    display: inline-block; /* This is important */ 
+    display: table; /* This is important */ 
     overflow: auto;
     width: auto;
     min-width: 300px; 
