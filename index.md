@@ -19,7 +19,7 @@ My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>tr
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <img class="img-responsive" src="/assets/official/autumnschedule.png" alt="Autumn schedule" style="height:40%;">
+    <img class="img-responsive" src="/assets/official/autumnschedule.png" alt="Autumn schedule" style="width:10%">
   </div>
 
 </div>
