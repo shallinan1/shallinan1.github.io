@@ -76,6 +76,14 @@
 	display: inline-block;
 	}
 
+	.modal-dialog {
+    position: relative;
+    display: table; /* This is important */ 
+    overflow: auto;
+    width: auto;
+    min-width: 300px; 
+}
+	
 /* The Close Button */
 .close {
     color: #aaaaaa;
