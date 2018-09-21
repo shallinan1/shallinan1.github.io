@@ -73,12 +73,11 @@
     padding: 20px;
     border: 1px solid #888;
 	min-width: 100px;
-	display: inline-block;
 	}
 
 	.modal-dialog {
     position: relative;
-    display: table; /* This is important */ 
+    display: inline-block; /* This is important */ 
     overflow: auto;
     width: auto;
     min-width: 300px; 
