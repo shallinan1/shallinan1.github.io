@@ -51,6 +51,14 @@ window.onclick = function(event) {
     }
 }
 </script>
-
+<script>
+$('#modal').on('show', function () {
+       $(this).find('.modal-body').css({
+              width:'auto', //probably not needed
+              height:'auto', //probably not needed 
+              'max-height':'100%'
+       });
+});
+</script>
 
 
