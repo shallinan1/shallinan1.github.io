@@ -79,7 +79,7 @@
     position: relative;
     display: table; /* This is important */ 
     overflow: auto;
-    width: auto !important;
+    width: 30% !important;
     max-width: 100% 
 }
 	
