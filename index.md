@@ -11,7 +11,7 @@ My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>re
 My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
 
 <!-- Trigger/Open The Modal -->
-<button id="myBtn">My schedule</button>
+<p id="myBtn">My schedule</p>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
