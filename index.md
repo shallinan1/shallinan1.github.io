@@ -8,10 +8,10 @@ Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student a
 
 # Important Information
 My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a> <br>
-My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
+My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a>
 
 <!-- Trigger/Open The Modal -->
-<p id="myBtn">My schedule</p>
+My <p id="myBtn">schedule</p>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
