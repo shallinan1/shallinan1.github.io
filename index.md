@@ -8,10 +8,10 @@ Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student a
 
 # Important Information
 My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a> <br>
-My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a>
+My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
 
 <!-- Trigger/Open The Modal -->
-My <p id="myBtn">schedule</p>
+My <span id="clickText">schedule</span>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -29,7 +29,7 @@ My <p id="myBtn">schedule</p>
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+var btn = document.getElementById("clickText");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
