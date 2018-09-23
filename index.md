@@ -11,7 +11,7 @@ Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student a
 My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
 
 <!-- Trigger/Open The Modal -->
-My <span id="clickText">schedule</span> </p>
+My <span id="clickText" class="link">schedule</span> </p>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
