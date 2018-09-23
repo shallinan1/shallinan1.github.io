@@ -7,11 +7,11 @@ title: Home
 Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student at the University of Washington intending to major in Bioengineering and Applied and Computational Math Sciences: Scientific Computing and Numerical Algorithms
 
 # Important Information
-My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a> <br>
+<p> My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a> <br>
 My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
 
 <!-- Trigger/Open The Modal -->
-My <span id="clickText">schedule</span>
+My <span id="clickText">schedule</span> </p>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
