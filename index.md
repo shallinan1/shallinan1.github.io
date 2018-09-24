@@ -19,7 +19,7 @@ My <a href="#" id="clickText" ><b>schedule</b></a> </p>
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <img src="/assets/official/autumnschedule.png" alt="Autumn schedule" style="width:30%">
+    <img src="/assets/official/autumnschedule.png" alt="Autumn schedule" style="width:70%">
   </div>
 
 </div>
