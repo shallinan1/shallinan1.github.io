@@ -75,12 +75,6 @@
 	width: 50%;
 	}
 
-	.modal-dialog {
-    position: relative;
-    display: table; /* This is important */ 
-    overflow: auto;
-    max-width: 100% 
-}
 	
 /* The Close Button */
 .close {
