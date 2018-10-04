@@ -8,7 +8,7 @@
 
 #globalNav li {
     float: left;
-	transition: 1s;
+	transition: 0.5s;
 }
 
 #globalNav li a {
@@ -19,7 +19,7 @@
     text-decoration: none;
     font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
 	font-size: 1.3em;
-	transition: 1s;
+	transition: 0.5s;
 }
 
 #globalNav  .hover {
