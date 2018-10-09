@@ -1,11 +1,111 @@
----
-layout: blog
-title: Science and Spontaneity
----
- 	
-	<h1>{{ page.title }}</h1>
+<!DOCTYPE html>
+<html>
+<title>Blog</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="\css\sampleblog.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<body class="sh-light-grey">
+
+<!-- sh-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+<div class="sh-content" style="max-width:1400px">
+
+<!-- Header -->
+<header class="sh-container sh-center sh-padding-32"> 
+  <h1><b>Science and Spontaneity</b></h1>
+  <h2><b> Where science meets common thought </b><h2>
+</header>
+
+<!-- Grid -->
+<div class="sh-row">
+
+<!-- Posts -->
 	<ul class="posts">
 	  {% for post in site.posts %}
 	    <li><span>{{ post.date | date_to_string }}</span> : <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
 	  {% endfor %}
 	</ul>
+
+<!-- Blog entries -->
+<div class="sh-col l8 s12">
+  <!-- Blog entry -->
+  <div class="sh-card-4 sh-margin sh-white">
+    <img src="/assets/pictures/mountain.jpg" alt="Nature" style="width:100%">
+    <div class="sh-container">
+      <h3><b>Meaningful writing</b></h3>
+      <h5>About this blog <span class="sh-opacity">September 9th, 2018</span></h5>
+    </div>
+
+    <div class="sh-container">
+      <p> Welcome! This will be my blog.</p>
+      <div class="sh-row">
+        <div class="sh-col m8 s12">
+          <p><button class="sh-button sh-padding-large sh-white sh-border"><b>READ MORE »</b></button></p>
+        </div>
+        <div class="sh-col m4 sh-hide-small">
+          <p><span class="sh-padding-large sh-right"><b>Comments  </b> <span class="sh-tag">0</span></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+<!-- END BLOG ENTRIES -->
+</div>
+
+<!-- Introduction menu -->
+<div class="sh-col l4">
+  <!-- About Card -->
+  <div class="sh-card sh-margin sh-margin-top">
+  <img src="/assets/pictures/headshot2.jpg" style="width:100%">
+    <div class="sh-container sh-white">
+      <h4><b>Skyler Hallinan</b></h4>
+      <p>Passionate about science, math, and writing. Let's see what I can create.</p>
+    </div>
+  </div><hr>
+  
+  <!-- Posts -->
+  <div class="sh-card sh-margin">
+    <div class="sh-container sh-padding">
+      <h4>Popular Posts</h4>
+    </div>
+    <ul class="sh-ul sh-hoverable sh-white">
+      <li class="sh-padding-16">
+        <img src="/shimages/workshop.jpg" alt="Image" class="sh-left sh-margin-right" style="width:50px">
+        <span class="sh-large">Meaningful Writing</span><br>
+        <span>About this blog </span>
+      </li>
+    </ul>
+  </div>
+  <hr> 
+ 
+  <!-- Labels / tags -->
+  <div class="sh-card sh-margin">
+    <div class="sh-container sh-padding">
+      <h4>Tags</h4>
+    </div>
+    <div class="sh-container sh-white">
+    <p><span class="sh-tag sh-black sh-margin-bottom">Travel</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Psychology</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">London</span>
+      <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Science</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Math</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">DIY</span>
+      <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Engineering</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Education</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Family</span>
+      <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Technology</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Politics</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Shopping</span>
+      <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Sports</span> <span class="sh-tag sh-light-grey sh-small sh-margin-bottom">Games</span>
+    </p>
+    </div>
+  </div>
+  
+<!-- END Introduction Menu -->
+</div>
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END sh-content -->
+</div>
+
+</body>
+</html>
