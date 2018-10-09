@@ -27,12 +27,7 @@ and is wrapped around the whole page content, except for the footer in this exam
 <!-- Blog entries -->
 <div class="sh-col l8 s12">
   <!-- Blog entry -->
-  <div class="sh-card-4 sh-margin sh-white">
-  
-  {% for post in site.posts %}
-    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-  {% endfor %}
-   
+  <div class="sh-card-4 sh-margin sh-white">  
     <img src="/assets/pictures/mountain.jpg" alt="Nature" style="width:100%">
     <div class="sh-container">
       <h3><b>Meaningful writing</b></h3>
