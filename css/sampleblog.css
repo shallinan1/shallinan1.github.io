@@ -229,3 +229,6 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .sh-border-dark-grey,.sh-hover-border-dark-grey:hover,.sh-border-dark-gray,.sh-hover-border-dark-gray:hover{border-color:#616161!important}
 .sh-border-pale-red,.sh-hover-border-pale-red:hover{border-color:#ffe7e7!important}.sh-border-pale-green,.sh-hover-border-pale-green:hover{border-color:#e7ffe7!important}
 .sh-border-pale-yellow,.sh-hover-border-pale-yellow:hover{border-color:#ffffcc!important}.sh-border-pale-blue,.sh-hover-border-pale-blue:hover{border-color:#e7ffff!important}
+.sh-blog-date{
+	text-align: right;
+}
