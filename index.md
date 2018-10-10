@@ -4,7 +4,7 @@ title: Home
 ---
 
 # Welcome!
-Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student at the University of Washington intending to major in Bioengineering and Applied and Computational Math Sciences: Scientific Computing and Numerical Algorithms
+Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student at the University of Washington intending to major in Bioengineering and Applied and Computational Math Sciences: Biological and Life Sciences
 
 <p> My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a> <br>
 My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
