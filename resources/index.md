@@ -4,7 +4,7 @@ title: Resources
 ---
 
 ## Bio Series
-Exam 1:
+<a href="/assets/school/bio180/bio180exam1.pdf" target = "_blank"><b>Exam 1</b></a> (92/96)
 
 ## Stat 390
 
