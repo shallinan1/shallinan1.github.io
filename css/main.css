@@ -138,6 +138,7 @@ p {
 	font-style: normal; 
 	font-variant: normal; 
 	font-weight: 400;
+	margin-top: 0.15em;
 }
 footer {
     border-top: 1px solid #d5d5d5;
