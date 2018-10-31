@@ -6,6 +6,9 @@ title: Resources
 ## Bio Series
 <a href="/assets/school/bio180/bio180exam1.pdf" target = "_blank"><b>Exam 1</b></a> (92/96)
 
+## Physics 122
+<a href="/assets/school/phys122/phys122midterm1.pdf" target = "_blank"><b>Midterm 1</b></a> (92/96)
+
 ## Stat 390
 
 ## Chem 162/237
