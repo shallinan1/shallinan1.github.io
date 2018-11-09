@@ -4,14 +4,14 @@ title: Resources
 ---
 
 ## Bio Series
-#Bio 180
-<a href="/assets/school/bio180/bio180exam1.pdf" target = "_blank"><b>Exam 1</b></a> (92/96)
-<a href="/assets/school/bio180/bio180exam2.pdf" target = "_blank"><b>Exam 1</b></a> (85/100)
-<a href="/assets/school/bio180/bio180exam3.pdf" target = "_blank"><b>Exam 1</b></a> (84/10)
-<a href="/assets/school/bio180/bio180exam4.pdf" target = "_blank"><b>Exam 1</b></a> (81/97)
+# Bio 180
+<a href="/assets/school/bio180/bio180exam1.pdf" target = "_blank"><b>Exam 1</b></a> (92/96) <br>
+<a href="/assets/school/bio180/bio180exam2.pdf" target = "_blank"><b>Exam 2</b></a> (85/100) <br>
+<a href="/assets/school/bio180/bio180exam3.pdf" target = "_blank"><b>Exam 3</b></a> (84/10) <br>
+<a href="/assets/school/bio180/bio180exam4.pdf" target = "_blank"><b>Exam 4</b></a> (81/97)
 
 ## Physics Series
-#Physics 122
+# Physics 122
 <a href="/assets/school/phys122/phys122midterm1.pdf" target = "_blank"><b>Midterm 1</b></a> (88/100)
 
 ## Stat 390
