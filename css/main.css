@@ -15,11 +15,11 @@
     display: inline-block;
     color: #FFFFFF;
     text-align: center;
-    padding: 10px 16px;
+    padding: 0.5em 0.9em;
     text-decoration: none;
     font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
 	font-size: 1.3em;
-	transition: 0.5s;
+	transition: 0.3s;
 }
 
 #globalNav  .hover {
