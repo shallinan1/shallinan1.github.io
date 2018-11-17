@@ -2,7 +2,7 @@
 layout: resources
 title: Resources
 ---
-
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 ## Bio Series
 ### Bio 180
 <a href="/assets/school/bio180/bio180exam1.pdf" target = "_blank"><b>Exam 1</b></a> (92/96) <br>

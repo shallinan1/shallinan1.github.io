@@ -2,7 +2,7 @@
 layout: about
 title: About Me
 ---
-
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 # About
 
 <img src="/assets/pictures/hsgraduation1.png" style="width:160px;height:300px;" title="Bainbridge High School Graduation">
