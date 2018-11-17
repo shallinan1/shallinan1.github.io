@@ -2,6 +2,8 @@
 layout: home
 title: Home
 ---
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
 
 # Welcome!
 Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student at the University of Washington intending to major in Bioengineering and Applied and Computational Math Sciences: Biological and Life Sciences
