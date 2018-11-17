@@ -124,13 +124,22 @@ h1 {
 	font-variant: normal; 
 }
 
-h2 { font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif; 
-	font-size: 1.7em; 
+h2 { font-family: Open Sans; 
+	font-size: 1.8em; 
 	font-style: normal; 
 	font-variant: normal; 
 	font-weight: 700;
-	margin-bottom:0.35em;
+	margin-bottom: 0.35em;
 }
+
+h2 { font-family: Open Sans; 
+	font-size: 1.5em; 
+	font-style: normal; 
+	font-variant: normal; 
+	font-weight: 700;
+	margin-bottom: 0.35em;
+}
+
 p {
     font-size: 1.3em;
     line-height: 1.4em;
