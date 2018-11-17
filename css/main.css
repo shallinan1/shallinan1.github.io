@@ -116,11 +116,12 @@ a:hover {
 }
 h1 {
     font-size: 3em;
-    font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
 	font-weight: 700;
 	font-style: normal;
 	margin-top: 0.5em;
 	margin-bottom:0.5em;
+	font-family: Open Sans; 
+	font-variant: normal; 
 }
 
 h2 { font-family: Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif; 
