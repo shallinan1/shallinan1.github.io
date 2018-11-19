@@ -4,6 +4,7 @@
     padding: 0;
     overflow: hidden;
     background-color: #606060;
+	width: 60%;
 }
 
 #globalNav li {
@@ -49,17 +50,17 @@
 }
 		
 #globalNav .active {
-			background-color: #6D9BF1;
-			color: white;
-		}
+		background-color: #6D9BF1;
+		color: white;
+	}
 		
-	#globalNav .active a:hover {
-		color = white!important;
-	}
+#globalNav .active a:hover {
+	color = white!important;
+}
 	
-		#globalNav .active:hover a{
-		color = white!important;
-	}
+#globalNav .active:hover a{
+	color = white!important;
+}
 
 
 /* The Modal (background) */
