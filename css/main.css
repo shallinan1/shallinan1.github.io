@@ -5,7 +5,7 @@
     padding: 0;
     overflow: hidden;
     background-color: #606060;
-	width: 50%;
+	width: 55.08%;
 	border: 2px;
 	border-top-left-radius:15px;
     border-bottom-left-radius:15px;
@@ -15,9 +15,8 @@
 
 #globalNav li {
     float: left;
-	width: 14.2857142857%;
-	transition: 0.5s;
-	border-top-left-radius:15px;
+	transition: 1s;
+		border-top-left-radius:15px;
     border-bottom-left-radius:15px;
 	border-top-right-radius:15px;
     border-bottom-right-radius:15px;
