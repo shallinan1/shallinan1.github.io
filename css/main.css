@@ -31,10 +31,6 @@
     font-family: Open Sans;
 	font-size: 1.3em;
 	transition: 0.3s;
-		border-top-left-radius:15px;
-    border-bottom-left-radius:15px;
-	border-top-right-radius:15px;
-    border-bottom-right-radius:15px;
 }
 
 #globalNav li.first{
