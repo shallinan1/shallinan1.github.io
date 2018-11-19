@@ -1,10 +1,11 @@
 #globalNav ul {
     list-style-type: none;
-    margin: 0;
+	margin-top: 2.5%;
+    margin-left: 7.5%;
     padding: 0;
     overflow: hidden;
     background-color: #606060;
-	width: 60%;
+	width: 56%;
 }
 
 #globalNav li {
