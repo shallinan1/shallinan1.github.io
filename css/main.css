@@ -22,6 +22,15 @@
 	transition: 0.3s;
 }
 
+#globalNav li.first{
+    border-top-left-radius:15px;
+    border-bottom-left-radius:15px;
+}
+#globalNav li.last{
+    border-top-right-radius:15px;
+    border-bottom-right-radius:15px;
+}
+
 #globalNav  .hover {
     background-color:#000000;
 	color: white!important;
