@@ -7,19 +7,19 @@
     background-color: #606060;
 	width: 42%;
 	border: 2px;
-	border-top-left-radius:15px;
-    border-bottom-left-radius:15px;
-	border-top-right-radius:15px;
-    border-bottom-right-radius:15px;
+	border-top-left-radius:2%;
+    border-bottom-left-radius:2%;
+	border-top-right-radius:2%;
+    border-bottom-right-radius:2%;
 }
 
 #globalNav li {
     float: left;
 	transition: 1s;
-	border-top-left-radius:15px;
-    border-bottom-left-radius:15px;
-	border-top-right-radius:15px;
-    border-bottom-right-radius:15px;
+	border-top-left-radius:2%;
+    border-bottom-left-radius:2%;
+	border-top-right-radius:2%;
+    border-bottom-right-radius:2%;
 }
 
 #globalNav a {
@@ -38,12 +38,12 @@
 }
 
 #globalNav li.first{
-    border-top-left-radius:15px;
-    border-bottom-left-radius:15px;
+    border-top-left-radius:2%;
+    border-bottom-left-radius:2%;
 }
 #globalNav li.last{
-    border-top-right-radius:15px;
-    border-bottom-right-radius:15px;
+    border-top-right-radius:2%;
+    border-bottom-right-radius:2%;
 }
 
 #globalNav  .hover {
