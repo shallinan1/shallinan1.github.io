@@ -22,6 +22,10 @@
     border-bottom-right-radius:15px;
 }
 
+#globalNav a {
+	width = 10%;
+}
+
 #globalNav li a {
     display: inline-block;
     color: #FFFFFF;
