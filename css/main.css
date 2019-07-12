@@ -5,7 +5,7 @@
     padding: 0;
     overflow: hidden;
     background-color: #606060;
-	<!-- width: 45%; -->
+	width: 42%;
 	border: 2px;
 	border-top-left-radius:15px;
     border-bottom-left-radius:15px;
@@ -23,7 +23,7 @@
 }
 
 #globalNav a {
-	width = 10%;
+	width = 7%;
 }
 
 #globalNav li a {
