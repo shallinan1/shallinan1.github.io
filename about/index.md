@@ -3,54 +3,16 @@ layout: about
 title: About Me
 ---
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+# About
+
+<img src="/assets/pictures/hsgraduation1.png" style="width:160px;height:300px;" title="Bainbridge High School Graduation">
+<img src="/assets/pictures/running1.png" style="width:200px;height:300px;" title="Track Race (1600m Dash)">
+<img src="/assets/pictures/happy1.png" style="width:200px;height:300px;" title="Pacific Science Center">
 
 
-# Welcome!
-Welcome to my personal webpage. I am Skyler Hallinan, an undergraduate student pursuing a double degree in Bioengineering and Applied and Computational Mathetmatical Sciences: Biological and Life Sciences at the University of Washington.
+I am a rising sophomore at the University of Washington. I plan to major in bioengineering and applied math.
+Outside of these, I am interested in broader scientific topics like statistics and psychology. In general, I love learning
+new information, and love exploring my interests through my coursework.
 
-<p> My <a href="/assets/official/Hallinan_Skyler_Resume.pdf" target = "_blank"><b>resume</b></a> <br>
-My <a href="/assets/official/UWUnofficialTranscript.pdf" target = "_blank"><b>transcript</b></a> <br>
-
-<!-- Trigger/Open The Modal -->
-My <a href="#" id="clickText" ><b>schedule</b></a> </p>
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <img src="/assets/official/autumnschedule.png" alt="Autumn schedule" style="width:70%">
-  </div>
-
-</div>
-
-<script>
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("clickText");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
-
+Outside of classes, my hobbies include running, playing/watching basketball, and drinking tea. 
 	
