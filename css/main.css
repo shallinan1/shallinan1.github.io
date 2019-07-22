@@ -28,21 +28,9 @@
 	transition: 0.3s;
 }
 
-#globalNav  .hover {
-    background-color:#000000;
-	color: white!important;
-}
-
-#globalNav  li:hover {
-    background-color:#000000;
-	color: white!important;
-}
 #globalNav li a:hover {
     background-color:#000000;
 	color: white!important;
-}
-#globalNav li:hover a {
-	color = white!important;
 }
 		
 #globalNav .active {
