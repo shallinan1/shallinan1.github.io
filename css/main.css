@@ -1,16 +1,16 @@
 #globalNav ul {
     list-style-type: none;
-	margin: 0;
+	margin: auto;
+	margin-top: 2.5%;
     padding: 0;
     overflow: hidden;
     background-color: #606060;
-    width: 80%;
+	width: 27.554%;
 }
 
 #globalNav li {
     float: left;
 	transition: 1s;
-    width: 25%;
 }
 
 #globalNav a {
@@ -28,9 +28,21 @@
 	transition: 0.3s;
 }
 
+#globalNav  .hover {
+    background-color:#000000;
+	color: white!important;
+}
+
+#globalNav  li:hover {
+    background-color:#000000;
+	color: white!important;
+}
 #globalNav li a:hover {
     background-color:#000000;
 	color: white!important;
+}
+#globalNav li:hover a {
+	color = white!important;
 }
 		
 #globalNav .active {
