@@ -1,6 +1,11 @@
 .bgimage{
     background-image: url("/assets/pictures/mountain.jpg");
     background-repeat: no-repeat;
+    background-size: cover;
+}
+
+html,body,.container,.content {
+     height: 100%
 }
 
 nav { 
