@@ -1,3 +1,8 @@
+nav {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+}
+
 nav ul {
     list-style-type: none;
 	margin: auto;
