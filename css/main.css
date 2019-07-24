@@ -1,5 +1,5 @@
-#home body {
-    background-image: "/assets/pictures/trackjump.jpg";
+#home-background{
+    background-image: url("/assets/pictures/mountain.jpg");
     background-repeat: no-repeat;
 }
 
