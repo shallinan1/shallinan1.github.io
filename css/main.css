@@ -6,6 +6,10 @@
     width: 100%;
 }
 
+html,body,.container,.content {
+     height: 100%
+ }
+
 nav { 
     text-align: center 
 }
