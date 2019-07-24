@@ -3,7 +3,6 @@ nav ul {
 	margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #606060;
 	width: 27.554%;
     position: -webkit-sticky; /* Safari */
     position: sticky;
@@ -21,7 +20,7 @@ nav a {
 
 nav li a {
     display: inline-block;
-    color: #FFFFFF;
+    color: black;
     text-align: center;
     padding: 0.5em 0.9em;
     text-decoration: none;
