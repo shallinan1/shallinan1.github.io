@@ -1,16 +1,13 @@
-nav {
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-}
-
 nav ul {
     list-style-type: none;
-	margin: auto;
-	margin-top: 2.5%;
+	margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #606060;
 	width: 27.554%;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
 }
 
 nav li {
