@@ -1,3 +1,8 @@
+#home body {
+    background-image: "/assets/pictures/trackjump.jpg";
+    background-repeat: no-repeat;
+}
+
 nav { 
     text-align: center 
 }
