@@ -112,7 +112,7 @@ h1 {
     font-size: 3em;
 	font-weight: 700;
 	font-style: normal;
-	margin-top: 0.5em;
+	margin-top: -0.5em;
 	margin-bottom:0.5em;
 	font-family: Open Sans; 
 	font-variant: normal; 
@@ -126,7 +126,7 @@ h2 { font-family: Open Sans;
 	margin-bottom: 0.35em;
 }
 
-h2 { font-family: Open Sans; 
+h3 { font-family: Open Sans; 
 	font-size: 1.5em; 
 	font-style: normal; 
 	font-variant: normal; 
