@@ -1,4 +1,4 @@
-#home-background{
+.bgimage{
     background-image: url("/assets/pictures/mountain.jpg");
     background-repeat: no-repeat;
 }
