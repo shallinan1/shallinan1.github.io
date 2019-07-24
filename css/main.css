@@ -1,4 +1,4 @@
-#globalNav ul {
+#nav ul {
     list-style-type: none;
 	margin: auto;
 	margin-top: 2.5%;
@@ -8,16 +8,16 @@
 	width: 27.554%;
 }
 
-#globalNav li {
+#nav li {
     float: left;
 	transition: 1s;
 }
 
-#globalNav a {
+#nav a {
 	width = 7%;
 }
 
-#globalNav li a {
+#nav li a {
     display: inline-block;
     color: #FFFFFF;
     text-align: center;
@@ -28,21 +28,21 @@
 	transition: 0.3s;
 }
 
-#globalNav li a:hover {
+#nav li a:hover {
     background-color:#000000;
 	color: white!important;
 }
 		
-#globalNav .active {
+#nav .active {
 		background-color: #6D9BF1;
 		color: white;
 	}
 		
-#globalNav .active a:hover {
+#nav .active a:hover {
 	color = white!important;
 }
 	
-#globalNav .active:hover a{
+#nav .active:hover a{
 	color = white!important;
 }
 
