@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 	<html>
 		<head>
 			<title>{{ page.title }}</title>
@@ -7,7 +7,7 @@
 		</head>
 		<body>
 			<div class = "bgimage"> </div>
-			<nav>
+			<nav id = "myNav">
 	    		<ul>
 		        	<li><a class = "active" href="/">Home</a></li
 					><li><a href="/about">About</a></li
@@ -27,5 +27,20 @@
 				</ul>
 			</footer>
 			    {% include analytics.html %}
+			<script>
+				window.onscroll = function() {myFunction()};
+
+				var navbar = document.getElementsByTagName("NAV");
+				var sticky = navbar.offsetTop;
+
+				function myFunction() {
+					 if (window.pageYOffset >= sticky) {
+					  	navbar.classList.add("sticky")
+					 } 
+					 else {
+					    navbar.classList.remove("sticky");
+					 }
+				}
+			</script>
 		</body>
 	</html>
