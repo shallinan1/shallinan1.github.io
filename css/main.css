@@ -2,15 +2,13 @@ nav {
     text-align: center 
 }
 
-nav ul {
-    list-style-type: none;
-	margin: 0;
-    padding: 0;
-    overflow: hidden;
-	width: 27.554%;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 0;
+nav ul{
+        list-style: none;
+        position: relative;
+        background: #efefef;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+        padding: 0px 0px;
+        display: inline-table;
 }
 
 nav li {
@@ -18,9 +16,6 @@ nav li {
 	transition: 1s;
 }
 
-nav a {
-	width = 7%;
-}
 
 nav li a {
     display: inline-block;
