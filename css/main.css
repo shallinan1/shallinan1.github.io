@@ -6,6 +6,12 @@
     width: 100%;
 }
 
+.title {
+    color: white;
+    font-size: 3em;
+    text-align: center;
+}
+
 .sticky {
   position: fixed;
   top: 0;
