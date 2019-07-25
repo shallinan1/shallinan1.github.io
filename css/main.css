@@ -177,7 +177,7 @@ h3 { font-family: Open Sans;
 
 p {
     font-size: 1.3em;
-    line-height: 1.4em;
+    line-height: inherit;
     color: #000000;
 	font-family: Open Sans; 
 	font-style: normal; 
