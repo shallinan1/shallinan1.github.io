@@ -14,6 +14,12 @@
     padding-top: 13%;
 }
 
+.navwrap {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
 @media only screen and (max-width: 1170px) {
   .title {
    padding-top: 17%;
