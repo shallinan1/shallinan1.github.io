@@ -7,7 +7,7 @@
 		</head>
 		<body>
 			<div class = "bgimage"> </div>
-				<div class="nav-placeholder">
+				<div class="nav-wrapper">
 					<nav id = "myNav">
 			    		<ul>
 				        	<li><a class = "active" href="/">Home</a></li
@@ -30,19 +30,26 @@
 			</footer>
 			    {% include analytics.html %}
 			<script>
-				window.onscroll = function() {myFunction()};
+// cache the element
+var $navBar = $('.myNav');
 
-				var navbar = document.getElementById("myNav");
-				var sticky = navbar.offsetTop;
+// find original navigation bar position
+var navPos = $navBar.offset().top;
 
-				function myFunction() {
-					 if (window.pageYOffset >= sticky) {
-					  	navbar.classList.add("sticky")
-					 } 
-					 else {
-					    navbar.classList.remove("sticky");
-					 }
-				}
+// on scroll
+$(window).scroll(function() {
+
+    // get scroll position from top of the page
+    var scrollPos = $(this).scrollTop();
+
+    // check if scroll position is >= the nav position
+    if (scrollPos >= navPos) {
+        $navBar.addClass('sticky');
+    } else {
+        $navBar.removeClass('sticky');
+    }
+
+});
 			</script>
 		</body>
 	</html>
