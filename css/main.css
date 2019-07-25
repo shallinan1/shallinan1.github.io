@@ -7,8 +7,9 @@
 }
 
 .title {
+    font-family: Open Sans; 
     color: white;
-    font-size: 3em;
+    font-size: 10vw;
     text-align: center;
 }
 
