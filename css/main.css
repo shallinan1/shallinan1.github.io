@@ -4,8 +4,8 @@
     background-size: cover;
     height: 100%;
     width: 100%;
-    -webkit-transition: background-image 0.2s ease-in-out;
-    transition: background-image 0.2s ease-in-out;
+    -webkit-transition: background-image 2s ease-in-out;
+    transition: background-image 2s ease-in-out;
 }
 
 .title {
