@@ -4,6 +4,8 @@
     background-size: cover;
     height: 100%;
     width: 100%;
+    -webkit-transition: background-image 0.2s ease-in-out;
+    transition: background-image 0.2s ease-in-out;
 }
 
 .title {
@@ -44,11 +46,6 @@ body,html {
   margin:0;
   padding:0;
   opacity: 1.0;
--webkit-transition: background 1.5s linear;
--moz-transition: background 1.5s linear;
--o-transition: background 1.5s linear;
--ms-transition: background 1.5s linear;
-transition: background 1.5s linear;
 }
 
 nav { 
