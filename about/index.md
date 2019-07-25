@@ -6,7 +6,7 @@ title: About Me
 
 # About 
 
-<img src="/assets/pictures/hsgraduation1.png" style = "width = 200px;height = 300px;" title="Bainbridge High School Graduation" alt = "Image">
+<img src="/assets/pictures/hsgraduation1.png" style = "width:200px;height:300px;" title="Bainbridge High School Graduation" alt = "Image">
 <img src="/assets/pictures/running1.png" style="width:200px;height:300px;" title="Track Race (1600m Dash)">
 <img src="/assets/pictures/happy1.png" style="width:200px;height:300px;" title="Pacific Science Center">
 
