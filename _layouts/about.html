@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 	<html>
 		<head>
 			<title>{{ page.title }}</title>
@@ -6,13 +6,18 @@
 			<link rel="stylesheet" type="text/css" href="/css/main.css">
 		</head>
 		<body>
-			<nav>
-	    		<ul>
-	        	<li><a href="/">Home</a></li
-				><li><a class = "active" href="/about">About</a></li
-				><li><a href="/projects">Projects</a></li>
-	    		</ul>
-			</nav>
+			<div class = "bgimage"> 
+				<div class = "title">About</div>
+				<div class = "navwrap"> 
+					<nav id = "myNav">
+			    		<ul>
+				        	<li><a href="/">Home</a></li
+							><li><a class = "active" href="/about">About</a></li
+							><li><a href="/projects">Projects</a></li>
+			    		</ul>
+					</nav>
+			    	</div>
+			</div>
 			<div class = "container">
 			
 			{{ content }}
