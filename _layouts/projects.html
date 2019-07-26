@@ -6,15 +6,18 @@
 			<link rel="stylesheet" type="text/css" href="/css/main.css">
 		</head>
 		<body>
-			<nav id="globalNav">
-	    		<ul>
-				<font color = "red">
-	        	<li><a href="/">Home</a></li
-				><li><a href="/about">About</a></li
-				><li><a class = "active" href="/projects">Projects</a></li>
-				</font>
-	    		</ul>
-			</nav>
+			<div class = "bgimage2"> 
+				<div class = "title">Projects</div>
+					<div class = "navwrap"> 
+						<nav id = "myNav">
+				    		<ul>
+					        	<li><a href="/">Home</a></li
+								><li><a href="/about">About</a></li
+								><li><a class = "active" href="/projects">Projects</a></li>
+				    		</ul>
+						</nav>
+				    </div>
+			</div>
 			<div class = "container">
 			
 			{{ content }}
@@ -27,5 +30,20 @@
 				</ul>
 			</footer>
 			    {% include analytics.html %}
+			<script>
+				window.onscroll = function() {myFunction()};
+
+				var navbar = document.getElementById("myNav");
+				var sticky = navbar.offsetTop;
+
+				function myFunction() {
+					 if (window.pageYOffset >= sticky) {
+					  	navbar.classList.add("sticky")
+					 } 
+					 else {
+					    navbar.classList.remove("sticky");
+					 }
+				}
+			</script>
 		</body>
 	</html>
