@@ -18,6 +18,16 @@
     transition: background-image 2s ease-in-out;
 }
 
+.bgimage3{
+    background-image: url("/assets/pictures/mountaincrop.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    -webkit-transition: background-image 2s ease-in-out;
+    transition: background-image 2s ease-in-out;
+}
+
 .title {
     font-family: Open Sans; 
     color: white;
