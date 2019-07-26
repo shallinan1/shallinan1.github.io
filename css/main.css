@@ -34,8 +34,8 @@
 
 @media only screen and (max-width: 1170px) {
   .title {
-   padding-top: 17%;
-  }
+     padding-top: 17%;
+ }
 }
 
 .sticky {
@@ -49,8 +49,8 @@
 }
 
 html,body,.container,.content {
-     height: 100%
- }
+   height: 100%
+}
 
 body,html {
   margin:0;
@@ -63,17 +63,17 @@ nav {
 }
 
 nav ul{
-        list-style: none;
-        position: relative;
-        background: #efefef;
-        box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
-        padding: 0px 0px;
-        display: inline-table;
+    list-style: none;
+    position: relative;
+    background: #efefef;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    padding: 0px 0px;
+    display: inline-table;
 }
 
 nav li {
     float: left;
-	transition: 1s;
+    transition: 1s;
 }
 
 
@@ -84,24 +84,24 @@ nav li a {
     padding: 0.5em 0.9em;
     text-decoration: none;
     font-family: Open Sans;
-	font-size: 1.3em;
-	transition: 0.3s;
+    font-size: 1.3em;
+    transition: 0.3s;
 }
 
 nav li a:hover {
     background-color:#000000;
-	color: white!important;
+    color: white!important;
 }
-		
+
 nav .active {
-		background-color: #6D9BF1;
-		color: white;
-	}
-		
+  background-color: #6D9BF1;
+  color: white;
+}
+
 nav .active a:hover {
 	color = white!important;
 }
-	
+
 nav .active:hover a{
 	color = white!important;
 }
@@ -128,10 +128,10 @@ nav .active:hover a{
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-	width: 50%;
-	}
+    width: 50%;
+}
 
-	
+
 /* The Close Button */
 .close {
     color: #aaaaaa;
@@ -148,8 +148,8 @@ nav .active:hover a{
 
 body {
     background-color: #whitesmoke
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 nav u1, footer ul {
     font-family:'Helvetica', 'Georgia', 'Sans-Serif';
@@ -170,12 +170,12 @@ a:hover {
 }
 h1 {
     font-size: 3em;
-	font-weight: 700;
-	font-style: normal;
-	margin-top: -0.5em;
-	margin-bottom:0.5em;
-	font-family: Open Sans; 
-	font-variant: normal; 
+    font-weight: 700;
+    font-style: normal;
+    margin-top: -0.5em;
+    margin-bottom:0.5em;
+    font-family: Open Sans; 
+    font-variant: normal; 
 }
 
 h2 { font-family: Open Sans; 
@@ -198,17 +198,17 @@ p {
     font-size: 1.3em;
     line-height: inherit;
     color: #000000;
-	font-family: Open Sans; 
-	font-style: normal; 
-	font-variant: normal; 
-	font-weight: 400;
-	margin-top: 0.15em;
+    font-family: Open Sans; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 400;
+    margin-top: 0.15em;
 }
 footer {
     border-top: 1px solid #d5d5d5;
     font-size: .8em;
-	margin: 60px auto; 
-	width: 85%;
+    margin: 60px auto; 
+    width: 85%;
 }
 
 ul.posts { 
