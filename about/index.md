@@ -15,4 +15,3 @@ Outside of these, I am interested in broader scientific topics like statistics a
 new information, and love exploring my interests through my coursework and research.
 
 Outside of classes, my hobbies include running, playing/watching basketball, and drinking tea. 
-

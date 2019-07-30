@@ -14,4 +14,3 @@ Activity and Sleep (in progress)
 
 ## Posters/Presentations
 <a href="/projects/gutposter">Cospeciation of gut microbiome</a>
-	
