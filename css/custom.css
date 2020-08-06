@@ -3,10 +3,10 @@ body {
     color: white;
 }
 
-h1 {
-	font-size: 10;
-}
-
 .mainbody {
-    margin-top: 15%;
+    margin-top: 10%;
  }
+
+.thin {
+	font-weight: 300;
+}
