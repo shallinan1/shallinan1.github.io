@@ -10,3 +10,26 @@ body {
 .thin {
 	font-weight: 300;
 }
+
+.fade {
+	-webkit-transition: all .2s linear;
+	-o-transition: all .2s linear;
+	-moz-transition: all .2s linear;
+	transition: all .2s linear;
+}
+
+.social {
+	width: auto;
+	height: 2.5em;
+	margin: 1%;
+	vertical-align: middle;
+	border: 3px solid transparent;
+	color: white;
+}
+
+#contact {
+	list-style-type: none;
+}
+
+
+
