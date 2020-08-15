@@ -1,5 +1,5 @@
 body {
-	background-color: #09c88e;
+	background-color:  #08B480;
     color: white;
 }
 
@@ -7,7 +7,8 @@ html, body {
 	height: 100%;
 }
 hr {
-	background-color: #53c69b;
+	background-color: #53c69b; 
+	/*	#09C88F */
 	height:0.2em;
 }
 

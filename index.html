@@ -27,6 +27,9 @@
 				I'm a rising senior studying computer science, bioengineering, and applied math at the University of Washington. I'm passionate about research and am advised by Professor Paul Yager and by Professor Annie Chen. Feel free to reach out to chat!
 				</h2>
 			</div>
+			<div class = "container">
+				<button class = "btn" onclick="changeColor();">💡</button>
+			</div>
 		</main>
 
 			<footer class = "footer mt-auto py-5" id = "sticky-footer">
@@ -73,7 +76,25 @@
 				</div>
 			</footer>
 
-
+			<script>
+				bgColorLight = "#08B480";
+				bgColorDark = "	#84E3C7";
+				var tracker = true;
+				fontColorLight = "white";
+				fontColorDark = "#282828";
+			    function changeColor() {
+			    	if (tracker) {
+			        	document.body.style.backgroundColor = bgColorLight;
+			        	document.body.style.color = fontColorLight;
+			    		tracker = false
+			        }
+			        else {
+			        	document.body.style.backgroundColor = bgColorDark;
+			        	document.body.style.color = fontColorDark;
+			        	tracker = true
+			        }
+			    }
+			</script>
 			<!-- Optional JavaScript -->
 			<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 			<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
