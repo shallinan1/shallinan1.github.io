@@ -6,6 +6,14 @@ body {
 html, body {
 	height: 100%;
 }
+hr {
+	background-color: #53c69b;
+	height:0.2em;
+}
+
+#inline {
+	display: inline;
+}
 
 #page-content {
   flex: 1 0 auto;
