@@ -251,8 +251,8 @@ window.onload = function() {
                 If there is quoted bias or toxicity, please also select yes for 1a and answer all other questions based on the quoted implication; quoting biased or problematic things can still perpetuate biases, regardless of whether the author believes the quoted offensiveness.
               </p>
               <p>
-                <span class="instrQuestion"><span class="numbering">1.d)</span>How subtle (hard to identify) is the biased/offensive/problematic part of the text?</span><br>
-                <span class="instrDescription">Say how difficult it is to identify/notice the offensive part of the text</span><br>
+                <span class="instrQuestion"><span class="numbering">1.d)</span>How subtle (implied vs. explicitly stated) is the biased/offensive/problematic part of the text?</span><br>
+                <span class="instrDescription">Say how implied/subtle the offensive part of the text is</span><br>
               </p>
               <p class="extra-instructions collapse show">
                 Please answer from the perspective of a <i>reader</i>: How easy would it be to spot the biased/offensive portions of this text? Some biases and offensive text are straightforward, while others are more subtly placed.
@@ -395,7 +395,7 @@ window.onload = function() {
           </div>
 
           <div class="col-6 mainQuestions" id="subtleQuestion" style="display: inline-block;margin-top: 10px;">
-            <span class="numbering">1.d)</span>How subtle (hard to identify) is the biased/offensive/problematic part of the text?<br>
+            <span class="numbering">1.d)</span>How subtle (implied vs. explicitly stated) is the biased/offensive/problematic part of the text?<br>
             <small>E.g., "Women are incompetent" is direct, while "Engineering school lowers entry requirements for women, guaranteeing the future collapse of buildings" is more subtle </small>
             <div class="col-12 alert alert-danger" role="alert" style="display: none;" id="alertQquote">
               Please answer this question.
@@ -403,13 +403,13 @@ window.onload = function() {
             <div class="col-12">
               <!--form-->
               <label><input type="radio" name="subtleYN" value="1">&nbsp;
-                Very subtle (hard to identify)</label><br>
+                Implied, very subtle </label><br>
               <label><input type="radio" name="subtleYN" value=".66">&nbsp;
-                Somewhat subtle </label><br>
+                Somewhat subtle, somewhat imlied</label><br>
                 <label><input type="radio" name="subtleYN" value=".33">&nbsp;
-                Somewhat not subtle  </label><br>
+                Somewhat overt, explicit  </label><br>
               <label><input type="radio" name="subtleYN" value="0">&nbsp;
-                Not subtle at all (easy to identify) </label><br>
+                Very overt, explicitly stated</label><br>
               <!--/form-->
             </div>  
           </div>
