@@ -1,3 +1,4 @@
+
 <script>
 //
 // This method Gets URL Parameters (GUP)
@@ -258,11 +259,11 @@ window.onload = function() {
                 Please answer from the perspective of a <i>reader</i>: How easy would it be to spot the biased/offensive portions of this text? Some biases and offensive text are straightforward, while others are more subtly placed.
               </p>
               <p>
-                <span class="instrQuestion"><span class="numbering">2.a)</span>Does the post imply offense/disrespect to an identity-related group of people or a well-known, specific individual/group of individuals?</span><br>
+                <span class="instrQuestion"><span class="numbering">2.a)</span>Does the post imply offense/disrespect to an identity-related group of people or a well-known, specific individual/group of individuals with minority identity?</span><br>
                 <span class="instrDescription">Tell us whether the text contains or implies offense/disrespect to an group or a specific individual/group of individuals.</span><br>
               </p>
               <p class="extra-instructions collapse show">
-                  Here, distinguish whether the statement is targeting a identity-related group of people (e.g., "Black people are always late"), a specific individual or group of individuals (eg., "Alexandria Ocasio-Cortez is an idiot", "'The Squad' are ineffective because they're mostly women"), or non-specfic individuals ("you're a moron").
+                  Here, distinguish whether the statement is targeting a identity-related group of people (e.g., "Black people are always late"), a specific individual or group of individuals with minority identities (eg., "Alexandria Ocasio-Cortez is an idiot", "'The Squad' are ineffective in congress because they're women"), or majority or non-specfic individuals ("you're a moron", "Trump is an idiot").
                 </span>
               </p>
               <p>
@@ -328,12 +329,12 @@ window.onload = function() {
           <div class="story-excerpt">
             <h4 style="margin-top: 5px;">Text</h4>
             <p id="postText" style="padding-left: 20px; font-size: 12pt;max-width: 100%;">
-              ${post}
+              ${title}
             </p>
-            <!--input type="text" id="postText" style="margin-left: 20px; font-size: 12pt;" value="${post}" readonly="" /-->
-            <!--textarea id="postText" readonly="">${post}</textarea-->
+            <!--input type="text" id="postText" style="margin-left: 20px; font-size: 12pt;" value="${title}" readonly="" /-->
+            <!--textarea id="postText" readonly="">${title}</textarea-->
             <p style="padding-left: 20px; font-size: 10pt; text-align: right;">
-	    - headline from a news source on ${date}.
+      - headline from a news source on ${date}.
             </p>
           </div>
         </div>
@@ -352,7 +353,7 @@ window.onload = function() {
                 Yes, this could be offensive</label><br>
               <label><input type="radio" name="offensiveYN" value=".5" onclick="$('.mainQuestions').show();">&nbsp;
                 Maybe, I'm not sure</label><br>
-              <label><input type="radio" name="offensiveYN" value="0" onclick="$('.mainQuestions').hide();$('#input').prop('required','');">&nbsp;
+              <label><input type="radio" name="offensiveYN" value="0" onclick="$('.mainQuestions').hide();$('input').prop('required','');">&nbsp;
                 No, this is harmless</label><br>
               <label style="margin-top: 10px;"><input type="radio" name="offensiveYN" value="nan" onclick="$('.mainQuestions').hide();">&nbsp;
                 I don't understand the text</label><br>
@@ -379,8 +380,8 @@ window.onload = function() {
             </div>  
           </div>
           <div class="col-6 mainQuestions" id="quoteQuestion" style="display: inline-block;margin-top: 10px;">
-            <span class="numbering">1.c)</span>Is the biased/offensive/problematic part of the text quoted from someone else?<br>
-            <small>E.g., She only got the job as a diversity hire" said XYZ CEO.</small>
+            <span class="numbering">1.c)</span>Is the biased/offensive/problematic part of the text <strong>quoted</strong> from someone else?<br>
+            <small>E.g., "<em>The CEO said 'She only got the job as a diversity hire'</em>" or "<em>The director called the muslim employee a 'dangerous terrorist'</em>".</small>
             <div class="col-12 alert alert-danger" role="alert" style="display: none;" id="alertQquote">
               Please answer this question.
             </div>
@@ -396,8 +397,8 @@ window.onload = function() {
 
           <div class="col-6 mainQuestions" id="subtleQuestion" style="display: inline-block;margin-top: 10px;">
             <span class="numbering">1.d)</span>How subtle (implied vs. explicitly stated) is the biased/offensive/problematic part of the text?<br>
-            <small>E.g., "Women are incompetent" is direct, while "Engineering school lowers entry requirements for women, guaranteeing the future collapse of buildings" is more subtle </small>
-            <div class="col-12 alert alert-danger" role="alert" style="display: none;" id="alertQquote">
+            <small>E.g., "<em>Women are incompetent</em>" is direct, while "<em>Engineering school lowers entry requirements for women, guaranteeing the future collapse of buildings</em>" is more subtle </small>
+            <div class="col-12 alert alert-danger" role="alert" style="display: none;" id="alertQsubtle">
               Please answer this question.
             </div>
             <div class="col-12">
@@ -422,16 +423,16 @@ window.onload = function() {
             <div class="col-12 alert alert-danger" role="alert" style="display: none;" id="alertQwho">
               Please answer this question.
             </div>
-            <span class="numbering">2.a)</span>Does the post imply offense/disrespect to <strong>an identity-related group of people</strong> or <strong>a well-known, specific individual/group of individuals</strong>?<br>
+            <span class="numbering">2.a)</span>Does the post imply offense/disrespect to <strong>an identity-related group of people</strong> or <strong>a well-known specific individual/group of individuals with minority identity</strong>?<br>
             <small>
               E.g., is this just a insult to one person ("<em>Fuck you</em>", "<em>All y'all are morons</em>"), an offensive comment/insult about a whole identity-based group ("<em>Fuck muslims</em>", "<em>Fuck you, you stupid nigger</em>"), or a comment targeting a specific well-known individual/group of individuals ("<em>Michelle Obama is a total idiot</em>", "<em>'The Squad' is a bunch of dumb women who don't know politics</em>")?</small>
             <div class="col-12" style="margin: 10px 0 15px 0;">
               <label><input type="radio" name="whoTarget" value="1" onclick="$('#accordion').show();$('#nameAspects').hide();">&nbsp;
                 Yes, this could be offensive to a group (minority, identity-based, etc.)</label><br>
                 <label><input type="radio" name="whoTarget" value="0.5" onclick="$('#accordion').show();$('#nameAspects').show();">&nbsp;
-                Yes, this targets a well-known individual/group of individuals.</label>
+                Yes, this targets a well-known individual/group of individuals with a minority identity.</label>
               <label><input type="radio" name="whoTarget" value="0" onclick="$('#accordion').hide();$('#nameAspects').hide();">&nbsp;
-                No, this is just an insult to a non-specific individual or a non-identity-related group of people.</label>
+                No, this is just an insult to a non-specific or  majority-identity individual or a non-identity-related group of people.</label>
             </div>
           </div>
           <div class="col-12 aspects" id="nameAspects" style="display: inline-block;margin-top: 10px;">
@@ -1040,6 +1041,8 @@ window.onload = function() {
     xhttp.send(requestParams);
   }
   function sendWorkerInfo(){
+    if (window.location.origin == "https://homes.cs.washington.edu")
+      return;
     var urlParams = getURLParams();
     var requestParams = "?"+prepSQLparamsCheck(urlParams)+"&action=store&"+prepSQLparamsStore();
     var requestURL = "https://homes.cs.washington.edu/~msap/debug/neural-detox/checkStoreWorkerDemographics.php";
@@ -1108,13 +1111,13 @@ window.onload = function() {
 
       valid = valid && ($("input[name='subtleYN']:checked").length > 0);
       if (!valid){
-        $("#alertQquote").show();
-        window.location.hash = "#alertQquote"; window.scrollBy(0, -30);
-        console.log("Missing answer to Q1c");
+        $("#alertQsubtle").show();
+        window.location.hash = "#alertQsubtle"; window.scrollBy(0, -30);
+        console.log("Missing answer to Q1d");
         return valid;
       } else {
         console.log("subtleYN okay");
-        $("#alertQquote").hide();
+        $("#alertQsubtle").hide();
       }
 
       valid = valid && ($("input[name='quoteYN']:checked").length > 0);
