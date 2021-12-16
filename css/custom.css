@@ -1,6 +1,20 @@
 body {
-	background-color:  #08B480;
+	background-color:  #808080;
     color: white;
+}
+
+#profile {
+	border-radius: 50%;
+    border:0.08em white;
+    border-style: double solid double solid
+}
+
+a {
+	color:white;
+	text-decoration:underline;
+}
+a:hover{
+	color:black; !important
 }
 
 html, body {
@@ -25,7 +39,7 @@ hr {
 }
 
 .mainbody {
-    margin-top: 10%;
+    margin-top: 5%;
  }
 
 .thin {

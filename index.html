@@ -18,14 +18,26 @@
 	<body class = "d-flex flex-column">
 		<main id = "page-content">
 			<div class = "container mainbody">
-					<h4 class = "display-3 inline">Welcome! I'm Skyler 👨‍🔬</h4> <!-- <img src="" alt="Skyler"> -->
-				<hr>
+					<h4 class = "display-4 inline"> <img id ="profile" src="assets/pictures/portrait.jpg" height=100em style="border-color:white; !important"> Skyler Hallinan </h4> <!-- <img src="" alt="Skyler"> -->
 				
 			</div>
 			<div class = "container">
-				<h2 class = "thin">
-				I'm a rising senior studying computer science, bioengineering, and applied math at the University of Washington. I'm passionate about research in natural language processing and social good. Feel free to reach out to chat!
-				</h2>
+				<h5 class = "thin">
+				I'm a Master's student (BS/MS) at the University of Washington studying computer science. I'm passionate about research in <b>natural language processing</b> for social good, and am interested in commonsense systems, rewriting, debiasing, summarization, and question answering. Feel free to reach out to chat!
+				</h5>
+			</div>
+
+			<div class = "container">
+				<h3 class = "thin">
+				Recent Preprints
+				</h3>
+				<ul>
+					<li> <a href="https://arxiv.org/abs/2104.08790">Misinfo Reaction Frames: Reasoning about Readers' Reactions to News Headlines</a></li> 
+					<p> Saadia Gabriel, Skyler Hallinan, Maarten Sap, Pemi Nguyen, Franziska Roesner, Eunsol Choi, Yejin Choi <br>
+						arXiv.2104.08790
+					</p>
+
+				</ul>
 			</div>
 		</main>
 
@@ -42,40 +54,40 @@
 
 							<li class = "list-inline-item move">
 								<a href = "https://scholar.google.com/citations?user=ztXdO4gAAAAJ&hl=en" target="_blank">
-									<img class = "social" src="assets/pictures/Google.png" alt="Google Logo"> 
+									<img class = "social" src="assets/pictures/scholar_white.png" alt="Google Scholar Logo" id="scholar"> 
 								</a>
 							</li>
 
 
 							<li class = "list-inline-item move">
 								<a href = "assets/official/Hallinan_Skyler_Resume.pdf" target="_blank">
-									<img class = "social" src="assets/pictures/resume.png" alt="Resume Logo"> 
+									<img class = "social" src="assets/pictures/resume.png" alt="Resume Logo" id = "resume"> 
 								</a>
 							</li>
 
 							<li class = "list-inline-item move">
 								<a href = "https://github.com/shallinan1" target="_blank">
-									<img class = "social" src="assets/pictures/github.png" alt="Github Logo"> 
+									<img class = "social" src="assets/pictures/github.png" alt="Github Logo" id ="github"> 
 								</a>
 							</li>
 
 							<li class = "list-inline-item move">
 								<a href = "https://www.linkedin.com/in/skyler-hallinan-0466ba169/" target="_blank">
-									<img class = "social" src="assets/pictures/linked-in.png" alt="LinkedIn Logo"> 
+									<img class = "social" src="assets/pictures/linked-in.png" alt="LinkedIn Logo" id="linkedin"> 
 								</a>
 							</li>
 
 
 							<li class = "list-inline-item move">
 								<a href = "https://twitter.com/SkylerHallinan" target="_blank">
-									<img class = "social" src="assets/pictures/twitter.png" alt="Twitter Logo"> 
+									<img class = "social" src="assets/pictures/twitter.png" alt="Twitter Logo" id="twitter"> 
 								</a>
 							</li>
 
 
 							<li class = "list-inline-item move">
 								<a href = "https://instagram.com/skylerhallinan" target="_blank">
-									<img class = "social" src="assets/pictures/instagram.png" alt="Instagram Logo"> 
+									<img class = "social" src="assets/pictures/instagram.png" alt="Instagram Logo" id ="instagram"> 
 								</a>
 							</li>
 						</u1>
@@ -84,20 +96,35 @@
 			</footer>
 
 			<script>
-				bgColorLight = "#08B480";
-				bgColorDark = "	#84E3C7";
+				bgColorLight = "#808080";
+				bgColorDark = " 	#C8C8C8";
 				var tracker = true;
 				fontColorLight = "white";
 				fontColorDark = "#282828";
 			    function changeColor() {
+			    	console.log("Hmmm")
 			    	if (tracker) {
 			        	document.body.style.backgroundColor = bgColorLight;
 			        	document.body.style.color = fontColorLight;
+			        	document.getElementById("scholar").src= "assets/pictures/scholar_white.png"
+			        	document.getElementById("github").src= "assets/pictures/github.png"
+			        	document.getElementById("instagram").src= "assets/pictures/instagram.png"
+			        	document.getElementById("linkedin").src= "assets/pictures/linked-in.png"
+			        	document.getElementById("twitter").src= "assets/pictures/twitter.png"
+			        	document.getElementById("resume").src= "assets/pictures/resume.png"
+			        	document.getElementById("profile").style = "border-color:white; !important"
 			    		tracker = false
 			        }
 			        else {
 			        	document.body.style.backgroundColor = bgColorDark;
 			        	document.body.style.color = fontColorDark;
+			        	document.getElementById("scholar").src= "assets/pictures/scholar_black.png"
+			        	document.getElementById("github").src= "assets/pictures/github_black.png"
+			        	document.getElementById("instagram").src= "assets/pictures/instagram_black.png"
+			        	document.getElementById("linkedin").src= "assets/pictures/linked-in_black.png"
+			        	document.getElementById("twitter").src= "assets/pictures/twitter_black.png"
+			        	document.getElementById("resume").src= "assets/pictures/resume_black.png"
+			        	document.getElementById("profile").style = "border-color:black; !important"
 			        	tracker = true
 			        }
 			    }
