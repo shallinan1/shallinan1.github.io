@@ -10,11 +10,15 @@ body {
 }
 
 a {
-	color:white;
+	color:inherit;
 	text-decoration:underline;
 }
-a:hover{
+.light:hover{
 	color:black; !important
+}
+
+.dark:hover{
+	color:white; !important
 }
 
 html, body {

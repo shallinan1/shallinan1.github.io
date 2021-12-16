@@ -32,12 +32,28 @@
 				Recent Preprints
 				</h3>
 				<ul>
-					<li> <a href="https://arxiv.org/abs/2104.08790">Misinfo Reaction Frames: Reasoning about Readers' Reactions to News Headlines</a></li> 
-					<p> Saadia Gabriel, Skyler Hallinan, Maarten Sap, Pemi Nguyen, Franziska Roesner, Eunsol Choi, Yejin Choi <br>
+					<li> <a class = "light" href="https://arxiv.org/abs/2104.08790">Misinfo Reaction Frames: Reasoning about Readers' Reactions to News Headlines</a>
+					<p> Saadia Gabriel, <b>Skyler Hallinan</b>, Maarten Sap, Pemi Nguyen, Franziska Roesner, Eunsol Choi, Yejin Choi <br>
 						arXiv.2104.08790
-					</p>
-
+					</p></li> 
 				</ul>
+			</div>
+
+			<div class = "container">
+				<h4 class = "thin">
+				Other Publications
+				</h4>
+				<ul>
+					<li> <a class = "light" href="https://www.mdpi.com/2072-6643/13/11/3838">Some Ultra-Processed Foods Are Needed for Nutrient Adequate Diets: Linear Programming Analyses of the Seattle Obesity Study</a> 
+					<p> <b>Skyler Hallinan</b>, Chelsea Rose, James Buszkiewicz, Adam Drewnoski  <br>
+					<i> Nutrients, 2021 </i>
+					</p></li>	
+					<li> <a class = "light" href="https://ieeexplore.ieee.org/abstract/document/8945038">Mapping User Trajectories to Examine Behavior and Outcomes in Digital Health Intervention Data</a> 
+					<p> Annie T. Chen, Justin H. Chang, <b>Skyler Hallinan</b>, David C. Mohr  <br>
+					<i> 2019 IEEE Workshop on Visual Analytics in Healthcare (VAHC) 	</i>
+					</p></li>	
+				</ul>
+
 			</div>
 		</main>
 
@@ -98,7 +114,7 @@
 			<script>
 				bgColorLight = "#808080";
 				bgColorDark = " 	#C8C8C8";
-				var tracker = true;
+				var tracker = false;
 				fontColorLight = "white";
 				fontColorDark = "#282828";
 			    function changeColor() {
@@ -113,6 +129,12 @@
 			        	document.getElementById("twitter").src= "assets/pictures/twitter.png"
 			        	document.getElementById("resume").src= "assets/pictures/resume.png"
 			        	document.getElementById("profile").style = "border-color:white; !important"
+			        	var els = document.getElementsByClassName("dark")
+			        	console.log(els)
+			        	for (var i = 0; i < els.length; i++) {
+			        		console.log(els[i])
+			        		els[i].className = "light"
+			        	}
 			    		tracker = false
 			        }
 			        else {
@@ -125,6 +147,11 @@
 			        	document.getElementById("twitter").src= "assets/pictures/twitter_black.png"
 			        	document.getElementById("resume").src= "assets/pictures/resume_black.png"
 			        	document.getElementById("profile").style = "border-color:black; !important"
+			        	var els = document.getElementsByClassName("light")
+			        	console.log(els)
+			        	for (var i = 0; i < els.length; i++) {
+			        		els[i].className = "dark"
+			        	}
 			        	tracker = true
 			        }
 			    }
