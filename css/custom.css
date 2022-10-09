@@ -62,7 +62,7 @@ hr {
 
 .social {
 	width: auto;
-	height: 2.5em;
+	height: 1.75em;
 	margin: 1%;
 	vertical-align: middle;
 	border: 3px solid transparent;
@@ -73,5 +73,12 @@ hr {
 	list-style-type: none;
 }
 
-
-
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 0px;
+}
