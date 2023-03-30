@@ -1,11 +1,11 @@
 body {
-	background-color:  #808080;
-    color: white;
+	background-color: #e0e0e0;
+    color: black;
 }
 
 #profile {
 	border-radius: 50%;
-    border:0.08em white;
+    border:0.08em black;
     border-style: double solid double solid
 }
 
