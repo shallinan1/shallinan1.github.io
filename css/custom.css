@@ -82,3 +82,7 @@ hr {
     margin-right: 0px;
     margin-left: 0px;
 }
+
+.no-padding-left {
+   padding-left:0;
+}
