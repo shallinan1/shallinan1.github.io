@@ -9,6 +9,11 @@ body {
     border-style: double solid double solid
 }
 
+.border-10{
+	border-style:solid;
+ 	border-width: 10px;
+}
+
 a {
 	color:inherit;
 	text-decoration:underline;
