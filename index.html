@@ -96,61 +96,76 @@
             <div class="row" id="publications">
                 <div class="col">
                     <p>Publications are listed in reverse chronological order. <br> For the most up-to-date and comprehensive list of my publications, please see my <a href="https://scholar.google.com/citations?hl=en&user=ztXdO4gAAAAJ&view_op=list_works&sortby=pubdate">Google Scholar</a> or <a href="https://www.semanticscholar.org/author/Skyler-Hallinan/1474550731">Semantic Scholar</a>.</p>
+
+                    <div class="publication-controls mb-3">
+                        <a href="#" id="pub-show-selected" class="publication-filter active">Selected</a>
+                        <a href="#" id="pub-show-all" class="publication-filter">All</a>
+                    </div>
+
+                    <style>
+                        .publication-controls { display: flex; gap: 15px; }
+                        .publication-filter { text-decoration: none; color: #0366d6; cursor: pointer; transition: opacity 0.3s; }
+                        .publication-filter.active { font-weight: bold; text-decoration: underline; opacity: 1; }
+                        .publication-filter:not(.active) { opacity: 0.6; }
+                        .pub-item { transition: opacity 0.3s ease-in-out; }
+                    </style>
+
                     <h4>Preprints</h4>
                     <ul class="list-unstyled pl-4" >
-                        <li>
+                        <li class="pub-item" data-selected="true">
                             <a href="https://arxiv.org/abs/2505.20161">Prismatic Synthesis: Gradient-based Data Diversification Boosts Generalization in LLM Reasoning</a><br>
                             Jaehun Jung, <b>Skyler Hallinan</b>*, Seungju Han*, Ximing Lu*, David Acuna, Shrimai Prabhumoye, Mostafa Patwary, Mohammad Shoeybi, Bryan Catanzaro, Yejin Choi<br>
                             In review at NeurIPS 2025
                         </li>
                     </ul>
+
                     <h4>Publications</h4>
                     <ul class="list-unstyled pl-4">
-                        <li>
+                        <li class="pub-item" data-selected="true">
                             <a href="google.com">The Surprising Effectiveness of Membership Inference with Simple N-Gram Metrics</a><br>
                             <b>Skyler Hallinan</b>, Jaeuhun Jung, Melanie Sclar, Ximing Lu, Abhilasha Ravichander, Sahana Ramnath, Yejin Choi, Sai Praneeth Karimireddy, Niloofar Mireshghallah, Xiang Ren<br>
                             CoLM 2025
                             <br><br>
                         </li>
 
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="google.com">Amulet: Putting Complex Multi-Turn Conversations on the Stand with LLM Juries</a><br>
                             Sahana Ramnath, Anurag Mudgil, Brihi Joshi, <b>Skyler Hallinan</b>, Xiang Ren<br>
                             EMNLP 2025
                             <br><br>
                         </li>
 
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2410.04265">AI as Humanity's Salieri: Quantifying Linguistic Creativity of Language Models via Systematic Attribution of Machine Text against Web Text</a><br>
                             Ximing Lu, Melanie Sclar, <b>Skyler Hallinan</b>, Niloofar Mireshghallah, Jiacheng Liu, Seungju Han, Allyson Ettinger, Liwei Jiang, Khyathi Chandu, Nouha Dziri, Yejin Choi<br>
                             ICLR 2025, <span style="color: red; font-weight: bold;">Oral (Top 1.8% of Accepted Papers)</span>
                             <br><br>
                         </li>
                         
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2408.15666v1"><b>StyleRemix</b>: Interpretable Authorship Obfuscation via Distillation and Perturbation of Style Elements</a><br>
                             <b>Skyler Hallinan</b>*, Jillian Fisher*, Ximing Lu, Mitchell Gordon, Zaid Harchaoui, Yejin Choi<br>
                             EMNLP 2024 <br><br>
                         </li>
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2311.02805">Tailoring Self-Rationalizers with Multi-Reward Distillation</a><br>
                             Sahana Ramnath, Brihi Joshi, <strong>Skyler Hallinan</strong>, Ximing Lu, Liunian Harold Li, Aaron Chan, Jack Hessel, Yejin Choi, Xiang Ren<br>
                             ICLR 2024 <br><br>
                         </li>
 
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2311.07167">🐂 <b>STEER</b>: Unified Style Transfer with Expert Reinforcement</a><br>
                             <strong>Skyler Hallinan</strong>, Faeze Brahman, Ximing Lu, Jaehun Jung, Sean Welleck, Yejin Choi <br>
                             Findings of EMNLP 2023 <br><br>
                         </li>
 
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2305.15065"><b>Inference-time Policy Adapters (IPA):</b> Tailoring Extreme-Scale LMs Without Fine-Tuning</a><br>
                             Ximing Lu, Faeze Brahman, Peter West, Jaehun Jung, Khyathi Chandu, Abhilasha Ravichander, Prithviraj Ammanabrolu, Liwei Jiang, Sahana Ramnath, Nouha Dziri, Jillian Fisher, Bill Lin, <strong>Skyler Hallinan</strong>, Lianhui Qin, Xiang Ren, Sean Welleck, Yejin Choi <br>
                             EMNLP 2023 <br><br>
                         </li>
 
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2303.17651">Self-Refine: Iterative Refinement with Self-feedback</a><br>
                             Aman Madaan, Niket Tandon, Prakhar Gupta, <b>Skyler Hallinan</b>, Luyu Gao, Sarah Wiegreffe, 
                             Uri Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Sean Welleck, Bodhisattwa Prasad Majumder, 
@@ -158,36 +173,74 @@
                             NeurIPS, 2023 <br>
                             <span style="color: red; font-weight: bold;">Top 100 most-cited AI papers of 2023 (#45)</span> [<a href="https://www.zeta-alpha.com/post/analyzing-the-homerun-year-for-llms-the-top-100-most-cited-ai-papers-in-2023-with-all-medals-for-o" target="_blank">link</a>]<br><br>
                         </li>
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2212.10543">Detoxifying Text with MaRCo: Controllable Revision with Experts and Anti-Experts</a><br>
                             <b>Skyler Hallinan</b>, Alisa Liu, Yejin Choi, Maarten Sap <br>
                             ACL 2023<br><br>
                         </li>
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2210.03078"><b>Rainier:</b> Reinforced Knowledge Introspector for Commonsense Question Answering</a><br>
                             Jiacheng Liu, <strong>Skyler Hallinan</strong>, Ximing Lu, Pengfei He, Sean Welleck, Hannaneh Hajishirzi, Yejin Choi<br>
                             EMNLP 2022 <br><br>
                         </li>
-                        <li>
+                        <li class="pub-item" data-selected="false">
                             <a href="https://arxiv.org/abs/2104.08790">Misinfo Reaction Frames: Reasoning about Readers' Reactions to News Headlines</a><br>
                             Saadia Gabriel, <b>Skyler Hallinan</b>, Maarten Sap, Pemi Nguyen, Franziska Roesner, Eunsol Choi, Yejin Choi <br>
                             ACL 2022
                         </li>
                     </ul>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const showAllLink = document.getElementById('pub-show-all');
+                            const showSelectedLink = document.getElementById('pub-show-selected');
+                            const publications = document.querySelectorAll('.pub-item');
+
+                            function showSelected() {
+                                publications.forEach(function(pub) {
+                                    if (pub.getAttribute('data-selected') === 'true') {
+                                        pub.style.display = 'block';
+                                        requestAnimationFrame(() => pub.style.opacity = '1');
+                                    } else {
+                                        pub.style.opacity = '0';
+                                        setTimeout(() => { pub.style.display = 'none'; }, 300);
+                                    }
+                                });
+                                showSelectedLink.classList.add('active');
+                                showAllLink.classList.remove('active');
+                            }
+
+                            function showAll() {
+                                publications.forEach(function(pub) {
+                                    pub.style.display = 'block';
+                                    requestAnimationFrame(() => pub.style.opacity = '1');
+                                });
+                                showAllLink.classList.add('active');
+                                showSelectedLink.classList.remove('active');
+                            }
+
+                            // Initial render: show only selected without fade
+                            publications.forEach(function(pub) {
+                                if (pub.getAttribute('data-selected') === 'true') {
+                                    pub.style.display = 'block';
+                                    pub.style.opacity = '1';
+                                } else {
+                                    pub.style.display = 'none';
+                                    pub.style.opacity = '0';
+                                }
+                            });
+
+                            showSelectedLink.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                showSelected();
+                            });
+                            showAllLink.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                showAll();
+                            });
+                        });
+                    </script>
                     <hr/>
-                    <!-- <h4>Other</h4>
-                    <ul>
-                        <li>
-                            <a href="https://www.mdpi.com/2072-6643/13/11/3838">Some Ultra-Processed Foods Are Needed for Nutrient Adequate Diets: Linear Programming Analyses of the Seattle Obesity Study</a><br>
-                            <b>Skyler Hallinan</b>, Chelsea Rose, James Buszkiewicz, Adam Drewnowski  <br>
-                            <i> Nutrients, 2021 </i><br><br>
-                        </li>
-                        <li>
-                            <a href="https://ieeexplore.ieee.org/abstract/document/8945038">Mapping User Trajectories to Examine Behavior and Outcomes in Digital Health Intervention Data</a> <br>
-                            Annie T. Chen, Justin H. Chang, <b>Skyler Hallinan</b>, David C. Mohr  <br>
-                            <i> 2019 IEEE Workshop on Visual Analytics in Healthcare (VAHC) 	</i> <br>
-                        </li>
-                    </ul> -->
                 </div>
             </div>
 
