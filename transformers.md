@@ -1,12 +1,28 @@
 # Transformers
 
-Review for transformers.
+This is a review file for natural language processing and transformers.
 
 # Background
 
-# Basic Questions (High Level)
+1) 
+
+## Logistic Regression
+
+## Neural Networks
+
+### Graph Neural Networks
+
+1) What is a GNN? How does it work?
+
+
+
+# Basic Transformer Questions (High Level)
 
 1) What is the high-level idea of how transformers work?
+
+   <details><summary>Answer</summary>
+    Test
+   </details>
 
 TODO: more questions here, loss funciton
 
