@@ -14,7 +14,7 @@ This is a review file for natural language processing and transformers.
  
     It can be computed as the sum of the element-wise product of two vectors, or as $a \cdot b = ||a|| \ ||b|| \ cos (\theta)$. Intuitively, this tells us not just if they point in the same direction, but how much "energy" or magnitude they share in that common direction.
     
-    The dot product is 0 when the vectors are *orthogonal*. A positive dot-product means that they point in the same direction, while negative value means they point in opposite directions. 
+    The dot product is 0 when the vectors are *orthogonal*. A positive dot-product means that they point in the same direction, while negative value means they point in opposite directions. Importantly, the dot product conflates direction AND magnitude, which is why you can't tell from a single value whether it's large because of alignment or because the vectors are long.
     
     See this good resource for more diving in: [Better Explained - Understanding the Dot Product](https://betterexplained.com/articles/vector-calculus-understanding-the-dot-product/)
 
@@ -22,22 +22,20 @@ This is a review file for natural language processing and transformers.
 
     Cosine similarity refers to taking cosine of the angle between two vectors; it is a bounded scalar $\in [-1, 1]$. Intuitively, it tells you how similar the *direction* of two vectors are in n-dimensional space. We can rearrange the dot product equation to get: 
     $$\cos (\theta) = \frac{a \cdot b}{||a|| \ ||b||}$$
-    So the cosine similarity is just the dot product of two vectors normalized by their magnitude! Like above, a value of 0 indicates orthogonality, while positive and negative signs represent pointing in the same and opposite direction respectivvely.
+    So the cosine similarity is just the dot product of two vectors normalized by their magnitude! Like above, a value of 0 indicates orthogonality, while positive and negative signs represent pointing in the same and opposite direction respectively.
 
     **Note**: Since we normalize, the magnitude of the vectors being compared does not matter, only the direction!
 
-3) Instead of normalizing vectors, transformers divide by √d. What problem does this solve, and what information does it preserve that cosine similarity would lose?
-
-4) What is a vector projection? Given vectors a and b, how do you find the component of a that lies in the direction of b?
-
-5) How does the dot product relate to projection? Show how a · b can be interpreted as a projection scaled by ||b||.
+3) What is a vector projection? Show how the dot product a · b can be interpreted as the projection of a onto b, scaled by ||b||.
 
 4) If we have a matrix of dimensions N×D and multiply it by a matrix D×M, what are the dimensions of the result? Why does this matter for neural network layer design?
 3) Why is matrix multiplication the core operation in neural networks? What is its computational complexity?
 4) What are eigenvalues/eigenvectors and why do they matter for understanding weight matrices?
 5) What is the rank of a matrix? How does low-rank approximation relate to model compression?
 
-TODO questions on norms and l1/l2 regression
+6) What is a vector norm? What do L1 (Manhattan) and L2 (Euclidean) norms measure geometrically?
+
+7) How does dividing by the L2 norm create a unit vector? Why is this called "normalization"?
 
 ### Calculus and Optimization
 
@@ -94,7 +92,8 @@ TODO questions on norms and l1/l2 regression
 ### Regularization
 
 1) Derive why L2 regularization is equivalent to a Gaussian prior on weights (MAP estimation).
-2) Why does dropout work? Explain the "ensemble" interpretation vs the "noise injection" interpretation.
+2) What's the difference between L1 and L2 regularization? Why does L1 promote sparsity (drive weights to exactly zero)?
+3) Why does dropout work? Explain the "ensemble" interpretation vs the "noise injection" interpretation.
 3) Derive the batch normalization forward pass. Why does it help with internal covariate shift?
 4) Why do transformers use layer norm instead of batch norm? Where is it placed (pre-LN vs post-LN)?
 
@@ -168,6 +167,51 @@ TODO: add questions like "what does flash attention do differrently"
 # Historical Questions
 
 TODO: add questions like "why do we do this instead of this architechture, etc"
+
+# Practice Problems
+
+Pen-and-paper warmups before coding. Be able to work through these by hand.
+
+## Forward/Backward Pass
+
+1) Given a 2-layer MLP with ReLU, compute the forward pass:
+   - Input: x = [1, 2]
+   - W1 = [[0.5, -0.5], [0.5, 0.5]], b1 = [0, 0]
+   - W2 = [[1, 1]], b2 = [0]
+   - Activation: ReLU after layer 1
+   - Compute: h = ReLU(W1 · x + b1), then y = W2 · h + b2
+
+2) For that same network with target y* = 1 and MSE loss, apply the chain rule to compute ∂L/∂W2 and ∂L/∂W1.
+
+3) Walk through one step of SGD with momentum:
+   - Current weight: w = 0.5
+   - Gradient: ∂L/∂w = 0.2
+   - Velocity: v = 0.1
+   - Learning rate: α = 0.1, momentum: β = 0.9
+   - Compute: v_new = β·v + ∂L/∂w, then w_new = w - α·v_new
+
+## Attention Mechanics
+
+4) Manually compute the scaled dot-product attention output:
+   - Q = [[1, 0], [0, 1]] (2 tokens, d=2)
+   - K = [[1, 0], [0, 1]]
+   - V = [[1, 2], [3, 4]]
+
+5) Compute softmax([1, 2, 3]) by hand. Then compute softmax([10, 20, 30]). What happens and why?
+
+## Architecture Analysis
+
+6) Given a transformer config (L layers, H heads, d_model, d_ff, vocab V), calculate the total parameter count.
+
+7) What is the memory and compute complexity of self-attention for sequence length N and dimension d?
+
+## Debugging Scenarios
+
+8) "Loss is NaN after a few training steps" - list the common causes and what you'd check.
+
+9) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
+
+10) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
 
 # Coding Exercises
 
