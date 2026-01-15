@@ -8,11 +8,36 @@ This is a review file for natural language processing and transformers.
 
 ### Linear Algebra
 
-1) What is the dot product and what does it represent geometrically? How does this relate to "similarity"?
-2) If we have a matrix of dimensions N×D and multiply it by a matrix D×M, what are the dimensions of the result? Why does this matter for neural network layer design?
+1) What is the dot product and what does it represent geometrically?
+
+    The dot product represents the scaled overlap of two vectors. It is a scalar, unbounded, real value. Geometrically, it calculates how much of Vector A points in the direction of Vector B, and then multiplies that amount by the total length of Vector B. 
+ 
+    It can be computed as the sum of the element-wise product of two vectors, or as $a \cdot b = ||a|| \ ||b|| \ cos (\theta)$. Intuitively, this tells us not just if they point in the same direction, but how much "energy" or magnitude they share in that common direction.
+    
+    The dot product is 0 when the vectors are *orthogonal*. A positive dot-product means that they point in the same direction, while negative value means they point in opposite directions. 
+    
+    See this good resource for more diving in: [Better Explained - Understanding the Dot Product](https://betterexplained.com/articles/vector-calculus-understanding-the-dot-product/)
+
+2) What is cosine similarity? Derive it from the dot product formula and explain how to interpret its values.
+
+    Cosine similarity refers to taking cosine of the angle between two vectors; it is a bounded scalar $\in [-1, 1]$. Intuitively, it tells you how similar the *direction* of two vectors are in n-dimensional space. We can rearrange the dot product equation to get: 
+    $$\cos (\theta) = \frac{a \cdot b}{||a|| \ ||b||}$$
+    So the cosine similarity is just the dot product of two vectors normalized by their magnitude! Like above, a value of 0 indicates orthogonality, while positive and negative signs represent pointing in the same and opposite direction respectivvely.
+
+    **Note**: Since we normalize, the magnitude of the vectors being compared does not matter, only the direction!
+
+3) Instead of normalizing vectors, transformers divide by √d. What problem does this solve, and what information does it preserve that cosine similarity would lose?
+
+4) What is a vector projection? Given vectors a and b, how do you find the component of a that lies in the direction of b?
+
+5) How does the dot product relate to projection? Show how a · b can be interpreted as a projection scaled by ||b||.
+
+4) If we have a matrix of dimensions N×D and multiply it by a matrix D×M, what are the dimensions of the result? Why does this matter for neural network layer design?
 3) Why is matrix multiplication the core operation in neural networks? What is its computational complexity?
 4) What are eigenvalues/eigenvectors and why do they matter for understanding weight matrices?
 5) What is the rank of a matrix? How does low-rank approximation relate to model compression?
+
+TODO questions on norms and l1/l2 regression
 
 ### Calculus and Optimization
 
@@ -128,6 +153,12 @@ This is a review file for natural language processing and transformers.
     Test
    </details>
 
+2) Why does scaled dot-product attention divide by √d? Prove that this keeps the variance of the dot product ~1, and explain why softmax saturates without it.
+
+3) Why do transformers use scaled dot-product attention instead of cosine similarity attention?
+
+4) If bigger attention scores lead to sharper attention, why divide by √d at all? (Hint 1: think about gradient flow through softmax when inputs have high variance. Hint 2: consider training stability vs inference behavior.)
+
 TODO: more questions here, loss funciton
 
 # Contemporary Questions
@@ -137,3 +168,17 @@ TODO: add questions like "what does flash attention do differrently"
 # Historical Questions
 
 TODO: add questions like "why do we do this instead of this architechture, etc"
+
+# Coding Exercises
+
+Be ready to implement from scratch and debug in real-time.
+
+1) Implement a Multi-Head Attention block from scratch in PyTorch/NumPy without looking up documentation.
+
+2) Manually derive and implement backpropagation for a simple 2-layer network.
+
+3) Implement a KV cache for efficient autoregressive inference. Explain why it speeds up generation.
+
+4) Implement positional encodings (sinusoidal and learned). What are the tradeoffs?
+
+5) Implement beam search decoding.
