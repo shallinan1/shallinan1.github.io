@@ -139,15 +139,41 @@ This is a review file for natural language processing and transformers.
 
 1) What is a derivative/partial derivative and what does it represent geometrically?
 
-    A derivative tells us the slope of a function with respect to a specific variable. Geometrically, it tells us an equation for the slope of the line tangent to the function with respect to a variable.
+    A derivative is the slope of a function at a point: how much the output changes for a small change in input. Geometrically, it's the slope of the tangent line.
+
+    A partial derivative is the same idea for functions of multiple variables: the slope with respect to one variable while holding the others fixed. For $f(x, y)$, the partial $\frac{\partial f}{\partial x}$ asks "if I nudge $x$ slightly, how much does $f$ change?" treating $y$ as constant.
+
+    In neural networks, we compute partial derivatives of the loss with respect to each weight. Each partial tells us: if I nudge this weight, how much does the loss change?
+
+    Note: The derivative itself is a *function*: it gives you the slope at any point you evaluate it. In training, we evaluate the gradient at the current weights, take a step, then re-evaluate at the new weights. That's why training is iterative: the gradient changes as we move through parameter space.
 
 2) What is the gradient and how does it relate to the direction of steepest ascent?
 
-    The gradient is the derivative (?). It points in the direction.
+    For a function $f(x_1, x_2, \ldots, x_n)$, the gradient $\nabla f$ is a vector of all partial derivatives: $\nabla f = \left[\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n}\right]$.
+
+    The gradient points in the direction of steepest *ascent*—the direction where $f$ increases fastest. Its magnitude tells you how steep that ascent is. To minimize a loss function, we move in the opposite direction: $-\nabla f$.
+
+    When parameters are organized in a matrix (like weights $W$), the gradient $\frac{\partial L}{\partial W}$ is also a matrix of the same shape. Each element $\frac{\partial L}{\partial W_{ij}}$ tells us how the loss changes when we nudge that specific weight. We still call this "the gradient" even though it's a matrix—it's the collection of all partial derivatives with respect to every parameter.
+
+    Organizing both weights and gradients as matrices lets us compute and apply all updates in parallel - no loops over individual neurons. The gradient values are coupled (each depends on all the weights through the chain rule), but the matrix form lets us compute them in one shot with matrix operations.
 
 3) Derive the chain rule and show why it enables backpropagation.
 
-    The chain rule tells us that $\frac{\partial x}{\partial z} =\frac{\partial x}{\partial y} \times \frac{\partial y}{\partial z}$.
+    The chain rule tells us that for composed functions $f(g(x))$:
+    $$\frac{\partial f}{\partial x} = \frac{\partial f}{\partial g} \times \frac{\partial g}{\partial x}$$
+
+    This enables backpropagation because a neural network *is* a composition of functions. The network + loss defines "the function" we're optimizing:
+
+    For a 2-layer network:
+    1. $h = \text{ReLU}(xW_1)$
+    2. $\hat{y} = hW_2$
+    3. $L = \text{Loss}(\hat{y}, y)$
+
+    This is just $L = f_3(f_2(f_1(x)))$ — a composition. To get $\frac{\partial L}{\partial W_1}$, we apply the chain rule backward through each layer:
+
+    $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h} \cdot \frac{\partial h}{\partial W_1}$$
+
+    Each term is computable because we know the formula for each layer. Backprop is just the chain rule applied systematically from output to input, reusing intermediate results (that's why it's efficient).
 
 4) Why can gradient descent get stuck in local minima, and what techniques help escape them?
 
