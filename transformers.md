@@ -8,6 +8,7 @@ This is a review file for natural language processing and transformers.
 
 ### Linear Algebra
 
+#### Vector Knowledge
 1) What is the dot product and what does it represent geometrically?
 
     The dot product represents the scaled overlap of two vectors. It is a scalar, unbounded, real value. Geometrically, it calculates how much of Vector A points in the direction of Vector B, and then multiplies that amount by the total length of Vector B. 
@@ -28,21 +29,129 @@ This is a review file for natural language processing and transformers.
 
 3) What is a vector projection? Show how the dot product a · b can be interpreted as the projection of a onto b, scaled by ||b||.
 
-4) If we have a matrix of dimensions N×D and multiply it by a matrix D×M, what are the dimensions of the result? Why does this matter for neural network layer design?
-3) Why is matrix multiplication the core operation in neural networks? What is its computational complexity?
-4) What are eigenvalues/eigenvectors and why do they matter for understanding weight matrices?
-5) What is the rank of a matrix? How does low-rank approximation relate to model compression?
+    A vector projection of $a$ onto $b$ is an *orthogonal projection* of $a$ onto a straight line parallel to $b$. Intuitively, it is the resultant vector if we draw a perpendicular line from the end of $a$ to the line $b$ sits on. See the figure for a visual. Another analogy is that the projection is the "shadow" $a$ casts onto $b$.
 
-6) What is a vector norm? What do L1 (Manhattan) and L2 (Euclidean) norms measure geometrically?
+    Let $\hat{b} = \frac{b}{||b||}$ be the unit vector in the direction of b. The projection points in this direction. Its length comes from basic trigonometry: $||a|| \cos(\theta)$ gives the adjacent side (the component of a along b). Multiply direction by length to get the vector projection: $$\text{proj}_b(a) = ||a|| \cos(\theta) \cdot \hat{b}$$
 
-7) How does dividing by the L2 norm create a unit vector? Why is this called "normalization"?
+    **Note on sign**: When θ > 90°, cos(θ) < 0, so the projection points opposite to b. This matches the dot product's sign behavior. 
+
+    The **scalar projection** of a onto b is just the signed length of the above projection.
+    $$\text{comp}_b(a) = ||a|| \cos(\theta)$$
+
+    This formula should look familiar. Recall that $ a \cdot b = ||a|| \ ||b|| \cos(\theta)$. Then, we see that $a \cdot b = \text{comp}_b(a) \times ||b||$. Intuitively, the dot product is the scalar projection of a onto b scaled by the length of b. Interestingly, we also see that the flipped case is also true $a \cdot b = \text{comp}_a(b) \times ||a||$. 
+
+    <p align="center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Projection_and_rejection.svg/1280px-Projection_and_rejection.svg.png" alt="Projection of a on b (a1), and rejection of a from b (a2)" width="25%">
+    <br>
+    <em>Projection of a on b (a1), and rejection of a from b (a2)</em>
+    </p>
+
+4) What is a vector norm? What do L1 (Manhattan) and L2 (Euclidean) norms measure geometrically?
+
+    The $L_p$ norm of a vector $v$ is a non-negative real value:
+
+    $$||v||_p = \left(\sum_{i=1}^{n} |v_i|^p \right)^{1/p}$$
+
+    Geometrically, the L1 norm represents the "taxicab" distance from the origin to the vector, while the L2 norm represents the magnitude or length of the vector, ie, the "straight-line" or Euclidean distance.
+
+    TODO why is the abs before the power
+
+5) What happens as p increases (L3, L4, ... L∞)? What does the L∞ norm measure?
+
+    As p increases, the norm gives more weight to larger components. In the limit:
+
+    $$||v||_\infty = \max_i |v_i|$$
+
+    The $L_∞$ norm is just the largest absolute value in the vector. Intuitively, higher p asks "how big is the biggest element?" rather than considering all elements equally.
+
+    **Unit ball visualization** (all vectors with norm ≤ 1 in 2D):
+    - $L_1$: Diamond
+    - $L_2$: Circle
+    - Higher $p$: Corners get rounder, approaching a square
+    - $L_\infty$: Square
+
+6) What are the defining properties of a norm?
+
+    1. Non-negativity: $||v|| \geq 0$, equals 0 iff $v = 0$
+    2. Absolute homogeneity: $||cv|| = |c| \times ||v||$
+    3. Triangle inequality: $||u + v|| \leq ||u|| + ||v||$ (TODO can explore these with more questions)
+    
+7) How does dividing by the $L_2$ norm create a unit vector? Why is this called "normalization"?
+
+    Let $\hat{v} = \frac{v}{||v||_2}$. Using absolute homogeneity:
+
+    $$||\hat{v}||_2 = \left|\left|\frac{v}{||v||_2}\right|\right|_2 = \frac{1}{||v||_2} \times ||v||_2 = 1$$
+
+    The result has $L_2$ norm (length) equal to 1. This is called "normalization" because we're scaling the vector to have a standard (normal) length, preserving only direction.
+
+    **Note**: Dividing by any $L_p$ norm creates a unit vector in that norm's sense. "Unit vector" conventionally means $L_2$ norm = 1.
+
+#### Matrices
+
+1) If we have a matrix of dimensions N×D and multiply it by a matrix D×M, what are the dimensions of the result? Why does this matter for neural network layer design?
+
+    The dimensions will be N×M. Specifically, there will be N rows (from A) × M columns (from B) = N×M dot products = N×M elements. This matters in neural network design because we need to ensure the output dimension of each layer aligns with the input dimension of the next layer.
+
+2) Why is matrix multiplication the core operation in neural networks? What is its computational complexity?
+
+    Matrix multiplication is the core operation because each layer computes a linear transformation of its inputs—and linear transformations *are* matrix multiplications.
+
+    Multiplying an $(N \times D)$ matrix by a $(D \times M)$ matrix produces an $(N \times M)$ result—that's $N \times M$ dot products of length-$D$ vectors. This requires $N \times D \times M$ multiply-accumulate operations, giving $O(NDM)$ time complexity.
+
+    In neural networks, one matrix is a batch of inputs ($N$ samples, $D$ features each), and the other is weights ($D \times M$, where $M$ is the number of neurons). Each column of the weight matrix encodes one neuron's learned pattern; each dot product gives one neuron's *activation* for one sample. Remember when we thought about intuitive explanations for the dot product? This is one of them: a high activation means the input shares a lot of energy in the direction the neuron's weights are pointing, so the neuron "fires" strongly. One matrix multiply computes all activations for all samples simultaneously.
+
+    TODO talk a bit how these activations are fed into the next layer
+    TODO summation format of the matrix multiplication
+
+3) What is a transpose? When do you need to transpose a matrix before multiplying?
+
+    A transpose flips a matrix across its main diagonal: rows become columns and columns become rows. An $(N \times D)$ matrix becomes $(D \times N)$.
+
+    For matrix multiplication, the inner dimensions must match: $(N \times \mathbf{D}) \cdot (\mathbf{D} \times M)$ works, but $(N \times D) \cdot (N \times D)$ doesn't. You transpose when you need to reuse the same matrix in a different orientation.
+
+4) What is the rank of a matrix? How does low-rank approximation relate to model compression (e.g., LoRA)?
+
+    The rank of a matrix is the number of linearly independent rows (or columns; they're equal). An $(N \times D)$ matrix has rank at most $\min(N, D)$. Why does this matter? Linearly dependent rows can be reconstructed from other rows, so you don't need to store them explicitly.
+
+    Example: If a $(1000 \times 1000)$ matrix has rank 50, it looks big but only does "50 dimensions of work." The other 950 rows are combinations of those 50. This doesn't change how the network computes (each neuron still fires independently), but it means the weight matrix can be stored more efficiently. You can factor this into $(1000 \times 50) \cdot (50 \times 1000)$: the second matrix holds the 50 basis rows, and the first matrix holds coefficients for how to combine them to reconstruct each of the 1000 original rows. Storage drops from 1,000,000 to 100,000 values.
+
+    LoRA (Low-Rank Adaptation) exploits this for fine-tuning. Instead of updating a full weight matrix $W$ with shape $(D \times M)$, you learn a low-rank update:
+
+    $$W' = W + BA$$
+
+    where $B$ is $(D \times r)$ and $A$ is $(r \times M)$, with $r \ll D, M$. The low-rank constraint is structural: any $(D \times r) \cdot (r \times M)$ product has rank at most $r$ by construction. No regularization needed. Why does this work? Empirically, weight updates during fine-tuning tend to lie in a low-dimensional subspace. You get most of the adaptation benefit with a fraction of the trainable parameters.
+
+5) What are eigenvalues/eigenvectors? How do they relate to rank, and why does the condition number (ratio of largest to smallest eigenvalue) matter for training stability?
+
+    For a square matrix $A$, an eigenvector $v$ is a direction that only gets scaled (not rotated) when $A$ is applied: $Av = \lambda v$. The eigenvalue $\lambda$ is the scaling factor. Most vectors get both stretched and rotated; eigenvectors are the special directions where the matrix just stretches or compresses.
+
+    **Relation to rank:** The rank equals the number of non-zero eigenvalues (counting with multiplicity, so repeated eigenvalues count multiple times). An eigenvalue of 0 means that direction gets collapsed to nothing.
+
+    **Condition number** is the ratio of largest to smallest eigenvalue: $\kappa = |\lambda_{max}| / |\lambda_{min}|$.
+
+    Why it matters for training: the Hessian matrix (second derivatives of the loss) tells you the curvature of the loss landscape. Its condition number measures how different the steepest vs shallowest directions are. High condition number means a long narrow valley: one learning rate can't handle both directions well.
+
+    **Note:** Eigenvalues are only defined for square matrices. For non-square matrices (most weight matrices), singular values from SVD serve the same role. The condition number becomes $\sigma_{max} / \sigma_{min}$, and the training stability intuition is identical.
+
+    TODO other deeper knowledge about the Hessian
 
 ### Calculus and Optimization
 
 1) What is a derivative/partial derivative and what does it represent geometrically?
+
+    A derivative tells us the slope of a function with respect to a specific variable. Geometrically, it tells us an equation for the slope of the line tangent to the function with respect to a variable.
+
 2) What is the gradient and how does it relate to the direction of steepest ascent?
+
+    The gradient is the derivative (?). It points in the direction.
+
 3) Derive the chain rule and show why it enables backpropagation.
+
+    The chain rule tells us that $\frac{\partial x}{\partial z} =\frac{\partial x}{\partial y} \times \frac{\partial y}{\partial z}$.
+
 4) Why can gradient descent get stuck in local minima, and what techniques help escape them?
+
+    When the partial derivative is 0, then we get stuck.
 
 ### Probability and Statistics
 
@@ -72,7 +181,16 @@ This is a review file for natural language processing and transformers.
 1) What is a fully connected (dense) layer? How does it transform its input?
 2) Why are nonlinear activation functions (ReLU, GELU) necessary? What happens with only linear layers?
 3) Derive backpropagation for a simple 2-layer network. What is the computational complexity?
-4) What causes the vanishing/exploding gradient problem? How do ReLU and residual connections help?
+4) In the backward pass, why do we multiply by $W^T$ instead of $W$? (Hint: think about "fanning out" vs "fanning in")
+
+    Concrete example in backpropagation:
+    - **Forward pass**: $Y = XW$ where $X$ is $(N \times D)$ and $W$ is $(D \times M)$
+    - **Backward pass**: you receive gradient $\frac{\partial L}{\partial Y}$ with shape $(N \times M)$ and need gradient $\frac{\partial L}{\partial X}$ with shape $(N \times D)$
+    - To get there: $(N \times M) \cdot (M \times D) = (N \times D)$, so you need $W^T$
+
+    The weights "fan out" from $D$ inputs to $M$ neurons in the forward pass. To propagate gradients backward, you "fan in" from $M$ neurons back to $D$ inputs. Same weights, opposite direction.
+    
+5) What causes the vanishing/exploding gradient problem? How do ReLU and residual connections help?
 5) What are residual (skip) connections and how do they help information and gradients flow through deep networks?
 6) What is the universal approximation theorem and what are its practical limitations?
 
