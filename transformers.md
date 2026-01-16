@@ -109,6 +109,8 @@ This is a review file for natural language processing and transformers.
 
     For matrix multiplication, the inner dimensions must match: $(N \times \mathbf{D}) \cdot (\mathbf{D} \times M)$ works, but $(N \times D) \cdot (N \times D)$ doesn't. You transpose when you need to reuse the same matrix in a different orientation.
 
+    Key rule: $(AB)^T = B^T A^T$ — the transpose of a product reverses the order. Example: $(Xw)^T = w^T X^T$.
+
 4) What is the rank of a matrix? How does low-rank approximation relate to model compression (e.g., LoRA)?
 
     The rank of a matrix is the number of linearly independent rows (or columns; they're equal). An $(N \times D)$ matrix has rank at most $\min(N, D)$. Why does this matter? Linearly dependent rows can be reconstructed from other rows, so you don't need to store them explicitly.
@@ -147,41 +149,73 @@ This is a review file for natural language processing and transformers.
 
     Note: The derivative itself is a *function*: it gives you the slope at any point you evaluate it. In training, we evaluate the gradient at the current weights, take a step, then re-evaluate at the new weights. That's why training is iterative: the gradient changes as we move through parameter space.
 
-2) What is the gradient and how does it relate to the direction of steepest ascent?
+2) What is the gradient and how does it relate to the direction of steepest ascent? (gradient descent)
 
     For a function $f(x_1, x_2, \ldots, x_n)$, the gradient $\nabla f$ is a vector of all partial derivatives: $\nabla f = \left[\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n}\right]$.
 
-    The gradient points in the direction of steepest *ascent*—the direction where $f$ increases fastest. Its magnitude tells you how steep that ascent is. To minimize a loss function, we move in the opposite direction: $-\nabla f$.
+    The gradient points in the direction of steepest *ascent*: the direction where $f$ increases fastest. Its magnitude tells you how steep that ascent is. To minimize a loss function $f$, we move in the opposite direction: $-\nabla f$. This is *gradient descent*.
 
     When parameters are organized in a matrix (like weights $W$), the gradient $\frac{\partial L}{\partial W}$ is also a matrix of the same shape. Each element $\frac{\partial L}{\partial W_{ij}}$ tells us how the loss changes when we nudge that specific weight. We still call this "the gradient" even though it's a matrix—it's the collection of all partial derivatives with respect to every parameter.
 
     Organizing both weights and gradients as matrices lets us compute and apply all updates in parallel - no loops over individual neurons. The gradient values are coupled (each depends on all the weights through the chain rule), but the matrix form lets us compute them in one shot with matrix operations.
 
-3) Derive the chain rule and show why it enables backpropagation.
+    TODO more on gradient descent
+
+3) What is the chain rule and why is it critical for neural networks?
 
     The chain rule tells us that for composed functions $f(g(x))$:
-    $$\frac{\partial f}{\partial x} = \frac{\partial f}{\partial g} \times \frac{\partial g}{\partial x}$$
+    $$\frac{\partial f}{\partial x} = \frac{\partial f}{\partial g} \cdot \frac{\partial g}{\partial x}$$
 
-    This enables backpropagation because a neural network *is* a composition of functions. The network + loss defines "the function" we're optimizing:
+    A neural network is a composition of functions. Each layer transforms the output of the previous layer, and the loss function sits on top. The chain rule lets us compute how the loss changes with respect to any weight by working backward through the layers. This is backpropagation.
 
-    For a 2-layer network:
-    1. $h = \text{ReLU}(xW_1)$
-    2. $\hat{y} = hW_2$
-    3. $L = \text{Loss}(\hat{y}, y)$
+    TODO derive chain rule
 
-    This is just $L = f_3(f_2(f_1(x)))$ — a composition. To get $\frac{\partial L}{\partial W_1}$, we apply the chain rule backward through each layer:
+4) What is the gradient descent formula? What practical issues slow down training?
 
-    $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h} \cdot \frac{\partial h}{\partial W_1}$$
+    The gradient descent update rule is $W_{t+1} = W_t - \alpha \frac{\partial L}{\partial W}$, where $\alpha$ is the learning rate.
 
-    Each term is computable because we know the formula for each layer. Backprop is just the chain rule applied systematically from output to input, reusing intermediate results (that's why it's efficient).
+    True local minima (all gradients zero) are rare in high-dimensional networks. The practical problems are:
 
-4) Why can gradient descent get stuck in local minima, and what techniques help escape them?
+    - **Flat regions**: small gradients mean slow progress
+    - **Ill-conditioned curvature**: steep in some directions, shallow in others — one learning rate can't handle both
 
-    When the partial derivative is 0, then we get stuck.
+5) What matrix calculus rules are essential for deriving gradients?
+
+    **Transpose of a product:**
+    $$(AB)^T = B^T A^T$$
+    The transpose reverses the order. Example: $(Xw)^T = w^T X^T$.
+
+    **Squared norm as dot product:**
+    $$||v||^2 = v^T v$$
+    The squared L2 norm is just the vector dotted with itself (sum of squared elements).
+
+    **Derivative of linear term:**
+    $$\frac{\partial}{\partial w}(a^T w) = a$$
+    Same as scalar rule: $\frac{d}{dx}(ax) = a$
+
+    **Derivative of quadratic term:**
+    $$\frac{\partial}{\partial w}(w^T A w) = 2Aw \quad \text{(for symmetric } A \text{)}$$
+    Same as scalar rule: $\frac{d}{dx}(ax^2) = 2ax$. The transpose in $w^T A w$ is just to make dimensions work.
+
+    With these rules, you can derive the gradient for MSE loss:
+    $$L = ||Xw - y||^2 = (Xw - y)^T(Xw - y) = w^T X^T X w - 2y^T X w + y^T y$$
+    $$\frac{\partial L}{\partial w} = 2X^T X w - 2X^T y = 2X^T(Xw - y)$$
 
 ### Probability and Statistics
 
 1) What is a probability distribution? What properties must it satisfy?
+
+    A probability distribution describes how likely each outcome is. For discrete outcomes, it assigns a probability to each value. For continuous outcomes, it defines a density function where probability is the area under the curve.
+
+    Two properties:
+
+    - **Non-negative**: $P(x) \geq 0$ (discrete) or $p(x) \geq 0$ (continuous)
+    - **Normalizes to 1**: $\sum_x P(x) = 1$ (discrete) or $\int p(x) dx = 1$ (continuous)
+
+    **Discrete vs Continuous:**
+    - Discrete: $P(x)$ is the probability itself, bounded between 0 and 1
+    - Continuous: $p(x)$ is *density*, not probability. Density can exceed 1! (e.g., Uniform on $[0, 0.5]$ has density = 2). You integrate to get probability: $P(a < x < b) = \int_a^b p(x) dx$. The probability of any exact value is 0.
+
 2) Derive Bayes' theorem from the definition of conditional probability.
 3) What is the maximum likelihood estimation (MLE) framework? Derive the MLE for a Gaussian distribution.
 4) How does the softmax function convert a list of raw logits into probabilities that sum to 1? Derive it from the Boltzmann distribution or maximum entropy principle.
@@ -207,6 +241,18 @@ This is a review file for natural language processing and transformers.
 1) What is a fully connected (dense) layer? How does it transform its input?
 2) Why are nonlinear activation functions (ReLU, GELU) necessary? What happens with only linear layers?
 3) Derive backpropagation for a simple 2-layer network. What is the computational complexity?
+
+    For a 2-layer network:
+    1. $h = \text{ReLU}(xW_1)$
+    2. $\hat{y} = hW_2$
+    3. $L = \text{Loss}(\hat{y}, y)$
+
+    This is a composition $L = f_3(f_2(f_1(x)))$. To get $\frac{\partial L}{\partial W_1}$, apply the chain rule backward:
+
+    $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h} \cdot \frac{\partial h}{\partial W_1}$$
+
+    Each term is computable because we know each layer's formula. Backprop applies the chain rule systematically from output to input, reusing intermediate results—that's why it's efficient.
+
 4) In the backward pass, why do we multiply by $W^T$ instead of $W$? (Hint: think about "fanning out" vs "fanning in")
 
     Concrete example in backpropagation:
@@ -318,16 +364,58 @@ Pen-and-paper warmups before coding. Be able to work through these by hand.
 
 ## Forward/Backward Pass
 
-1) Given a 2-layer MLP with ReLU, compute the forward pass:
+1) Walk through 3 iterations of gradient descent for $\hat{y} = wx$ with $w_0 = 5$, $x = 2$, $y = 2$, $\alpha = 0.1$, and MSE loss $L = (\hat{y} - y)^2$.
+
+    **Iteration 1:**
+
+    *Forward:*
+    - $\hat{y} = 5 \cdot 2 = 10$
+    - $L = (10 - 2)^2 = 64$
+
+    *Backward (chain rule):*
+    - $\frac{\partial L}{\partial \hat{y}} = 2(\hat{y} - y) = 2(8) = 16$
+    - $\frac{\partial \hat{y}}{\partial w} = x = 2$
+    - $\frac{\partial L}{\partial w} = 16 \cdot 2 = 32$
+
+    *Update:*
+    - $w \leftarrow 5 - 0.1 \cdot 32 = 1.8$
+
+    **Iteration 2:**
+
+    *Forward:*
+    - $\hat{y} = 1.8 \cdot 2 = 3.6$
+    - $L = (3.6 - 2)^2 = 2.56$
+
+    *Backward:*
+    - $\frac{\partial L}{\partial w} = 2(3.6 - 2) \cdot 2 = 6.4$
+
+    *Update:*
+    - $w \leftarrow 1.8 - 0.1 \cdot 6.4 = 1.16$
+
+    **Iteration 3:**
+
+    *Forward:*
+    - $\hat{y} = 1.16 \cdot 2 = 2.32$
+    - $L = (2.32 - 2)^2 = 0.1024$
+
+    *Backward:*
+    - $\frac{\partial L}{\partial w} = 2(0.32) \cdot 2 = 1.28$
+
+    *Update:*
+    - $w \leftarrow 1.16 - 0.1 \cdot 1.28 = 1.032$
+
+    Converging toward $w = 1$ (optimal since $y/x = 2/2 = 1$).
+
+2) Given a 2-layer MLP with ReLU, compute the forward pass:
    - Input: x = [1, 2]
    - W1 = [[0.5, -0.5], [0.5, 0.5]], b1 = [0, 0]
    - W2 = [[1, 1]], b2 = [0]
    - Activation: ReLU after layer 1
    - Compute: h = ReLU(W1 · x + b1), then y = W2 · h + b2
 
-2) For that same network with target y* = 1 and MSE loss, apply the chain rule to compute ∂L/∂W2 and ∂L/∂W1.
+3) For that same network with target y* = 1 and MSE loss, apply the chain rule to compute ∂L/∂W2 and ∂L/∂W1.
 
-3) Walk through one step of SGD with momentum:
+4) Walk through one step of SGD with momentum:
    - Current weight: w = 0.5
    - Gradient: ∂L/∂w = 0.2
    - Velocity: v = 0.1
@@ -336,26 +424,26 @@ Pen-and-paper warmups before coding. Be able to work through these by hand.
 
 ## Attention Mechanics
 
-4) Manually compute the scaled dot-product attention output:
+5) Manually compute the scaled dot-product attention output:
    - Q = [[1, 0], [0, 1]] (2 tokens, d=2)
    - K = [[1, 0], [0, 1]]
    - V = [[1, 2], [3, 4]]
 
-5) Compute softmax([1, 2, 3]) by hand. Then compute softmax([10, 20, 30]). What happens and why?
+6) Compute softmax([1, 2, 3]) by hand. Then compute softmax([10, 20, 30]). What happens and why?
 
 ## Architecture Analysis
 
-6) Given a transformer config (L layers, H heads, d_model, d_ff, vocab V), calculate the total parameter count.
+7) Given a transformer config (L layers, H heads, d_model, d_ff, vocab V), calculate the total parameter count.
 
-7) What is the memory and compute complexity of self-attention for sequence length N and dimension d?
+8) What is the memory and compute complexity of self-attention for sequence length N and dimension d?
 
 ## Debugging Scenarios
 
-8) "Loss is NaN after a few training steps" - list the common causes and what you'd check.
+9) "Loss is NaN after a few training steps" - list the common causes and what you'd check.
 
-9) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
+10) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
 
-10) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
+11) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
 
 # Coding Exercises
 
