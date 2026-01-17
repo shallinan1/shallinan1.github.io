@@ -216,11 +216,99 @@ This is a review file for natural language processing and transformers.
     - Discrete: $P(x)$ is the probability itself, bounded between 0 and 1
     - Continuous: $p(x)$ is *density*, not probability. Density can exceed 1! (e.g., Uniform on $[0, 0.5]$ has density = 2). You integrate to get probability: $P(a < x < b) = \int_a^b p(x) dx$. The probability of any exact value is 0.
 
-2) Derive Bayes' theorem from the definition of conditional probability.
+2) Derive Bayes' theorem from the definition of conditional probability. What is ths significance?
+
+    Recall given two conditional events $a$ and $b$, $P(a \cap b) = P(a | b) \times P(b)$. That is, we multiply the conditional probabilty by the probability of the event we're conditioning on. Conversely, we also know that $P(a \cap b) = P(b | a) \times P(a)$. Combining these together, we have:
+
+    $$ P(a \cap b)= P(a|b) \times P(b) = P(b | a) \times P(a)$$
+
+    As a result, we have both:
+    $$P(a|b) = \frac{ P(b | a) \times P(a)}{P(b)} \ \text{ and } \ P(b|a) = \frac{P(a | b) \times P(b)}{P(a)}$$
+
+    **Significance:** We often want $P(\text{hypothesis} | \text{data})$ — how likely is our model given what we observed ($D$)?
+
+    $$\underbrace{P(H | D)}_{\text{posterior}} = \frac{\overbrace{P(D | H)}^{\text{likelihood}} \times \overbrace{P(H)}^{\text{prior}}}{\underbrace{P(D)}_{\text{evidence}}}$$
+
+    - **Prior** $P(H)$: belief before seeing data
+    - **Likelihood** $P(D | H)$: how probable is this data if the hypothesis is true
+    - **Posterior** $P(H | D)$: updated belief after seeing data
+    - **Evidence** $P(D)$: total probability of data (normalizing constant)
+
+    **Example:** A disease affects 1% of people. A test is 90% accurate (detects disease when present) but has a 5% false positive rate. You test positive — what's the probability you have the disease?
+
+    - Prior: $P(\text{disease}) = 0.01$
+    - Likelihood: $P(\text{positive} | \text{disease}) = 0.9$
+    - False positive: $P(\text{positive} | \text{no disease}) = 0.05$
+    - Evidence: $P(\text{positive}) = 0.9 \times 0.01 + 0.05 \times 0.99 = 0.059$
+
+    $$P(\text{disease} | \text{positive}) = \frac{0.9 \times 0.01}{0.059} \approx 0.15$$
+
+    Only 15%! The prior (disease is rare) dominates. This is why Bayes matters — intuition often ignores the base rate.
+
 3) What is the maximum likelihood estimation (MLE) framework? Derive the MLE for a Gaussian distribution.
-4) How does the softmax function convert a list of raw logits into probabilities that sum to 1? Derive it from the Boltzmann distribution or maximum entropy principle.
-5) What is entropy? Derive the cross-entropy loss from the KL divergence between two distributions.
-6) What is the relationship between minimizing cross-entropy and maximizing likelihood?
+
+    MLE framework gives us a way to estimate parameters by finding the values that maximize the probability of observing our data. Given data $X$ and parameters $\theta$, we maximize:
+
+    $$\hat{\theta} = \arg\max_\theta P(X | \theta)$$
+
+    In practice, we maximize the log-likelihood (easier to work with, same result since log is monotonic):
+
+    $$\hat{\theta} = \arg\max_\theta \log P(X | \theta)$$
+
+    **Derivation for Gaussian:**
+
+    Given $n$ i.i.d. samples $x_1, ..., x_n$ from $\mathcal{N}(\mu, \sigma^2)$, the likelihood is:
+
+    $$L(\mu, \sigma^2) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2}\right)$$
+
+    Log turns product into sum (using $\log(ab) = \log a + \log b$ and $\log e^x = x$):
+
+    $$\log L = \sum_{i=1}^{n} \left[ \log\frac{1}{\sqrt{2\pi\sigma^2}} - \frac{(x_i - \mu)^2}{2\sigma^2} \right]$$
+
+    Note: $\log\frac{1}{\sqrt{2\pi\sigma^2}} = -\frac{1}{2}\log(2\pi\sigma^2) = -\frac{1}{2}\log(2\pi) - \frac{1}{2}\log(\sigma^2)$. Since this doesn't depend on $i$, summing $n$ times multiplies by $n$:
+
+    $$\log L = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{n}(x_i - \mu)^2$$
+
+    Take derivatives and set to zero:
+
+    $$\frac{\partial}{\partial \mu}: \quad \frac{1}{\sigma^2}\sum_{i=1}^{n}(x_i - \mu) = 0 \quad \Rightarrow \quad \hat{\mu} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+
+    $$\frac{\partial}{\partial \sigma^2}: \quad -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}\sum_{i=1}^{n}(x_i - \mu)^2 = 0 \quad \Rightarrow \quad \hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu})^2$$
+
+    MLE finds the parameter values that jointly maximize the likelihood. Here we're finding the $(\mu, \sigma^2)$ pair that makes our data most probable. We set both partials to zero and solve the system. The solution: $\hat{\mu}$ is the sample mean, $\hat{\sigma}^2$ is the sample variance. Notice these are the familiar formulas you already use — MLE gives a principled justification for why they're the "right" estimates.
+4) How does the softmax function convert a list of raw logits into probabilities that sum to 1?
+
+    The softmax function is $\text{softmax}(v_i) = \frac{e^{v_i}}{\sum_j e^{v_j}}$. It converts a vector into a discrete probability distribution.
+
+
+    **Why it sums to 1:** The denominator is the sum of all numerators, so $\sum_i \text{softmax}(v_i) = \frac{\sum_i e^{v_i}}{\sum_j e^{v_j}} = 1$.
+
+    **Why exp?** Why not just normalize raw values $v_i / \sum v_j$, or square them?
+    - Raw values can be negative → can't be probabilities
+    - Squaring breaks ordering: logits [-3, -1, 2] → squared [9, 1, 4] → most negative gets highest probability!
+    - Exp is monotonic everywhere: larger logit → larger $e^{v_i}$ → larger probability. Always preserves ranking.
+    - Exp amplifies differences: small gaps in logits become larger gaps in probabilities, making the distribution sharper/more confident.
+
+5) What is entropy?
+
+    **Entropy** (denoted $H$) measures the uncertainty in a probability distribution $p$:
+    $$H(p) = -\sum_x p(x) \log p(x)$$
+
+    where $p$ is a probability distribution over outcomes $x$, and $p(x)$ is the probability of outcome $x$.
+
+    The $-\log p(x)$ term is the "surprise" of seeing outcome $x$ — rare events (small $p$) have high surprise (large $-\log p$). Entropy is the *expected* surprise.
+
+    **Example:** $p = [0.7, 0.2, 0.1]$
+    $$H = -(0.7 \log 0.7 + 0.2 \log 0.2 + 0.1 \log 0.1)$$
+
+    - Certain distribution $[1, 0, 0]$ → entropy = 0 (no surprise)
+    - Uniform distribution $[0.33, 0.33, 0.33]$ → maximum entropy (most uncertain)
+
+    **Max entropy:** For $n$ outcomes, $H_{\max} = \log(n)$, achieved by uniform $p(x) = 1/n$. Making any outcome more likely reduces uncertainty.
+
+6) What is cross-entropy? How does it relate to KL divergence?
+
+7) What is the relationship between minimizing cross-entropy and maximizing likelihood?
 
 ## ML Fundamentals
 
@@ -275,6 +363,8 @@ This is a review file for natural language processing and transformers.
 ### Optimization Algorithms
 
 1) Why does SGD work despite using noisy gradient estimates? What role does the noise play?
+
+The noise averages out to 0 in expectation since their values are small. The noise helps get us out of local minima or reigons with near-zero gradients.
 2) Derive the momentum update rule. Why does it help with saddle points and narrow valleys?
 3) Explain Adam: how does it combine momentum with adaptive learning rates? When does AdamW help?
 4) What is the learning rate warmup and why is it important for transformers?
@@ -321,7 +411,18 @@ This is a review file for natural language processing and transformers.
 
 1) What is the information bottleneck problem with fixed-size context vectors?
 2) Derive beam search. Why is it better than greedy decoding but still suboptimal?
-3) What is the length bias problem in seq2seq? How is it typically addressed?
+3) What is temperature in softmax sampling? What are top-k and top-p (nucleus) sampling?
+
+    Temperature scales the logits before softmax: $\text{softmax}(v_i / T)$
+    - $T < 1$: sharper distribution, more confident, more repetitive
+    - $T > 1$: flatter distribution, more random, more creative
+    - $T = 1$: original distribution
+
+    **Top-k**: Only sample from the k most probable tokens (zero out the rest).
+
+    **Top-p (nucleus)**: Only sample from the smallest set of tokens whose cumulative probability ≥ p. Adapts to the distribution — keeps more tokens when uncertain, fewer when confident.
+
+4) What is the length bias problem in seq2seq? How is it typically addressed?
 
 ### Attention (Pre-Transformer)
 
