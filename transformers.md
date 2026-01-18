@@ -179,6 +179,8 @@ This is a review file for natural language processing and transformers.
     - **Flat regions**: small gradients mean slow progress
     - **Ill-conditioned curvature**: steep in some directions, shallow in others — one learning rate can't handle both
 
+    TODO: Convexity — Why convex optimization is "easy" (one global minimum) and NNs are non-convex but work anyway.
+
 5) What matrix calculus rules are essential for deriving gradients?
 
     **Transpose of a product:**
@@ -216,7 +218,23 @@ This is a review file for natural language processing and transformers.
     - Discrete: $P(x)$ is the probability itself, bounded between 0 and 1
     - Continuous: $p(x)$ is *density*, not probability. Density can exceed 1! (e.g., Uniform on $[0, 0.5]$ has density = 2). You integrate to get probability: $P(a < x < b) = \int_a^b p(x) dx$. The probability of any exact value is 0.
 
-2) Derive Bayes' theorem from the definition of conditional probability. What is ths significance?
+    TODO: Independence — $P(A,B) = P(A)P(B)$ for independent events. Why we can multiply likelihoods for i.i.d. data.
+
+2) What is expected value? What is variance?
+
+    **Expected value** is the probability-weighted average of all outcomes:
+    $$\mathbb{E}[X] = \sum_x x \cdot P(x) \quad \text{(discrete)} \qquad \mathbb{E}[X] = \int x \cdot p(x) \, dx \quad \text{(continuous)}$$
+
+    where $X$ is a random variable (can take different values) and $x$ is a specific value it can take. The mean is often written as $\mu = \mathbb{E}[X]$.
+
+    **Variance** measures how spread out the distribution is:
+    $$\text{Var}(X) = \sigma^2 = \mathbb{E}[(X - \mu)^2] = \mathbb{E}[X^2] - E[X]^2 = \mathbb{E}[X^2] - \mu^2$$
+
+    It's the expected squared deviation from the mean. The second form comes from expanding $(X - \mu)^2$ and using linearity of expectation.
+
+    **Standard deviation** $\sigma = \sqrt{\text{Var}(X)}$ has the same units as $X$.
+
+3) Derive Bayes' theorem from the definition of conditional probability. What is ths significance?
 
     Recall given two conditional events $a$ and $b$, $P(a \cap b) = P(a | b) \times P(b)$. That is, we multiply the conditional probabilty by the probability of the event we're conditioning on. Conversely, we also know that $P(a \cap b) = P(b | a) \times P(a)$. Combining these together, we have:
 
@@ -245,7 +263,7 @@ This is a review file for natural language processing and transformers.
 
     Only 15%! The prior (disease is rare) dominates. This is why Bayes matters — intuition often ignores the base rate.
 
-3) What is the maximum likelihood estimation (MLE) framework? Derive the MLE for a Gaussian distribution.
+4) What is the maximum likelihood estimation (MLE) framework? Derive the MLE for a Gaussian distribution.
 
     MLE framework gives us a way to estimate parameters by finding the values that maximize the probability of observing our data. Given data $X$ and parameters $\theta$, we maximize:
 
@@ -276,7 +294,12 @@ This is a review file for natural language processing and transformers.
     $$\frac{\partial}{\partial \sigma^2}: \quad -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}\sum_{i=1}^{n}(x_i - \mu)^2 = 0 \quad \Rightarrow \quad \hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu})^2$$
 
     MLE finds the parameter values that jointly maximize the likelihood. Here we're finding the $(\mu, \sigma^2)$ pair that makes our data most probable. We set both partials to zero and solve the system. The solution: $\hat{\mu}$ is the sample mean, $\hat{\sigma}^2$ is the sample variance. Notice these are the familiar formulas you already use — MLE gives a principled justification for why they're the "right" estimates.
-4) How does the softmax function convert a list of raw logits into probabilities that sum to 1?
+
+    TODO: move somewhere that an estimator $\hat{\theta}$ is unbiased if $\mathbb{E}[\hat{\theta}] = \theta$
+
+    TODO: MAP vs MLE — Maximum a posteriori adds a prior to MLE. Connection to regularization (L2 regularization ↔ Gaussian prior).
+
+5) How does the softmax function convert a list of raw logits into probabilities that sum to 1?
 
     The softmax function is $\text{softmax}(v_i) = \frac{e^{v_i}}{\sum_j e^{v_j}}$. It converts a vector into a discrete probability distribution.
 
@@ -289,7 +312,7 @@ This is a review file for natural language processing and transformers.
     - Exp is monotonic everywhere: larger logit → larger $e^{v_i}$ → larger probability. Always preserves ranking.
     - Exp amplifies differences: small gaps in logits become larger gaps in probabilities, making the distribution sharper/more confident.
 
-5) What is entropy?
+6) What is entropy?
 
     **Entropy** (denoted $H$) measures the uncertainty in a probability distribution $p$:
     $$H(p) = -\sum_x p(x) \log p(x)$$
@@ -306,9 +329,51 @@ This is a review file for natural language processing and transformers.
 
     **Max entropy:** For $n$ outcomes, $H_{\max} = \log(n)$, achieved by uniform $p(x) = 1/n$. Making any outcome more likely reduces uncertainty.
 
-6) What is cross-entropy? How does it relate to KL divergence?
+7) What is cross-entropy? How does it relate to KL divergence?
 
-7) What is the relationship between minimizing cross-entropy and maximizing likelihood?
+    **Cross-entropy** between true distribution $p$ and predicted distribution $q$:
+    $$H(p, q) = -\sum_x p(x) \log q(x)$$
+
+    Compare to entropy: $H(p) = -\sum_x p(x) \log p(x)$. Cross-entropy uses $q$ inside the log instead of $p$.
+
+    **Intuition:** Your surprise ($-\log q$) is based on what you predicted ($q$), but reality ($p$) determines how often each outcome happens.
+
+    Example: Reality is $p = [0.9, 0.1]$, but you predict $q = [0.5, 0.5]$.
+    - Outcome 1 happens 90% of the time, but you only assigned 50% → you're often more surprised than you should be
+    - Cross-entropy is high because your predictions are bad
+
+    If you predicted perfectly ($q = p$), cross-entropy equals entropy — the minimum possible surprise.
+
+    **KL divergence** measures how different $q$ is from $p$:
+    $$D_{KL}(p || q) = \sum_x p(x) \log \frac{p(x)}{q(x)} = H(p, q) - H(p)$$
+
+    Rearranging: $H(p, q) = H(p) + D_{KL}(p || q)$
+
+    **In ML:** $p$ = true label (one-hot), $q$ = model's softmax output.
+    - Entropy $H(p)$ of a one-hot is 0 (no uncertainty)
+    - So minimizing cross-entropy $H(p, q)$ = minimizing KL divergence $D_{KL}(p || q)$
+    - We're making $q$ as close to $p$ as possible
+
+8) What is the relationship between minimizing cross-entropy and maximizing likelihood?
+
+    **Cross-entropy with one-hot labels:** For true label $p$ (one-hot) and prediction $q$:
+    $$H(p, q) = -\sum_x p(x) \log q(x) = -\log q(y_{true})$$
+
+    where $y_{true}$ is the correct class. Only that class contributes (one-hot is 1 there, 0 elsewhere).
+
+    **Likelihood** is the probability the model assigns to the correct class:
+    $\mathcal{L}(\theta) = q(y_{true} | x; \theta)$. Taking the log, we get $\log \mathcal{L}(\theta) = \log q(y_{true} | x; \theta)$.
+
+    **Connection:** Cross-entropy = negative log-likelihood:
+    $H(p, q) = -\log q(y_{true}) = -\log \mathcal{L}(\theta)$
+
+    So: **minimizing cross-entropy = minimizing negative log-likelihood = maximizing likelihood**.
+
+    **For a dataset** with $N$ samples $(x_i, y_i)$:
+    - Total cross-entropy loss: $\sum_{i=1}^{N} -\log q(y_i | x_i; \theta)$
+    - Total log-likelihood: $\sum_{i=1}^{N} \log q(y_i | x_i; \theta)$
+
+    They're negatives of each other. Minimizing total cross-entropy = maximizing total log-likelihood.
 
 ## ML Fundamentals
 
@@ -351,14 +416,26 @@ This is a review file for natural language processing and transformers.
     The weights "fan out" from $D$ inputs to $M$ neurons in the forward pass. To propagate gradients backward, you "fan in" from $M$ neurons back to $D$ inputs. Same weights, opposite direction.
     
 5) What causes the vanishing/exploding gradient problem? How do ReLU and residual connections help?
-5) What are residual (skip) connections and how do they help information and gradients flow through deep networks?
-6) What is the universal approximation theorem and what are its practical limitations?
+6) Why does weight initialization matter? What do Xavier and He initialization do?
+
+    Bad initialization causes vanishing/exploding gradients before training even starts. If weights are too small, activations shrink layer by layer; too large, they explode.
+
+    **Xavier (Glorot) initialization:** $W \sim \mathcal{N}(0, \frac{1}{n_{in}})$ or $\mathcal{N}(0, \frac{2}{n_{in} + n_{out}})$. Designed for tanh/sigmoid — keeps variance ~1 through layers.
+
+    **He initialization:** $W \sim \mathcal{N}(0, \frac{2}{n_{in}})$. Designed for ReLU — accounts for ReLU killing half the activations (hence the 2×).
+
+    The key insight: variance of layer output depends on (variance of weights) × (fan-in). These schemes set weight variance to counteract fan-in, keeping activations stable.
+
+7) What are residual (skip) connections and how do they help gradients flow through deep networks?
+8) What is the universal approximation theorem and what are its practical limitations?
 
 #### Graph Neural Networks
 
-1) Derive the message passing update rule. How do nodes aggregate information from neighbors?
-2) What is over-smoothing in deep GNNs? Why does it happen?
-3) How do you handle variable-sized graphs in batched training?
+1) What is the core idea of GNNs? What is the over-smoothing problem in deep GNNs?
+
+    GNNs learn node representations by aggregating information from neighbors. Each layer updates a node's embedding by combining its current embedding with a summary (sum, mean, max) of its neighbors' embeddings. This is "message passing."
+
+    **Over-smoothing:** As you stack more layers, each node's representation incorporates information from increasingly distant neighbors. After many layers, all nodes converge to similar representations — they've "seen" the whole graph and lost local structure. This limits GNN depth (typically 2-4 layers work best).
 
 ### Optimization Algorithms
 
@@ -367,15 +444,25 @@ This is a review file for natural language processing and transformers.
 The noise averages out to 0 in expectation since their values are small. The noise helps get us out of local minima or reigons with near-zero gradients.
 2) Derive the momentum update rule. Why does it help with saddle points and narrow valleys?
 3) Explain Adam: how does it combine momentum with adaptive learning rates? When does AdamW help?
-4) What is the learning rate warmup and why is it important for transformers?
+4) What is gradient clipping and when is it used?
+
+    Gradient clipping caps gradient magnitudes to prevent exploding gradients from destabilizing training.
+
+    **Clip by value:** Cap each gradient element to $[-c, c]$. Simple but can change gradient direction.
+
+    **Clip by norm (more common):** If $||\nabla L|| > c$, scale the entire gradient: $\nabla L \leftarrow c \cdot \frac{\nabla L}{||\nabla L||}$. Preserves direction, just limits step size.
+
+    Used heavily in RNNs/LSTMs (long unrolls cause gradient explosion) and transformers. Typical values: 1.0 for transformers, 5.0 for RNNs.
+
+5) What is the learning rate warmup and why is it important for transformers?
 
 ### Regularization
 
 1) Derive why L2 regularization is equivalent to a Gaussian prior on weights (MAP estimation).
 2) What's the difference between L1 and L2 regularization? Why does L1 promote sparsity (drive weights to exactly zero)?
 3) Why does dropout work? Explain the "ensemble" interpretation vs the "noise injection" interpretation.
-3) Derive the batch normalization forward pass. Why does it help with internal covariate shift?
-4) Why do transformers use layer norm instead of batch norm? Where is it placed (pre-LN vs post-LN)?
+4) Derive the batch normalization forward pass. Why does it help with internal covariate shift?
+5) Why do transformers use layer norm instead of batch norm? Where is it placed (pre-LN vs post-LN)?
 
 ## NLP Foundations
 
@@ -395,6 +482,19 @@ The noise averages out to 0 in expectation since their values are small. The noi
 ### Language Modeling
 
 1) What is the autoregressive factorization of P(x)? How does this connect to cross-entropy loss?
+
+    **Autoregressive factorization:** Any sequence probability can be decomposed as:
+    $$P(x_1, x_2, \ldots, x_T) = \prod_{t=1}^{T} P(x_t | x_1, \ldots, x_{t-1})$$
+
+    Each token's probability is conditioned on all previous tokens. Language models learn to predict $P(x_t | x_{<t})$.
+
+    **Connection to cross-entropy:** At each position, the model outputs a distribution $q$ over vocabulary, and the true next token is $p$ (one-hot). Cross-entropy loss:
+    $$L = -\sum_t \log q(x_t | x_{<t})$$
+
+    This is exactly **negative log-likelihood** of the sequence. Minimizing cross-entropy = maximizing the probability the model assigns to the correct next token at every position.
+
+    **Training objective:** See the correct history $x_{<t}$, predict next token $x_t$. Summed over all positions in all training sequences.
+
 2) What is perplexity? Derive it from cross-entropy. What does a perplexity of 100 mean intuitively?
 3) What is the exposure bias problem with teacher forcing? How do scheduled sampling and other techniques address it?
 
@@ -545,6 +645,27 @@ Pen-and-paper warmups before coding. Be able to work through these by hand.
 10) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
 
 11) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
+
+## Alignment / RLHF
+
+1) Why does RLHF need an explicit KL penalty term if cross-entropy already minimizes KL divergence?
+
+    They measure KL between **different distributions**:
+
+    **Cross-entropy loss (SFT):**
+    - $p$ = true label, $q$ = model prediction
+    - KL(true label || model) — "match the correct answer"
+
+    **KL term in RLHF (PPO phase):**
+    - $\pi_\theta$ = new policy, $\pi_{ref}$ = reference/original model
+    - KL(new model || original model) — "don't drift too far"
+
+    The RL phase objective is:
+    $$\max_\theta \mathbb{E}[R(y)] - \beta \cdot D_{KL}(\pi_\theta || \pi_{ref})$$
+
+    **Why cross-entropy doesn't need extra KL:** It has a target (true labels) to anchor to. KL toward that target is implicit.
+
+    **Why RL needs explicit KL:** No target distribution — just a reward signal. Without the penalty, the model can "reward hack": find degenerate outputs that score high reward but are nonsensical. The KL term keeps it close to the pretrained model that already produces coherent text.
 
 # Coding Exercises
 
