@@ -377,11 +377,85 @@ This is a review file for natural language processing and transformers.
 
 ## ML Fundamentals
 
+1) What is the difference between regression and classification?
+
+    **Regression:** Predict a continuous value. Output is a real number.
+    - Examples: house price, temperature, stock price
+    - Loss: MSE (mean squared error) or MAE (mean absolute error) — penalize distance from true value
+
+    **Classification:** Predict a discrete category. Output is a probability distribution over classes.
+    - Examples: spam/not spam, digit 0-9, sentiment positive/negative
+    - Loss: cross-entropy (measure how well predicted probabilities match true labels)
+
+    The model architecture can be similar — the key difference is the output layer and loss function. Linear regression outputs a raw value; logistic regression adds a sigmoid to output a probability.
+
 ### Linear Regression
 
 1) Derive the closed-form solution for linear regression using the normal equations.
-2) Why is MSE the "right" loss for regression? (Hint: connect to Gaussian MLE)
-3) What is the bias-variance tradeoff? How does model complexity affect each?
+
+    **Linear regression** models the target as a linear combination of features, $\hat{y} = Xw + b$, where $X$ is (N×D) input data (N samples, D features), $w$ is (D×1) weights, and $b$ is the bias/intercept.
+
+    **Bias trick:** Append a column of 1s to $X$, making it (N×D+1). Now the bias is just another weight:
+    $$\hat{y} = X'w' \quad \text{where } X' = [X | \mathbf{1}], \quad w' = [w; b]$$
+
+    From here we drop the primes and assume $X$ includes the bias column.
+
+    **Objective:** Given data $X$ (N×D) and targets $y$ (N×1), minimize MSE loss:
+    $$L = ||Xw - y||^2$$
+
+    **Take the gradient** (derived in Calculus Q5):
+    $$\frac{\partial L}{\partial w} = 2X^T(Xw - y)$$
+
+    **Set to zero and solve:**
+    $$X^T(Xw - y) = 0$$
+    $$X^T Xw = X^T y$$
+    $$w = (X^T X)^{-1} X^T y$$
+
+
+    **When does this fail?** $(X^TX)^{-1}$ doesn't exist when:
+    - Columns of $X$ are linearly dependent (redundant features)
+    - More features than samples ($D > N$)
+
+    In these cases, use regularization (ridge regression adds $\lambda I$ to make it invertible) or gradient descent.
+
+2) What is ridge regression? How does it modify the normal equation?
+
+    Ridge regression adds L2 regularization to the loss:
+    $$L = ||Xw - y||^2 + \lambda ||w||^2$$
+
+    The regularization term $\lambda ||w||^2$ penalizes large weights, pushing them toward zero. (In practice, bias is not regularized — only the weights.)
+
+    **Modified normal equation:**
+    $$w = (X^T X + \lambda I)^{-1} X^T y$$
+
+    Adding $\lambda I$ to $X^T X$ makes it always invertible (even when $D > N$ or columns are dependent). The diagonal entries become at least $\lambda$, so no zero eigenvalues.
+
+    **Tradeoff:** Higher $\lambda$ = more regularization = smaller weights = simpler model, but may underfit. $\lambda = 0$ recovers ordinary least squares.
+
+3) Why is MSE the "right" loss for regression?
+
+    MSE is the MLE solution when you assume Gaussian noise on your targets. Minimizing squared error = maximizing likelihood under this assumption. If your errors aren't Gaussian (e.g., outliers, heavy tails), MSE isn't ideal — consider MAE or Huber loss instead. (See Appendix for full derivation.)
+
+4) What is the bias-variance tradeoff? How does model complexity affect each?
+
+    For MSE, expected error decomposes as:
+    $$\mathbb{E}[(\hat{y} - y)^2] = \underbrace{(\mathbb{E}[\hat{y}] - f(x))^2}_{\text{Bias}^2} + \underbrace{\mathbb{E}[(\hat{y} - \mathbb{E}[\hat{y}])^2]}_{\text{Variance}} + \underbrace{\sigma^2}_{\text{Irreducible}}$$
+
+    where expectations are over different training sets, $f(x)$ is the true function, and $\sigma^2$ is noise variance.
+
+    - **Bias:** How far is the average prediction from truth? (underfitting)
+    - **Variance:** How much do predictions scatter around that average? (overfitting)
+    - **Irreducible:** Noise in the data. No model can eliminate it.
+
+    **Model complexity tradeoff:**
+    - Simple model (e.g., linear): high bias, low variance
+    - Complex model (e.g., deep network): low bias, high variance
+
+    Regularization (L2, dropout) reduces variance at the cost of slightly increased bias:
+    - **Lower variance:** L2 pulls weights toward zero. Different training sets → models all pulled toward zero → more similar to each other.
+    - **Higher bias:** If the true weights are large, L2 prevents the model from reaching them. Systematically biased toward zero.
+
+    **For cross-entropy:** The irreducible error is $H(p)$, the entropy of the true distribution. With one-hot labels, $H(p) = 0$. With soft/noisy labels, you can't beat that entropy.
 
 ### Logistic Regression
 
@@ -680,3 +754,19 @@ Be ready to implement from scratch and debug in real-time.
 4) Implement positional encodings (sinusoidal and learned). What are the tradeoffs?
 
 5) Implement beam search decoding.
+
+# Appendix: Detailed Derivations
+
+## MSE from Gaussian MLE
+
+Assume targets have Gaussian noise around the true value:
+$$y_i = w^T x_i + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+
+This means $y_i | x_i \sim \mathcal{N}(w^T x_i, \sigma^2)$. The likelihood of observing all data:
+$$L(w) = \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - w^T x_i)^2}{2\sigma^2}\right)$$
+
+Take the log:
+$$\log L(w) = -\frac{N}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i - w^T x_i)^2$$
+
+To maximize log-likelihood, we minimize:
+$$\sum_{i=1}^{N}(y_i - w^T x_i)^2 = \text{MSE (up to constant)}$$
