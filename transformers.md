@@ -460,8 +460,78 @@ This is a review file for natural language processing and transformers.
 ### Logistic Regression
 
 1) Why can't we use linear regression for classification? Derive the logistic function as the solution.
+
+    **Problem:** Linear regression outputs $\hat{y} = w^T x \in (-\infty, +\infty)$. For classification, we need probabilities in $[0, 1]$.
+
+    **Solution:** Model the log-odds (logit) as linear:
+    $$\log \frac{p}{1-p} = w^T x$$
+
+    where $p = P(y=1|x)$. The log-odds can be any real number, so linear modeling makes sense here.
+
+    **Solve for $p$:**
+    $$\frac{p}{1-p} = e^{w^T x}$$
+    $$p = (1-p) \cdot e^{w^T x}$$
+    $$p = e^{w^T x} - p \cdot e^{w^T x}$$
+    $$p(1 + e^{w^T x}) = e^{w^T x}$$
+    $$p = \frac{e^{w^T x}}{1 + e^{w^T x}} = \frac{1}{1 + e^{-w^T x}}$$
+
+    This is the **sigmoid function**: $\sigma(z) = \frac{1}{1 + e^{-z}}$
+
+    **Properties:** $\sigma(z) \in (0, 1)$, $\sigma(0) = 0.5$, $\sigma(-z) = 1 - \sigma(z)$
+
 2) Derive the cross-entropy loss from the MLE of a Bernoulli distribution.
-3) Why is there no closed-form solution for logistic regression?
+
+    For binary classification, $y \in \{0, 1\}$ follows a Bernoulli distribution:
+    $$P(y|x) = p^y (1-p)^{1-y}$$
+
+    where $p = P(y=1|x)$ is the model's prediction. (Check: if $y=1$, this gives $p$; if $y=0$, gives $1-p$.)
+
+    **Likelihood** for $N$ samples:
+    $$L = \prod_{i=1}^{N} p_i^{y_i} (1-p_i)^{1-y_i}$$
+
+    **Log-likelihood:**
+    $$\log L = \sum_{i=1}^{N} \left[ y_i \log p_i + (1-y_i) \log(1-p_i) \right]$$
+
+    **Maximize log-likelihood = minimize negative log-likelihood:**
+    $$-\log L = -\sum_{i=1}^{N} \left[ y_i \log p_i + (1-y_i) \log(1-p_i) \right]$$
+
+    This is exactly **binary cross-entropy loss**. Just like MSE is MLE for Gaussian noise, cross-entropy is MLE for Bernoulli labels.
+
+3) How does logistic regression extend to multiclass classification?
+
+    **Binary:** One weight vector. $z = w^T x$ gives a single logit, sigmoid converts to probability.
+
+    **Multiclass (K classes):** One weight vector per class. Each class $c$ has its own linear function:
+    $$z_c = w_c^T x$$
+
+    This gives $K$ logits (one per class). Softmax converts them to probabilities:
+    $$p_c = \text{softmax}(z)_c = \frac{e^{z_c}}{\sum_{j=1}^{K} e^{z_j}}$$
+
+    **Loss:** Categorical cross-entropy: $-\sum_c y_c \log p_c$. With one-hot labels ($y_c = 1$ for correct class, 0 otherwise), this simplifies to $-\log p_{\text{true}}$. This is called **softmax regression** or **multinomial logistic regression**. Still a linear model (decision boundaries are hyperplanes).
+
+4) Why is there no closed-form solution for logistic regression?
+
+    **Linear regression:** $\frac{\partial L}{\partial w} = X^T(Xw - y) = 0$. Linear in $w$, so we can solve algebraically: $w = (X^T X)^{-1} X^T y$.
+
+    **Logistic regression:** Loss is $L = -\sum_i [y_i \log p_i + (1-y_i) \log(1-p_i)]$ where $p_i = \sigma(w^T x_i)$ (bias absorbed into $w$).
+
+    $$\frac{\partial L}{\partial w} = \sum_i (p_i - y_i) \cdot x_i = 0$$
+
+    Can't isolate $w$ because $p_i = \sigma(w^T x_i)$ is nonlinear in $w$.
+
+    **Solution:** Iterative optimization.
+    - Gradient descent: $w \leftarrow w - \alpha \nabla L$
+    - Newton's method: $w \leftarrow w - H^{-1} \nabla L$ (uses Hessian, converges faster)
+
+    Both work well because cross-entropy loss is **convex** for logistic regression — no local minima, guaranteed to find global optimum.
+
+5) Why is the decision boundary linear even though logistic regression uses a nonlinear sigmoid?
+
+    We predict class 1 when $P(y=1|x) > 0.5$: $\sigma(w^T x) > 0.5$. Since $\sigma(0) = 0.5$, this simplifies to: $w^T x > 0$. This is a linear equation in $x$; the boundary is a hyperplane. The sigmoid squashes outputs to probabilities but doesn't bend the boundary.
+
+    **For nonlinear boundaries**, you need: Feature engineering (add $x^2$, $x_1 x_2$, etc.), Kernel methods, Neural networks (multiple layers with nonlinearities)
+
+    **Classic example — XOR:** Points (0,0), (1,1) are class 0; points (0,1), (1,0) are class 1. No straight line can separate them. Logistic regression fails. A neural network with one hidden layer can solve it.
 
 ### Neural Networks
 
@@ -529,6 +599,20 @@ The noise averages out to 0 in expectation since their values are small. The noi
     Used heavily in RNNs/LSTMs (long unrolls cause gradient explosion) and transformers. Typical values: 1.0 for transformers, 5.0 for RNNs.
 
 5) What is the learning rate warmup and why is it important for transformers?
+
+6) What happens if your learning rate is too large? Too small?
+
+    **Too large:**
+    - Loss oscillates wildly or diverges to infinity/NaN
+    - Overshooting minima — each step jumps past the optimal point
+    - Gradients explode as you land in bad regions of loss landscape
+
+    **Too small:**
+    - Training is very slow
+    - May get stuck in sharp local minima or saddle points
+    - Takes forever to converge (or never does in practice)
+
+    **Diagnosis:** Plot loss curve. Oscillating/exploding = too large. Barely decreasing = too small. Good learning rate shows steady decrease with occasional bumps.
 
 ### Regularization
 
@@ -714,15 +798,82 @@ Pen-and-paper warmups before coding. Be able to work through these by hand.
 
 ## Debugging Scenarios
 
-9) "Loss is NaN after a few training steps" - list the common causes and what you'd check.
+9) Why do we overfit a tiny batch when debugging training?
 
-10) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
+    Before training on full data, overfit 1-2 batches first. If the model can't memorize a tiny batch, something is broken.
 
-11) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
+    **What it tests:**
+    - Forward pass computes correctly
+    - Backward pass updates weights
+    - Loss can decrease at all
+    - No bugs in data loading/preprocessing
+
+    **Expected:** Loss drops to ~0 quickly (model memorizes the batch). If not, debug before scaling up.
+
+    **Common failures:** Wrong loss function, frozen weights, learning rate = 0, bad data pipeline, labels don't match inputs.
+
+10) "Loss is NaN after a few training steps" - list the common causes and what you'd check.
+
+11) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
+
+12) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
 
 ## Alignment / RLHF
 
-1) Why does RLHF need an explicit KL penalty term if cross-entropy already minimizes KL divergence?
+1) What is MCTS and how does it apply to LLM reasoning?
+
+    **Monte Carlo Tree Search (MCTS)** is a search algorithm that explores possible actions by building a tree and evaluating paths without exhaustively completing all of them.
+
+    **Standard LLM generation:** Greedy or sampling-based, left-to-right. Once you generate tokens, you're committed — no backtracking.
+
+    **MCTS for LLMs:** Explore multiple reasoning paths:
+    - Each node = partial response (a reasoning step, sentence, or paragraph)
+    - Expand = generate candidate next steps using the LLM
+    - Evaluate = use a value model to score partial paths (see below)
+    - Backpropagate = update node values based on evaluations
+    - Select = choose best path after search
+
+    True reward comes at the end (is the final answer correct?), but expanding every path to completion is exponentially expensive. The solution is a **value model** that estimates final reward from a partial state — "how likely is this incomplete reasoning to lead to a correct answer?" This lets you prune bad paths early without finishing them.
+
+    An **ORM (Outcome Reward Model)** only scores final answers — can't guide search mid-reasoning. A **PRM (Process Reward Model)** scores each intermediate step, which is what MCTS needs. To train a PRM: collect reasoning traces with step-by-step labels (human annotation, or automatic by checking if a step leads to correct final answers), then train the model to predict "is this step on the right track?" At search time, PRM scores each node without completing the full trajectory.
+
+    **Example walkthrough:** Query is "What is 17 × 24?"
+
+    ```
+    Iteration 1:
+      Root (query) → expand → generate children:
+        A: "17 × 24 = 17 × 20 + 17 × 4"  (PRM score: 0.9)
+        B: "17 × 24 = 400"                (PRM score: 0.2)
+      Backprop scores to root.
+
+    Iteration 2:
+      Root → UCB picks A (high value) → expand A:
+        A1: "= 340 + 68"                  (PRM score: 0.9)
+        A2: "= 340 + 17"                  (PRM score: 0.3)
+      Backprop.
+
+    Iteration 3:
+      Root → A → UCB picks A1 → expand:
+        A1a: "= 408"                      (PRM score: 0.95)
+      Backprop. Path A → A1 → A1a looks good.
+
+    Iteration 4:
+      UCB says: "B has low value but only 1 visit, explore it"
+      Root → B → expand:
+        B1: "Let me recalculate..."       (PRM score: 0.4)
+      Backprop. Still worse than A path.
+
+    Iteration 5:
+      Root → A → A2 (underexplored) → expand:
+        A2a: "= 357"                      (PRM score: 0.1)
+      Backprop. Confirms A2 is bad.
+
+    Final: Return path A → A1 → A1a = "408"
+    ```
+
+    Key points: tree grows unevenly (deep on A, shallow on B), UCB occasionally explores bad-looking paths to be sure, final answer comes from best path. In contrast, beam would keep top-k at each level and move forward together. MCTS dynamically chooses where to expand next.
+
+2) Why does RLHF need an explicit KL penalty term if cross-entropy already minimizes KL divergence?
 
     They measure KL between **different distributions**:
 
@@ -770,3 +921,61 @@ $$\log L(w) = -\frac{N}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{N}
 
 To maximize log-likelihood, we minimize:
 $$\sum_{i=1}^{N}(y_i - w^T x_i)^2 = \text{MSE (up to constant)}$$
+
+## Logistic Regression Gradient
+
+For binary cross-entropy loss $L = -[y\log p + (1-y)\log(1-p)]$ where $p = \sigma(z)$ and $z = w^T x$ (bias absorbed into $w$).
+
+Using the chain rule:
+$$\frac{\partial L}{\partial w} = \frac{\partial L}{\partial p} \cdot \frac{\partial p}{\partial z} \cdot \frac{\partial z}{\partial w}$$
+
+**Each term:**
+1. $\frac{\partial L}{\partial p} = -\frac{y}{p} + \frac{1-y}{1-p}$ (from the log terms)
+2. $\frac{\partial p}{\partial z} = \sigma(z)(1-\sigma(z)) = p(1-p)$ (sigmoid derivative)
+3. $\frac{\partial z}{\partial w} = x$
+
+**Multiply and simplify:**
+$$\frac{\partial L}{\partial w} = \left[-\frac{y}{p} + \frac{1-y}{1-p}\right] \cdot p(1-p) \cdot x$$
+
+$$= \left[-y(1-p) + (1-y)p\right] \cdot x$$
+
+$$= \left[-y + yp + p - yp\right] \cdot x = (p - y) \cdot x$$
+
+**Result (single sample):** $\frac{\partial L}{\partial w} = (p - y) \cdot x$
+
+**For N samples:** $\frac{\partial L}{\partial w} = \sum_{i=1}^{N} (p_i - y_i) \cdot x_i$
+
+The sigmoid derivative and log cancel nicely to give this clean form.
+
+## Kernel Methods
+
+Kernel methods (mainly SVMs) are an alternative to neural networks for nonlinear classification. They're mostly historical now but worth understanding.
+
+**Context:** Logistic regression has linear decision boundaries. One way to get nonlinear boundaries is to manually add features like $x^2$, $x_1 x_2$, etc. But this gets expensive as you add more terms.
+
+**How SVMs differ from logistic regression:**
+- Logistic regression: learn weights $w$, predict via $w^T x$, throw away training data
+- SVMs: store key training points ("support vectors"), predict by comparing new points to them
+
+To classify a new point $x$:
+$$\hat{y} = \text{sign}\left(\sum_i \alpha_i y_i \cdot (x_i \cdot x)\right)$$
+
+where $x_i$ are stored support vectors, $y_i$ are their labels, $\alpha_i$ are learned weights. You're asking "is $x$ more similar to positive or negative training examples?" Similarity = dot product.
+
+**How are support vectors chosen?** Training finds the boundary with the largest margin (distance to nearest points). The points closest to this boundary are the support vectors — they're the only ones that matter. Most points get $\alpha_i = 0$.
+
+**Problem:** This only gives linear boundaries (dot product = linear similarity). For nonlinear, you'd transform features first: $x \to \phi(x)$.
+
+Example: $x = [x_1, x_2] \to \phi(x) = [x_1, x_2, x_1^2, x_2^2, x_1 x_2, ...]$
+
+Then use $\phi(x_i) \cdot \phi(x)$ as similarity. But $\phi$ can have huge or infinite dimensions — expensive to compute.
+
+**The kernel trick:** Find a function $K$ that computes the dot product in transformed space *without* computing $\phi$:
+$$K(x_i, x) = \phi(x_i) \cdot \phi(x)$$
+
+**Example — RBF kernel:**
+$$K(x_i, x_j) = \exp\left(-\frac{||x_i - x_j||^2}{2\sigma^2}\right)$$
+
+This simple formula is equivalent to a dot product in *infinite*-dimensional feature space. You get nonlinear boundaries without computing infinite features.
+
+**Why neural networks won:** Kernel methods require computing $K(x_i, x_j)$ for all pairs — $O(N^2)$ cost. Neural networks scale better to large datasets and learn features end-to-end.
