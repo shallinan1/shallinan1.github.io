@@ -438,10 +438,20 @@ This is a review file for natural language processing and transformers.
 
 4) What is the bias-variance tradeoff? How does model complexity affect each?
 
+    **Setup:** We assume observed targets are noisy versions of a true function:
+    $$y = f(x) + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+
+    - $f(x)$ = the true underlying function (deterministic, what we want to learn)
+    - $\epsilon$ = random noise (unpredictable, different for each observation)
+    - $y$ = what we actually observe (true value + noise)
+    - $\hat{y}$ = our model's prediction
+
     For MSE, expected error decomposes as:
     $$\mathbb{E}[(\hat{y} - y)^2] = \underbrace{(\mathbb{E}[\hat{y}] - f(x))^2}_{\text{Bias}^2} + \underbrace{\mathbb{E}[(\hat{y} - \mathbb{E}[\hat{y}])^2]}_{\text{Variance}} + \underbrace{\sigma^2}_{\text{Irreducible}}$$
 
-    where expectations are over different training sets, $f(x)$ is the true function, and $\sigma^2$ is noise variance.
+    where expectations are over different training sets.
+
+    **Why is $\sigma^2$ irreducible?** Even if our model perfectly learned $f(x)$, we'd still have $\mathbb{E}[(\hat{y} - y)^2] = \mathbb{E}[(f(x) - (f(x) + \epsilon))^2] = \mathbb{E}[\epsilon^2] = \sigma^2$. The noise $\epsilon$ is random — no model can predict it.
 
     - **Bias:** How far is the average prediction from truth? (underfitting)
     - **Variance:** How much do predictions scatter around that average? (overfitting)
@@ -828,10 +838,12 @@ Pen-and-paper warmups before coding. Be able to work through these by hand.
 
     **MCTS for LLMs:** Explore multiple reasoning paths:
     - Each node = partial response (a reasoning step, sentence, or paragraph)
-    - Expand = generate candidate next steps using the LLM
-    - Evaluate = use a value model to score partial paths (see below)
-    - Backpropagate = update node values based on evaluations
-    - Select = choose best path after search
+    - **Select** = pick which node to expand using UCB (Upper Confidence Bound):
+      $$UCB = \frac{\text{value}}{\text{visits}} + c \cdot \sqrt{\frac{\ln(\text{parent visits})}{\text{visits}}}$$
+      First term exploits high-value nodes; second term explores undervisited nodes.
+    - **Expand** = generate candidate next steps using the LLM
+    - **Evaluate** = use a value model (PRM) to score partial paths
+    - **Backpropagate** = update node values up to root
 
     True reward comes at the end (is the final answer correct?), but expanding every path to completion is exponentially expensive. The solution is a **value model** that estimates final reward from a partial state — "how likely is this incomplete reasoning to lead to a correct answer?" This lets you prune bad paths early without finishing them.
 
@@ -905,6 +917,71 @@ Be ready to implement from scratch and debug in real-time.
 4) Implement positional encodings (sinusoidal and learned). What are the tradeoffs?
 
 5) Implement beam search decoding.
+
+6) Implement MCTS for LLM reasoning.
+
+```python
+import math
+from typing import List, Callable
+
+class Node:
+    def __init__(self, state: str, parent=None):
+        self.state = state          # partial response so far
+        self.parent = parent
+        self.children: List[Node] = []
+        self.visits = 0
+        self.value = 0.0            # average PRM score
+
+    def ucb(self, c=1.4) -> float:
+        if self.visits == 0:
+            return float('inf')     # always explore unvisited
+        exploit = self.value / self.visits
+        explore = c * math.sqrt(math.log(self.parent.visits) / self.visits)
+        return exploit + explore
+
+def mcts(
+    query: str,
+    llm_generate: Callable[[str], List[str]],  # generates candidate next steps
+    prm_score: Callable[[str], float],          # scores partial solution
+    num_iterations: int = 100
+) -> str:
+    root = Node(query)
+    root.visits = 1
+
+    for _ in range(num_iterations):
+        # 1. SELECT: walk down tree using UCB
+        node = root
+        while node.children:
+            node = max(node.children, key=lambda n: n.ucb())
+
+        # 2. EXPAND: generate children for this node
+        continuations = llm_generate(node.state)
+        for cont in continuations:
+            child = Node(node.state + cont, parent=node)
+            node.children.append(child)
+
+        # 3. EVALUATE: score one child with PRM
+        if node.children:
+            child = node.children[0]  # or random choice
+            score = prm_score(child.state)
+            child.visits = 1
+            child.value = score
+
+            # 4. BACKPROPAGATE: update ancestors
+            current = child
+            while current.parent:
+                current.parent.visits += 1
+                current.parent.value += score
+                current = current.parent
+
+    # Return best path: follow highest-value children from root
+    node = root
+    while node.children:
+        node = max(node.children, key=lambda n: n.value / max(n.visits, 1))
+    return node.state
+```
+
+Key components: Node with state/visits/value, UCB for selection, expand with LLM, evaluate with PRM, backpropagate scores up the tree.
 
 # Appendix: Detailed Derivations
 
