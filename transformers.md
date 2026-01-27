@@ -299,7 +299,22 @@ This is a review file for natural language processing and transformers.
 
     TODO: MAP vs MLE — Maximum a posteriori adds a prior to MLE. Connection to regularization (L2 regularization ↔ Gaussian prior).
 
-5) How does the softmax function convert a list of raw logits into probabilities that sum to 1?
+5) Why do we maximize log-likelihood instead of likelihood directly?
+
+    For i.i.d. data, likelihood is a product: $L(\theta) = \prod_{i=1}^{n} P(x_i | \theta)$. Log converts this to a sum: $\log L(\theta) = \sum_{i=1}^{n} \log P(x_i | \theta)$. This helps in two ways:
+
+    **The value doesn't underflow.** A product of 1000 probabilities of 0.1 each is $0.1^{1000} = 10^{-1000}$, which underflows to 0. The log-likelihood is just $1000 \times \log(0.1) \approx -2303$.
+
+    **Gradients don't vanish.** The gradient of a product (via product rule) is:
+    $$\frac{\partial L}{\partial \theta} = \sum_{i=1}^{n} \left[ \frac{\partial P(x_i | \theta)}{\partial \theta} \cdot \prod_{j \neq i} P(x_j | \theta) \right]$$
+
+    Each term multiplies by $n-1$ other probabilities, so it underflows too. With log-likelihood, the gradient is just a sum of independent terms — no vanishing products.
+
+    **Why we can do this:** $\log$ is strictly monotonic, so $\arg\max_\theta L(\theta) = \arg\max_\theta \log L(\theta)$.
+
+    **Note:** In deep learning, we minimize *negative* log-likelihood (NLL) since optimizers minimize by default.
+
+6) How does the softmax function convert a list of raw logits into probabilities that sum to 1?
 
     The softmax function is $\text{softmax}(v_i) = \frac{e^{v_i}}{\sum_j e^{v_j}}$. It converts a vector into a discrete probability distribution.
 
@@ -312,7 +327,7 @@ This is a review file for natural language processing and transformers.
     - Exp is monotonic everywhere: larger logit → larger $e^{v_i}$ → larger probability. Always preserves ranking.
     - Exp amplifies differences: small gaps in logits become larger gaps in probabilities, making the distribution sharper/more confident.
 
-6) What is entropy?
+7) What is entropy?
 
     **Entropy** (denoted $H$) measures the uncertainty in a probability distribution $p$:
     $$H(p) = -\sum_x p(x) \log p(x)$$
@@ -329,7 +344,7 @@ This is a review file for natural language processing and transformers.
 
     **Max entropy:** For $n$ outcomes, $H_{\max} = \log(n)$, achieved by uniform $p(x) = 1/n$. Making any outcome more likely reduces uncertainty.
 
-7) What is cross-entropy? How does it relate to KL divergence?
+8) What is cross-entropy? How does it relate to KL divergence?
 
     **Cross-entropy** between true distribution $p$ and predicted distribution $q$:
     $$H(p, q) = -\sum_x p(x) \log q(x)$$
@@ -354,7 +369,7 @@ This is a review file for natural language processing and transformers.
     - So minimizing cross-entropy $H(p, q)$ = minimizing KL divergence $D_{KL}(p || q)$
     - We're making $q$ as close to $p$ as possible
 
-8) What is the relationship between minimizing cross-entropy and maximizing likelihood?
+9) What is the relationship between minimizing cross-entropy and maximizing likelihood?
 
     **Cross-entropy with one-hot labels:** For true label $p$ (one-hot) and prediction $q$:
     $$H(p, q) = -\sum_x p(x) \log q(x) = -\log q(y_{true})$$
@@ -460,6 +475,7 @@ This is a review file for natural language processing and transformers.
     **Model complexity tradeoff:**
     - Simple model (e.g., linear): high bias, low variance
     - Complex model (e.g., deep network): low bias, high variance
+    TODO this is handwavey
 
     Regularization (L2, dropout) reduces variance at the cost of slightly increased bias:
     - **Lower variance:** L2 pulls weights toward zero. Different training sets → models all pulled toward zero → more similar to each other.
@@ -546,19 +562,49 @@ This is a review file for natural language processing and transformers.
 ### Neural Networks
 
 1) What is a fully connected (dense) layer? How does it transform its input?
+
+    A fully connected (dense) layer computes a linear transformation followed by an optional nonlinearity:
+    $$y = \sigma(Wx + b)$$
+
+    where $x$ is the input (D×1), $W$ is the weight matrix (M×D), $b$ is the bias (M×1), and $\sigma$ is an activation function.
+
+    **"Fully connected" means:** Every output neuron connects to every input. The weight $W_{ij}$ determines how much input $j$ contributes to output $i$. This is in contrast to convolutional layers (local connections) or attention (dynamic connections).
+
+    **Transformation:** Maps D-dimensional input to M-dimensional output. Each of the M output neurons computes a dot product between its weight vector (one row of $W$) and the input, then adds bias. As discussed in the matrix multiplication section, each neuron's weights encode a "pattern" — the dot product measures how much the input matches that pattern.
+
+    **Batched form:** For N samples, $X$ is (N×D), and $Y = XW^T + b$ gives (N×M) outputs. All samples processed in parallel.
+
 2) Why are nonlinear activation functions (ReLU, GELU) necessary? What happens with only linear layers?
+
+    **Without nonlinearities, depth is useless.** Stacking linear layers collapses to a single linear layer:
+    $$y = W_2(W_1 x) = (W_2 W_1)x = W'x$$
+
+    No matter how many layers, the network can only learn linear functions. Linear functions can't solve XOR, can't learn curves, can't approximate complex decision boundaries.
+
+    **Nonlinearities break this collapse.** With $y = W_2 \cdot \text{ReLU}(W_1 x)$, the composition is no longer reducible. Each layer can learn features that the next layer builds on. This is what makes deep networks expressive.
+
+    **Common activations:**
+    - **ReLU:** $\max(0, x)$. Simple, sparse (zeros out negatives), fast. Problem: "dead neurons" — if a neuron's input is always negative, gradient is always 0, it never updates.
+    - **Leaky ReLU:** $\max(0.01x, x)$. Small slope for negatives prevents dead neurons.
+    - **GELU:** $x \cdot \Phi(x)$ where $\Phi$ is the Gaussian CDF. Smooth approximation to ReLU, used in transformers (BERT, GPT). Slightly better empirically; the smoothness may help optimization.
+    - **SiLU/Swish:** $x \cdot \sigma(x)$. Similar to GELU, used in newer models.
+
+    **Why ReLU works despite being so simple:** It's piecewise linear, so gradients don't vanish (unlike sigmoid/tanh which saturate). The "kink" at 0 provides the nonlinearity. Networks with ReLU are universal approximators — they can approximate any continuous function by combining enough piecewise linear pieces.
+
 3) Derive backpropagation for a simple 2-layer network. What is the computational complexity?
 
-    For a 2-layer network:
-    1. $h = \text{ReLU}(xW_1)$
-    2. $\hat{y} = hW_2$
-    3. $L = \text{Loss}(\hat{y}, y)$
+    **Setup:** Input $x$ (1×D) → $z_1 = xW_1$ (D×H) → $h = \text{ReLU}(z_1)$ → $\hat{y} = hW_2$ (H×1) → $L = (\hat{y} - y)^2$
 
-    This is a composition $L = f_3(f_2(f_1(x)))$. To get $\frac{\partial L}{\partial W_1}$, apply the chain rule backward:
+    Forward pass computes and stores $z_1, h, \hat{y}, L$. Backward pass applies chain rule from output to input:
+    1. $\frac{\partial L}{\partial \hat{y}} = 2(\hat{y} - y)$ — gradient of MSE
+    2. $\frac{\partial L}{\partial W_2} = h^T \cdot \frac{\partial L}{\partial \hat{y}}$ — shape (H×1), matches $W_2$
+    3. $\frac{\partial L}{\partial h} = \frac{\partial L}{\partial \hat{y}} \cdot W_2^T$ — shape (1×H), note the transpose to "fan in"
+    4. $\frac{\partial L}{\partial z_1} = \frac{\partial L}{\partial h} \odot \mathbf{1}_{z_1 > 0}$ — ReLU gates the gradient (element-wise)
+    5. $\frac{\partial L}{\partial W_1} = x^T \cdot \frac{\partial L}{\partial z_1}$ — shape (D×H), matches $W_1$
 
-    $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h} \cdot \frac{\partial h}{\partial W_1}$$
+    **Pattern:** Weight gradient = (layer input)$^T$ × (upstream gradient). Gradient to pass back = (upstream gradient) × (weights)$^T$.
 
-    Each term is computable because we know each layer's formula. Backprop applies the chain rule systematically from output to input, reusing intermediate results—that's why it's efficient.
+    **Complexity:** Forward pass does one matmul per layer, $O(DH)$ for (D×H) weights. Backward does two matmuls per layer (weight gradient + propagate back). Total: $O(\sum_{\text{layers}} n_{in} \times n_{out})$ — linear in parameters. Backprop costs ~2-3× forward pass.
 
 4) In the backward pass, why do we multiply by $W^T$ instead of $W$? (Hint: think about "fanning out" vs "fanning in")
 
@@ -570,6 +616,17 @@ This is a review file for natural language processing and transformers.
     The weights "fan out" from $D$ inputs to $M$ neurons in the forward pass. To propagate gradients backward, you "fan in" from $M$ neurons back to $D$ inputs. Same weights, opposite direction.
     
 5) What causes the vanishing/exploding gradient problem? How do ReLU and residual connections help?
+
+    Backpropagation multiplies gradients through layers via the chain rule. For a deep network with $L$ layers:
+    $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial h_L} \cdot \frac{\partial h_L}{\partial h_{L-1}} \cdots \frac{\partial h_2}{\partial h_1} \cdot \frac{\partial h_1}{\partial W_1}$$
+    Each $\frac{\partial h_{l+1}}{\partial h_l}$ involves the activation's derivative and the weight matrix. If these terms are consistently $< 1$, gradients shrink exponentially. If consistently $> 1$, they explode.
+
+    Gradients vanish with sigmoid and tanh because these activations saturate for large inputs — their derivatives approach 0. After many layers, gradients become negligibly small, early layers barely update, and the network can't learn long-range dependencies. Gradients explode when weight matrices have large singular values, causing exponential growth. Training becomes unstable — loss spikes or goes to NaN.
+
+    ReLU helps by *not* shrinking gradients. Sigmoid's derivative is $\sigma'(x) = \sigma(x)(1 - \sigma(x))$, which is maximized when $\sigma(x) = 0.5$, giving $0.5 \times 0.5 = 0.25$. So each layer multiplies gradients by at most 0.25 — after 10 layers: $0.25^{10} \approx 10^{-6}$. ReLU's derivative is exactly 1 for $x > 0$, so gradients pass through unchanged. It's not that ReLU boosts anything — it just stops the bleeding. For $x < 0$ the gradient is 0, which can cause "dead neurons," but that's a different problem than vanishing gradients (0 vs exponentially small).
+
+    Residual connections provide a "highway" for gradients to skip problematic layers entirely (see Q7 for details). Together, ReLU prevents per-layer shrinking and residuals prevent cross-layer shrinking, enabling very deep networks.
+
 6) Why does weight initialization matter? What do Xavier and He initialization do?
 
     Bad initialization causes vanishing/exploding gradients before training even starts. If weights are too small, activations shrink layer by layer; too large, they explode.
@@ -578,9 +635,16 @@ This is a review file for natural language processing and transformers.
 
     **He initialization:** $W \sim \mathcal{N}(0, \frac{2}{n_{in}})$. Designed for ReLU — accounts for ReLU killing half the activations (hence the 2×).
 
-    The key insight: variance of layer output depends on (variance of weights) × (fan-in). These schemes set weight variance to counteract fan-in, keeping activations stable.
+    The key insight: variance of layer output depends on (variance of weights) × $n_{in}$. Each neuron sums $n_{in}$ terms, and variance of a sum scales with the number of terms. These schemes set weight variance to $\frac{1}{n_{in}}$ (or $\frac{2}{n_{in}}$) to counteract this, keeping activations stable.
 
 7) What are residual (skip) connections and how do they help gradients flow through deep networks?
+
+    A residual block computes $y = F(x) + x$ instead of $y = F(x)$, where $x$ is the block's input (activations from the previous layer) and $F$ is typically a few layers (conv-batchnorm-relu or similar). The input $x$ "skips" past $F$ and gets added to the output.
+
+    Why this helps gradients: during backprop, each layer computes how its output changes w.r.t. its input so the gradient can propagate to earlier layers. For a residual block, $\frac{\partial y}{\partial x} = \frac{\partial F}{\partial x} + I$. Even if $\frac{\partial F}{\partial x}$ vanishes, the $+I$ term lets gradients flow through unchanged. This "highway" lets gradients reach early layers without shrinking, which is why ResNets can train 100+ layers while plain networks struggle past 20.
+
+    When $F(x)$ and $x$ have different dimensions, the skip connection uses a learned projection: $y = F(x) + W_s x$, where $W_s$ matches dimensions (typically a 1×1 convolution in CNNs or a linear layer in transformers).
+
 8) What is the universal approximation theorem and what are its practical limitations?
 
 #### Graph Neural Networks
@@ -705,22 +769,106 @@ The noise averages out to 0 in expectation since their values are small. The noi
 
 # Basic Transformer Questions (High Level)
 
-1) What is the high-level idea of how transformers work?
+1) How does convolution decide how much weight to give each input position? How does attention?
+
+    **Convolution:** Uses fixed, learned weights. A kernel of size $k$ learns $k$ weights at training time, and these same weights are applied identically at every position. The weights don't depend on what the input actually contains — position 2 always gets weight $w_2$, regardless of the content there.
+
+    **Attention:** Computes weights dynamically based on content. Each position's weight comes from a query-key dot product: "how relevant is this position to what I'm looking for?" The same input at a different position (or with different surrounding context) can receive completely different attention weights.
+
+    **Key distinction:** Convolution is *content-agnostic* (weights fixed by position), attention is *content-dependent* (weights computed from the data).
+
+2) What if you set the convolution kernel size equal to the sequence length?
+
+    Then every output position can "see" the entire input — same receptive field as attention. But the weights are still fixed and position-based. Position 0 always gets $w_0$, position 1 always gets $w_1$, etc.
+
+    This means:
+    - Can't handle variable-length sequences (kernel size is fixed)
+    - Can't dynamically focus on relevant positions (weights don't depend on content)
+    - Parameter count scales linearly with sequence length
+
+    Attention solves all three: works on any length, focuses where content is relevant, and has fixed parameter count regardless of sequence length. The tradeoff is $O(N^2)$ compute to compute all pairwise similarities.
+
+3) What is the high-level idea of how transformers work?
 
    <details><summary>Answer</summary>
     Test
    </details>
 
-2) Why does scaled dot-product attention divide by √d? Prove that this keeps the variance of the dot product ~1, and explain why softmax saturates without it.
+4) Why does scaled dot-product attention divide by √d? Prove that this keeps the variance of the dot product ~1, and explain why softmax saturates without it.
 
-3) Why do transformers use scaled dot-product attention instead of cosine similarity attention?
+5) Why do transformers use scaled dot-product attention instead of cosine similarity attention?
 
-4) If bigger attention scores lead to sharper attention, why divide by √d at all? (Hint 1: think about gradient flow through softmax when inputs have high variance. Hint 2: consider training stability vs inference behavior.)
+6) If bigger attention scores lead to sharper attention, why divide by √d at all? (Hint 1: think about gradient flow through softmax when inputs have high variance. Hint 2: consider training stability vs inference behavior.)
 
 TODO: more questions here, loss funciton
 
 # Contemporary Questions
-TODO: add questions like "what does flash attention do differrently"
+
+## KV Cache
+
+1) What is the KV cache and why is it essential for efficient autoregressive generation?
+
+    During autoregressive generation, we produce one token at a time. At step $t$, we need to compute attention over all previous tokens $1, 2, ..., t-1$ plus the new token $t$.
+
+    Without KV cache: Recompute K and V for *all* tokens at every step.
+    - Step 1: compute K, V for token 1
+    - Step 2: compute K, V for tokens 1, 2
+    - Step 3: compute K, V for tokens 1, 2, 3
+    - Total: $O(n^2)$ K/V computations for n tokens
+
+    With KV cache: Store K and V from previous steps, only compute for new token.
+    - Step 1: compute K₁, V₁, store them
+    - Step 2: compute K₂, V₂, store them, reuse K₁, V₁
+    - Step 3: compute K₃, V₃, store them, reuse K₁, V₁, K₂, V₂
+    - Total: $O(n)$ K/V computations
+
+    Why it works: In causal attention, token $t$ only attends to tokens $\leq t$. The K and V vectors for past tokens don't change — they only depend on those tokens' positions, not future tokens. So we can cache them.
+
+    Q is not cached because we only need the query for the *current* token (we're computing attention *from* the new token *to* all previous tokens).
+
+2) What is the memory cost of the KV cache? When does it become a bottleneck?
+
+    For each layer, we store K and V matrices of shape (batch_size, num_heads, seq_len, head_dim). Memory per layer: $2 \times B \times H \times L \times d_h \times \text{bytes\_per\_param}$, where $B$ = batch size, $H$ = num heads, $L$ = sequence length, $d_h$ = head dimension.
+
+    Concrete example (Llama-2 70B): 80 layers, 64 heads, head_dim = 128, fp16 (2 bytes). Per token: $2 \times 80 \times 64 \times 128 \times 2 = 2.6$ MB. For 4096 context: ~10.5 GB just for KV cache.
+
+    Bottlenecks: long contexts (KV cache grows linearly with sequence length), large batch sizes (multiplies cache size), memory-constrained deployment. This is why Multi-Query Attention (MQA), Grouped-Query Attention (GQA), and sliding window attention exist.
+
+3) How do Multi-Query Attention (MQA) and Grouped-Query Attention (GQA) reduce KV cache size?
+
+    Standard Multi-Head Attention (MHA): Each head has its own K, V projections. KV cache size: $2 \times H \times d_h$ per token per layer.
+
+    Multi-Query Attention (MQA): All heads share a *single* K and V. KV cache size: $2 \times d_h$ per token per layer (H× smaller). Tradeoff: some quality degradation since heads can't specialize their K/V.
+
+    Grouped-Query Attention (GQA): Compromise — groups of heads share K/V. If $G$ groups: KV cache size is $2 \times G \times d_h$ (between MHA and MQA). Example: 8 groups with 64 heads = 8 heads share each K/V. Used in Llama-2 70B, Mistral, etc.
+
+    Why this works: Empirically, K/V representations are more similar across heads than Q representations. Sharing K/V hurts less than sharing Q would.
+
+## Flash Attention
+
+1) What problem does Flash Attention solve? Why is standard attention memory-inefficient?
+
+    Standard attention: `S = Q @ K.T` (N×N), `P = softmax(S)` (N×N), `O = P @ V` (N×d). The problem: we materialize the full $N \times N$ attention matrix in GPU memory (HBM). Memory is $O(N^2)$ — for N=8192, d=128: attention matrix is 256MB (fp32), but Q/K/V are only 4MB each.
+
+    The real bottleneck is memory bandwidth, not compute. Modern GPUs have massive compute (TFLOPS) but limited memory bandwidth. Reading/writing that huge attention matrix to HBM is slow.
+
+    Flash Attention insight: Never materialize the full N×N matrix. Compute attention in *tiles* that fit in fast SRAM, write only the final output to HBM.
+
+2) How does Flash Attention use tiling to reduce memory I/O?
+
+    GPU memory hierarchy: HBM (High Bandwidth Memory) is large (~40GB) but slow (~2TB/s). SRAM (on-chip) is small (~20MB) but fast (~19TB/s).
+
+    Flash Attention algorithm: (1) Divide Q, K, V into blocks that fit in SRAM. (2) For each block of Q, load it into SRAM. (3) For each block of K, V: load into SRAM, compute local attention scores, compute local softmax with running max for numerical stability, accumulate weighted V contributions. (4) Write final output block to HBM.
+
+    Softmax is tricky because it needs the max over the entire row. Flash Attention uses the "online softmax" trick — track running statistics and rescale as you process each K/V block. Memory: $O(N)$ instead of $O(N^2)$.
+
+3) What are the practical speedups from Flash Attention?
+
+    Memory reduction from $O(N^2)$ to $O(N)$ enables much longer contexts. Wall-clock speedup of 2-4× on typical workloads, despite doing the "same" computation — the speedup comes from reduced memory I/O, not reduced FLOPs. Standard attention runs out of memory around N=8K-16K on typical GPUs; Flash Attention can handle N=64K+. Unlike sparse or linear attention approximations, Flash Attention computes *exact* attention.
+
+4) What is Flash Attention 2 and what does it improve?
+
+    Flash Attention 2 optimizes parallelization. FA1 parallelizes over batch size and heads — each thread block handles one (batch, head) pair, iterates over sequence. FA2 additionally parallelizes over sequence length (both Q and K/V dimensions), has better work partitioning between warps, and reduces non-matmul FLOPs (softmax bookkeeping). Result: ~2× speedup over FA1, reaching 50-73% of theoretical max FLOPS on A100 (vs ~25-40% for FA1).
 
 
 # Historical Questions
@@ -791,24 +939,50 @@ Pen-and-paper warmups before coding. Be able to work through these by hand.
    - Learning rate: α = 0.1, momentum: β = 0.9
    - Compute: v_new = β·v + ∂L/∂w, then w_new = w - α·v_new
 
+5) Derive the gradient of layer normalization with respect to its input.
+
+    **Layer norm forward pass** (for a single sample with $d$ features):
+    $$\mu = \frac{1}{d}\sum_{i=1}^{d} x_i, \quad \sigma^2 = \frac{1}{d}\sum_{i=1}^{d}(x_i - \mu)^2, \quad \hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}}, \quad y_i = \gamma \hat{x}_i + \beta$$
+
+    **Why is this tricky?** Each output $y_i$ depends on $x_i$ directly, but also on $\mu$ and $\sigma^2$, which depend on *all* $x_j$. We need to account for both paths.
+
+    **Derivation:** Let $\frac{\partial L}{\partial y_i}$ be the upstream gradient. We want $\frac{\partial L}{\partial x_i}$.
+
+    First, compute intermediate gradients:
+    $$\frac{\partial L}{\partial \hat{x}_i} = \gamma \cdot \frac{\partial L}{\partial y_i}$$
+
+    $$\frac{\partial L}{\partial \sigma^2} = \sum_i \frac{\partial L}{\partial \hat{x}_i} \cdot (x_i - \mu) \cdot \left(-\frac{1}{2}\right)(\sigma^2 + \epsilon)^{-3/2}$$
+
+    $$\frac{\partial L}{\partial \mu} = \sum_i \frac{\partial L}{\partial \hat{x}_i} \cdot \frac{-1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} \cdot \frac{-2}{d}\sum_i(x_i - \mu)$$
+
+    Note: The second term in $\frac{\partial L}{\partial \mu}$ is 0 because $\sum_i(x_i - \mu) = 0$ by definition of $\mu$.
+
+    Finally, combining all three paths ($x_i$ affects $\hat{x}_i$ directly, and through $\mu$ and $\sigma^2$):
+    $$\frac{\partial L}{\partial x_i} = \frac{\partial L}{\partial \hat{x}_i} \cdot \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} \cdot \frac{2(x_i - \mu)}{d} + \frac{\partial L}{\partial \mu} \cdot \frac{1}{d}$$
+
+    **Simplified form:** Let $\sigma = \sqrt{\sigma^2 + \epsilon}$ and $g_i = \frac{\partial L}{\partial \hat{x}_i}$:
+    $$\frac{\partial L}{\partial x_i} = \frac{1}{d \cdot \sigma}\left(d \cdot g_i - \sum_j g_j - \hat{x}_i \sum_j g_j \hat{x}_j\right)$$
+
+    **Intuition:** The gradient has three components: (1) the direct gradient scaled by $1/\sigma$, (2) a mean-centering term (subtracts mean of gradients), (3) a variance-stabilizing term (removes correlation with normalized values).
+
 ## Attention Mechanics
 
-5) Manually compute the scaled dot-product attention output:
+6) Manually compute the scaled dot-product attention output:
    - Q = [[1, 0], [0, 1]] (2 tokens, d=2)
    - K = [[1, 0], [0, 1]]
    - V = [[1, 2], [3, 4]]
 
-6) Compute softmax([1, 2, 3]) by hand. Then compute softmax([10, 20, 30]). What happens and why?
+7) Compute softmax([1, 2, 3]) by hand. Then compute softmax([10, 20, 30]). What happens and why?
 
 ## Architecture Analysis
 
-7) Given a transformer config (L layers, H heads, d_model, d_ff, vocab V), calculate the total parameter count.
+8) Given a transformer config (L layers, H heads, d_model, d_ff, vocab V), calculate the total parameter count.
 
-8) What is the memory and compute complexity of self-attention for sequence length N and dimension d?
+9) What is the memory and compute complexity of self-attention for sequence length N and dimension d?
 
 ## Debugging Scenarios
 
-9) Why do we overfit a tiny batch when debugging training?
+10) Why do we overfit a tiny batch when debugging training?
 
     Before training on full data, overfit 1-2 batches first. If the model can't memorize a tiny batch, something is broken.
 
@@ -822,11 +996,156 @@ Pen-and-paper warmups before coding. Be able to work through these by hand.
 
     **Common failures:** Wrong loss function, frozen weights, learning rate = 0, bad data pipeline, labels don't match inputs.
 
-10) "Loss is NaN after a few training steps" - list the common causes and what you'd check.
+11) "Loss is NaN after a few training steps" - list the common causes and what you'd check.
 
-11) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
+12) "Model outputs nearly uniform attention weights across all positions" - what might cause this?
 
-12) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
+13) "Validation loss increases while training loss decreases" - what's happening and how do you address it?
+
+## Long-Horizon Planning & Reasoning
+
+1) What is the ReAct pattern for LLM agents?
+
+    **ReAct (Reason + Act):** Interleave reasoning and actions in a loop:
+    ```
+    Thought: I need to find the population of Tokyo
+    Action: search("Tokyo population")
+    Observation: Tokyo has 13.96 million people
+    Thought: Now I need to compare to New York...
+    Action: search("New York population")
+    ...
+    ```
+
+    **Why it works:**
+    - Reasoning traces help the model plan next action
+    - Observations ground the model in real information (not hallucination)
+    - Interleaving prevents long chains of unsupported reasoning
+
+    **Components:** LLM (generates thoughts + actions), Tools (execute actions, return observations), Loop (until task complete or max steps)
+
+2) What is chain-of-thought prompting and its variants?
+
+    **Chain-of-thought (CoT):** Generate intermediate reasoning steps before the final answer.
+
+    **Why it helps:**
+    - Breaks complex problem into simpler subproblems
+    - Each step conditions on previous steps
+    - More "compute" via output tokens
+    - Interpretable/debuggable
+
+    **Variants:**
+    - **Zero-shot CoT:** Append "Let's think step by step" to prompt
+    - **Few-shot CoT:** Provide examples with reasoning traces
+    - **Self-consistency:** Sample N reasoning paths, majority vote on final answer
+    - **Tree-of-thought:** Branch into multiple reasoning paths, evaluate each (like MCTS but simpler)
+
+    **Limitation:** Still left-to-right, no backtracking. For complex problems, use search (MCTS) or self-consistency.
+
+3) How do LLM agents use tools and function calling?
+
+    **Problem:** LLMs can't do math reliably, don't have real-time info, can't take actions in the world.
+
+    **Solution:** Give LLM access to tools. Model outputs a structured function call, system executes it, result goes back to model.
+
+    ```
+    User: What's 17.3 * 284.9?
+    LLM: <function_call>calculator(17.3 * 284.9)</function_call>
+    System: 4930.77
+    LLM: The result is 4930.77
+    ```
+
+    **Common tools:** Calculator, web search, code interpreter, APIs, databases
+
+    **How it's trained:**
+    - Fine-tune on examples of (query, function_call, result, response)
+    - Or few-shot prompting with tool use examples
+
+    **Key design choices:**
+    - Tool descriptions in system prompt
+    - Structured output format (JSON, XML)
+    - When to call tools vs. answer directly
+
+4) How do you handle long-horizon tasks that exceed context length?
+
+    **Problem:** Agent needs to complete a task over many steps. Context fills up with observations, previous actions, etc.
+
+    **Approaches:**
+
+    **Summarization:** Periodically summarize history, keep summary instead of full trace.
+
+    **Memory systems:**
+    - Short-term: Recent context (fits in window)
+    - Long-term: Vector DB of past observations/facts, retrieve relevant ones
+
+    **Hierarchical planning:**
+    - High-level plan: ["research topic", "write outline", "draft sections", "revise"]
+    - Execute each step with fresh context
+    - Only carry forward the outputs, not full traces
+
+    **Scratchpad/state:** Maintain structured state (key facts, current plan, completed steps) instead of raw history.
+
+5) What is task decomposition and replanning for LLM agents?
+
+    **Decomposition:** Break complex task into subtasks.
+    ```
+    Task: "Book travel to NeurIPS"
+    Subtasks:
+    1. Find conference dates and location
+    2. Search flights
+    3. Search hotels near venue
+    4. Compare options
+    5. Book best combination
+    ```
+
+    **Why it helps:**
+    - Each subtask is tractable
+    - Can verify intermediate results
+    - Parallelizable (search flights and hotels simultaneously)
+    - Error recovery (if step 2 fails, retry just that step)
+
+    **Replanning:** If execution fails or new info arrives, regenerate the plan.
+    - "No direct flights" → replan with layover options
+    - Dynamic, not fixed plan
+
+    **Examples:** HuggingGPT, Plan-and-Solve, AutoGPT-style agents
+
+6) What does it mean to use an LLM as a "world model"?
+
+    **World model:** A model that predicts how the world evolves given actions. Traditional world models (in RL) predict next state: $s_{t+1} = f(s_t, a_t)$.
+
+    **LLM as world model:** The LLM itself simulates what happens next. Instead of taking actions in the real world, you "imagine" outcomes by generating text.
+
+    **Where this shows up:**
+
+    **Chain-of-thought as simulation:** Each reasoning step is a "mental action." The LLM predicts what follows from that step — effectively simulating a reasoning trajectory through problem space.
+
+    **Self-consistency:** Sample N reasoning paths from the LLM. Each path is a different "rollout" through the world model. Majority vote aggregates these simulated trajectories.
+
+    **Tree-of-thought:** Branch at decision points, explore multiple futures. The LLM generates possible continuations (world model predicts outcomes), then evaluates which branches look promising.
+
+    **Planning with lookahead:** Before taking a real action, simulate "if I do X, then Y will happen." LLM generates the hypothetical Y. Compare simulated outcomes of different actions, pick best.
+
+    **Example:**
+    ```
+    Task: "Should I send this email?"
+
+    Simulate action A (send now):
+    → "Recipient sees it at 11pm, might seem urgent..."
+    → "They reply tomorrow morning..."
+
+    Simulate action B (wait until morning):
+    → "Arrives during work hours..."
+    → "Seems more professional..."
+
+    Compare simulated outcomes → choose B
+    ```
+
+    **Limitations:**
+    - LLM world models hallucinate — simulated outcomes may not match reality
+    - No grounding unless you actually execute actions and observe
+    - Works best for reasoning (abstract) vs. physical prediction (needs real physics)
+
+    **Key insight:** Chain-of-thought, self-consistency, and tree-of-thought are all using the LLM as an implicit world model. The recent framing makes this explicit and connects to RL planning literature.
 
 ## Alignment / RLHF
 
