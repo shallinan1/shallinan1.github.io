@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VS Code/Cursor on Endeavour Cluster</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #990000;
+            border-bottom: 3px solid #990000;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            border-left: 4px solid #990000;
+            padding-left: 10px;
+        }
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Complete Workflow for VS Code/Cursor on Endeavour Cluster</h1>
+
+    <h2>1. SSH Config</h2>
+    <p>On your laptop, edit <code>~/.ssh/config</code>:</p>
+    <pre><code>Host endeavour
+  HostName endeavour2.usc.edu
+  User shallina
+
+Host endeavour-vscode
+  User shallina
+  ProxyJump endeavour
+  HostName PLACEHOLDER</code></pre>
+
+    <h2>2. Start a Session</h2>
+    <p><strong>On your laptop:</strong></p>
+    <pre><code>ssh endeavour</code></pre>
+
+    <p><strong>On the login node:</strong></p>
+    <pre><code>sbatch -p nlp_hiprio -c 4 --mem=10G --time=14-00:00:00 --wrap="sleep infinity"</code></pre>
+
+    <p>Note the job ID, then check which node:</p>
+    <pre><code>squeue -u shallina</code></pre>
+
+    <div class="note">
+        Wait until <code>ST</code> shows <code>R</code> and note the node name (e.g., <code>c06-02</code>).
+    </div>
+
+    <h2>3. Update SSH Config</h2>
+    <p><strong>On your laptop</strong>, edit <code>~/.ssh/config</code> and change:</p>
+    <pre><code>HostName PLACEHOLDER</code></pre>
+    <p>to:</p>
+    <pre><code>HostName c06-02</code></pre>
+    <p>(or whatever node you got)</p>
+
+    <h2>4. Connect Cursor</h2>
+    <p>In Cursor: <strong>Remote-SSH: Connect to Host</strong> &rarr; select <code>endeavour-vscode</code></p>
+
+    <h2>5. Working in Cursor</h2>
+    <p><strong>For coding/editing:</strong> Use the compute node terminal normally</p>
+    <p><strong>For git operations:</strong> You have 2 options:</p>
+
+    <p><strong>Option A:</strong> Keep a separate terminal on your laptop:</p>
+    <pre><code>ssh endeavour
+cd /path/to/repo
+git pull
+git push</code></pre>
+
+    <p><strong>Option B:</strong> From Cursor's command palette, try to open a "New Local Terminal" (if available), then:</p>
+    <pre><code>ssh endeavour "cd /path/to/repo && git pull"</code></pre>
+
+    <p>Also disable auto-git in Cursor settings:</p>
+    <ul>
+        <li>Settings &rarr; search <code>git.autofetch</code> &rarr; turn <strong>OFF</strong></li>
+        <li>Settings &rarr; search <code>git.autorefresh</code> &rarr; turn <strong>OFF</strong></li>
+    </ul>
+
+    <h2>6. Get More Resources When Needed</h2>
+    <p>In Cursor terminal (on compute node):</p>
+    <pre><code>tmux
+srun --pty --gres=gpu:rtxa6000:2 --mem=40G --time=4:00:00 bash</code></pre>
+    <p>Now you're on a different node with 2 GPUs. Do your work, then <code>exit</code> to return.</p>
+
+    <h2>7. Check Time Remaining</h2>
+    <pre><code>squeue -u shallina -o "%.10i %.10P %.10j %.10u %.2t %.10M %.10l %.6D %R"</code></pre>
+
+    <div class="warning">
+        <strong>Key limitation:</strong> Compute nodes can't reach the internet, so git push/pull must go through the login node. Everything else works normally in Cursor.
+    </div>
+</body>
+</html>
+</code></pre>
